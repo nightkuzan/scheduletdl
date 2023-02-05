@@ -15,7 +15,8 @@ class _SignInState extends State<SignIn> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+        title:
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: const [
           Text(
             "my",
             style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
@@ -33,7 +34,7 @@ class _SignInState extends State<SignIn> {
       body: Column(
         children: [
           Image.asset('assets/images/pic_login.jpg'),
-          Text(
+          const Text(
             "Log In",
             style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
           ),
@@ -42,7 +43,8 @@ class _SignInState extends State<SignIn> {
               child: Column(
                 children: [
                   TextFormField(
-                    decoration: InputDecoration(hintText: "example@mail.com"),
+                    decoration:
+                        const InputDecoration(hintText: "example@mail.com"),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter some text';
@@ -51,7 +53,7 @@ class _SignInState extends State<SignIn> {
                     },
                   ),
                   TextFormField(
-                    decoration: InputDecoration(hintText: "password"),
+                    decoration: const InputDecoration(hintText: "password"),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter some text';
@@ -59,12 +61,12 @@ class _SignInState extends State<SignIn> {
                       return null;
                     },
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
+                    children: const [
                       Text("Haven't an account?"),
                       Text("Register",
                           style: TextStyle(
