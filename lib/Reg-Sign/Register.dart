@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'package:provider/provider.dart';
+import 'package:scheduletdl/menu/menu.dart';
 
 class Register extends StatefulWidget {
   const Register({super.key});
@@ -84,7 +85,13 @@ class _RegisterState extends State<Register> {
                 height: 30,
               ),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  // go to page menu
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const Menu()),
+                  );
+                },
                 style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xff6B4EFF),
                     shape: RoundedRectangleBorder(
