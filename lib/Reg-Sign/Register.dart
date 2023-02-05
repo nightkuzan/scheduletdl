@@ -17,7 +17,7 @@ class _RegisterState extends State<Register> {
           backgroundColor: Colors.white,
           title: Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
+            children: const [
               Text(
                 "my",
                 style:
@@ -32,21 +32,21 @@ class _RegisterState extends State<Register> {
           )),
       body: Column(
         children: [
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
-          Text(
+          const Text(
             "Register",
             style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
           ),
-          SizedBox(
+          const SizedBox(
             height: 15,
           ),
           Form(
               child: Column(
             children: [
               TextFormField(
-                decoration: InputDecoration(hintText: "First name"),
+                decoration: const InputDecoration(hintText: "First name"),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter some text';
@@ -55,7 +55,7 @@ class _RegisterState extends State<Register> {
                 },
               ),
               TextFormField(
-                decoration: InputDecoration(hintText: "Last name"),
+                decoration: const InputDecoration(hintText: "Last name"),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter some text';
@@ -64,7 +64,7 @@ class _RegisterState extends State<Register> {
                 },
               ),
               TextFormField(
-                decoration: InputDecoration(hintText: "example@mail.com"),
+                decoration: const InputDecoration(hintText: "example@mail.com"),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter some text';
@@ -73,7 +73,7 @@ class _RegisterState extends State<Register> {
                 },
               ),
               TextFormField(
-                decoration: InputDecoration(hintText: "password"),
+                decoration: const InputDecoration(hintText: "password"),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter some text';
@@ -81,26 +81,26 @@ class _RegisterState extends State<Register> {
                   return null;
                 },
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
               ElevatedButton(
                 onPressed: () {},
-                child: Text("Submit"),
                 style: ElevatedButton.styleFrom(
-                    primary: Colors.purple,
+                    backgroundColor: const Color(0xff6B4EFF),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(32.0)),
-                    textStyle: TextStyle(
+                    textStyle: const TextStyle(
                       fontSize: 25,
                     )),
+                child: const Text("Submit"),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
+                children: const [
                   Text("Have an account?"),
                   Text("Sign In",
                       style: TextStyle(
