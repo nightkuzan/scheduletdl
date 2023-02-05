@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import 'Reg-Sign/Register.dart';
+import 'Reg-Sign/SignIn.dart';
 import 'todolist/listview.dart';
 
 void main() {
@@ -39,7 +40,6 @@ class _MyHomePageState extends State<MyHomePage> {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: const Todolist());
-        
+        home: Register());
   }
 }
