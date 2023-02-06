@@ -76,7 +76,32 @@ class _TodolistState extends State<Todolist> {
                   child: ListTile(
                     title: Text(tasks[index]["taskname"]),
                     subtitle: Text(tasks[index]["taskdescription"]),
-                    trailing: Text(tasks[index]["taskdate"]),
+                    // trailing: Text(tasks[index]["taskdate"]),
+                    // add button to delete the task
+                    leading: IconButton(
+                      icon: const Icon(Icons.delete),
+                      onPressed: () {
+                        setState(() {
+                          tasks.removeAt(index);
+                        });
+                      },
+                    ),
+                    trailing: IconButton(
+                      icon: Icon(
+                        tasks[index]["taskstatus"] == "Incomplete"
+                            ? Icons.check_box_outline_blank
+                            : Icons.check_box,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          if (tasks[index]["taskstatus"] == "Incomplete") {
+                            tasks[index]["taskstatus"] = "Complete";
+                          } else {
+                            tasks[index]["taskstatus"] = "Incomplete";
+                          }
+                        });
+                      },
+                    ),
                   ),
                 );
               },
