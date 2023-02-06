@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:scheduletdl/menu/menu.dart';
+import '../Management/examDate_mng.dart';
 
 class Register extends StatefulWidget {
   const Register({super.key});
@@ -43,65 +44,60 @@ class _RegisterState extends State<Register> {
             height: 15,
           ),
           Form(
-              child: Column(
-            children: [
-              TextFormField(
-                decoration: const InputDecoration(hintText: "First name"),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter some text';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                decoration: const InputDecoration(hintText: "Last name"),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter some text';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                decoration: const InputDecoration(hintText: "example@mail.com"),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter some text';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                decoration: const InputDecoration(hintText: "password"),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter some text';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  // go to page menu
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const Menu()),
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xff6B4EFF),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(32.0)),
-                    textStyle: const TextStyle(
-                      fontSize: 25,
-                    )),
-                child: const Text("Submit"),
-              ),
-              ElevatedButton(
+              child: Padding(
+            padding: const EdgeInsets.only(right: 30, left: 30),
+            child: Column(
+              children: [
+                TextFormField(
+                  decoration: const InputDecoration(hintText: "First name"),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter some text';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                TextFormField(
+                  decoration: const InputDecoration(hintText: "Last name"),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter some text';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                TextFormField(
+                  decoration:
+                      const InputDecoration(hintText: "example@mail.com"),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter some text';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                TextFormField(
+                  decoration: const InputDecoration(hintText: "password"),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter some text';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                ElevatedButton(
                   onPressed: () {
                     // go to page menu
                     Navigator.push(
@@ -109,23 +105,63 @@ class _RegisterState extends State<Register> {
                       MaterialPageRoute(builder: (context) => const Menu()),
                     );
                   },
-                  child: const Text("Go to Menu page for Testing")),
-              const SizedBox(
-                height: 20,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Text("Have an account?"),
-                  Text("Sign In",
-                      style: TextStyle(
-                        color: Color(
-                          0xff6B4EFF,
-                        ),
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xff6B4EFF),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(32.0)),
+                      textStyle: const TextStyle(
+                        fontSize: 25,
                       )),
-                ],
-              )
-            ],
+                  child: const Text("Submit"),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                ElevatedButton(
+                    onPressed: () {
+                      // go to page menu
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ExamList_Management()),
+                      );
+                    },
+                    child: const Text("Go to Exam listview page for Testing")),
+                const SizedBox(
+                  height: 20,
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                ElevatedButton(
+                    onPressed: () {
+                      // go to page menu
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const Menu()),
+                      );
+                    },
+                    child: const Text("Go to Menu page for Testing")),
+                const SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Have an account?"),
+                    TextButton(
+                      onPressed: () {},
+                      child: Text("Sign In",
+                          style: TextStyle(
+                            color: Color(
+                              0xff6B4EFF,
+                            ),
+                          )),
+                    ),
+                  ],
+                )
+              ],
+            ),
           ))
         ],
       ),
