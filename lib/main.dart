@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:scheduletdl/sch-management/edit-schedule.dart';
 import 'Reg-Sign/Register.dart';
 import 'Reg-Sign/SignIn.dart';
 import 'todolist/listview.dart';
@@ -40,6 +41,6 @@ class _MyHomePageState extends State<MyHomePage> {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: const Register());
+        home: const Editschedule());
   }
 }
