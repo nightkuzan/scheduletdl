@@ -101,6 +101,15 @@ class _RegisterState extends State<Register> {
                     )),
                 child: const Text("Submit"),
               ),
+              ElevatedButton(
+                  onPressed: () {
+                    // go to page menu
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const Menu()),
+                    );
+                  },
+                  child: const Text("Go to Menu page for Testing")),
               const SizedBox(
                 height: 20,
               ),
