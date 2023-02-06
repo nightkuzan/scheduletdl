@@ -14,7 +14,9 @@ class _Editschedule extends State<Editschedule> {
       appBar: AppBar(
           leading: IconButton(
             onPressed: () {},
-            icon: const Icon(Icons.arrow_back_ios_new),
+            icon: IconButton(onPressed: () {
+              Navigator.pop(context);
+            }, icon: const Icon(Icons.arrow_back_ios_new)),
             color: Colors.black,
           ),
           backgroundColor: Colors.white,
