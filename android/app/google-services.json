@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "34643633359",
+    "project_id": "scheduletdl",
+    "storage_bucket": "scheduletdl.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:34643633359:android:fadc36d6890c59d4ab83ba",
+        "android_client_info": {
+          "package_name": "com.example.scheduletdl"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "34643633359-90bpl1ldkol4oc5d8uinnes1lnkan9a6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCvC3HcwHIhFVOaMQqHb6YX7N3AM7l-vw0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "34643633359-90bpl1ldkol4oc5d8uinnes1lnkan9a6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
