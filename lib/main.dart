@@ -43,6 +43,6 @@ class _MyHomePageState extends State<MyHomePage> {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: const ScheduleManagement());
+        home: const SignIn());
   }
 }
