@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:scheduletdl/menu/menu.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({super.key});
@@ -60,6 +61,19 @@ class _SignInState extends State<SignIn> {
                       }
                       return null;
                     },
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  // botton go to another page
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const Menu()));
+                    },
+                    child: const Text('Submit'),
                   ),
                   const SizedBox(
                     height: 20,
