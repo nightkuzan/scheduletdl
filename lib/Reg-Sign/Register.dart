@@ -97,24 +97,7 @@ class _RegisterState extends State<Register> {
                 const SizedBox(
                   height: 30,
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    // go to page menu
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const Menu()),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xff6B4EFF),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(32.0)),
-                      textStyle: const TextStyle(
-                        fontSize: 25,
-                      )),
-                  child: const Text("Submit"),
-                ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 ElevatedButton(
@@ -130,7 +113,7 @@ class _RegisterState extends State<Register> {
                 const SizedBox(
                   height: 20,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 ElevatedButton(
@@ -148,10 +131,10 @@ class _RegisterState extends State<Register> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Have an account?"),
+                    const Text("Have an account?"),
                     TextButton(
                       onPressed: () {},
-                      child: Text("Sign In",
+                      child: const Text("Sign In",
                           style: TextStyle(
                             color: Color(
                               0xff6B4EFF,
