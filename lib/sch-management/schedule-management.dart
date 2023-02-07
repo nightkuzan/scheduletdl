@@ -41,7 +41,9 @@ class _ScheduleManagement extends State<ScheduleManagement> {
     return Scaffold(
       appBar: AppBar(
           leading: IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pop(context);
+            },
             icon: const Icon(Icons.arrow_back_ios_new),
             color: Colors.black,
           ),
@@ -76,8 +78,9 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                     child: InkWell(
                       onTap: () {
                         Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const Editschedule()));
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const Editschedule()));
                       },
                       child: Card(
                         color: const Color(0xffB89FED),
@@ -99,18 +102,16 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                                   TextSpan(
                                     text: (tasks[index]["tasktime"]) + "\n",
                                     style: const TextStyle(
-                                      fontSize: 12.0,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold
-                                    ),
+                                        fontSize: 12.0,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold),
                                   ),
                                   TextSpan(
                                     text: (tasks[index]["taskroom"]),
                                     style: const TextStyle(
-                                      fontSize: 12.0,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold
-                                    ),
+                                        fontSize: 12.0,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold),
                                   ),
                                 ],
                               ),
