@@ -27,7 +27,6 @@ class _TodolistState extends State<Todolist> {
     }
   ];
 
-  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
