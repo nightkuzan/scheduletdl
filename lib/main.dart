@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:scheduletdl/Management/examDate_mng.dart';
 import 'package:scheduletdl/sch-management/edit-schedule.dart';
 import 'package:scheduletdl/sch-management/schedule-management.dart';
+import 'package:scheduletdl/sch-view/schedule-view.dart';
 import 'Reg-Sign/Register.dart';
 import 'Reg-Sign/SignIn.dart';
 import 'todolist/listview.dart';
@@ -43,6 +44,6 @@ class _MyHomePageState extends State<MyHomePage> {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: const SignIn());
+        home: const ScheduleView(title: '',));
   }
 }
