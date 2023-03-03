@@ -58,10 +58,6 @@ class _ScheduleViewState extends State<ScheduleView> {
               minutes: plans[i]["minTime"]), //นาทีที่
           minutesDuration: plans[i]["studyTime"], //นาทีแต่ละวิชา
           daysDuration: plans[i]["dayTime"], //วันที่เรียน
-          onTap: () {
-            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                content: Text('You click on time planner object')));
-          },
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -127,7 +123,7 @@ class _ScheduleViewState extends State<ScheduleView> {
             endHour: 18,
             style: TimePlannerStyle(
               // cellHeight: 60,
-              cellWidth: 190,
+              cellWidth: 93,
               showScrollBar: true,
             ),
             headers: const [
@@ -171,3 +167,5 @@ class _ScheduleViewState extends State<ScheduleView> {
     super.dispose();
   }
 }
+
+
