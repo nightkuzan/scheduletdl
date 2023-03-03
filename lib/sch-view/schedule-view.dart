@@ -5,7 +5,6 @@ import 'package:time_planner/time_planner.dart';
 
 class ScheduleView extends StatefulWidget {
   const ScheduleView({Key? key, required this.title}) : super(key: key);
-
   final String title;
 
   @override
@@ -14,6 +13,16 @@ class ScheduleView extends StatefulWidget {
 
 class _ScheduleViewState extends State<ScheduleView> {
   List<TimePlannerTask> tasks = [];
+
+  List<dynamic> plans = [
+    {"subject": "OOP", "listday": 2, "startTime": 8, "minTime": 30, "studyTime": 90, "dayTime": 1, "code": "123", "building": "CSB100"},
+    {"subject": "OOD", "listday": 4, "startTime": 11, "minTime": 0, "studyTime": 90, "dayTime": 1, "code": "444", "building": "CSB100"},
+    {"subject": "Combinatorial", "listday": 0, "startTime": 11, "minTime": 0, "studyTime": 90, "dayTime": 1, "code": "555", "building": "CSB100"},
+    {"subject": "Data Stucture", "listday": 1, "startTime": 9, "minTime": 30, "studyTime": 90, "dayTime": 1, "code": "666", "building": "CSB100"},
+    {"subject": "Web application", "listday": 3, "startTime": 14, "minTime": 30, "studyTime": 90, "dayTime": 1, "code": "777", "building": "CSB100"},
+    {"subject": "Data mining", "listday": 2, "startTime": 12, "minTime": 30, "studyTime": 90, "dayTime": 1, "code": "888", "building": "CSB100"},
+  ];
+  
 
   @override
   void initState() {
@@ -25,50 +34,63 @@ class _ScheduleViewState extends State<ScheduleView> {
   }
 
   @override
-  void dispose() {
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-      DeviceOrientation.landscapeLeft,
-      DeviceOrientation.landscapeRight,
-    ]);
-    super.dispose();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _addObject(context);
   }
-  
+
   void _addObject(BuildContext context) {
     List<Color?> colors = [
       Colors.purple,
       Colors.blue,
       Colors.green,
       Colors.orange,
-      Colors.lime[600]
+      const Color.fromARGB(255, 246, 43, 43)
     ];
-
+    for (int i = 0; i < plans.length; i++) {
     setState(() {
       tasks.add(
         TimePlannerTask(
           color: colors[Random().nextInt(colors.length)],
           dateTime: TimePlannerDateTime(
-              day: Random().nextInt(14),
-              hour: Random().nextInt(18) + 6,
-              minutes: Random().nextInt(60)),
-          minutesDuration: Random().nextInt(90) + 30,
-          daysDuration: Random().nextInt(4) + 1,
+              day: plans[i]["listday"], //วันไหน
+              hour: plans[i]["startTime"], //เริ่มกี่โมง
+              minutes: plans[i]["minTime"]), //นาทีที่
+          minutesDuration: plans[i]["studyTime"], //นาทีแต่ละวิชา
+          daysDuration: plans[i]["dayTime"], //วันที่เรียน
           onTap: () {
             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                 content: Text('You click on time planner object')));
           },
-          child: Text(
-            'this is a demo',
-            style: TextStyle(color: Colors.grey[350], fontSize: 12),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                plans[i]["subject"],
+                style:const TextStyle(color: Color.fromARGB(255, 255, 255, 255), fontSize: 14),
+              ),
+              const SizedBox(width: 10,),
+              Text(
+                plans[i]["code"],
+                style:const TextStyle(color: Color.fromARGB(255, 255, 255, 255), fontSize: 14),
+              )
+                ],
+              ),
+              Text(
+                plans[i]["building"],
+                style:const TextStyle(color: Color.fromARGB(255, 255, 255, 255), fontSize: 14),
+              ),
+            ],
           ),
         ),
       );
     });
-
-    ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Random task added to time planner!')));
-  }
+  }}
 
   @override
   Widget build(BuildContext context) {
@@ -135,11 +157,17 @@ class _ScheduleViewState extends State<ScheduleView> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _addObject(context),
-        tooltip: 'Add random task',
-        child: const Icon(Icons.add),
-      ),
     );
+  }
+
+  @override
+  void dispose() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+    ]);
+    super.dispose();
   }
 }
