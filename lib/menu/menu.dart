@@ -50,7 +50,7 @@ class _MenuState extends State<Menu> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const ScheduleManagement()),
+                      builder: (context) => const MenuSchedule()),
                 );
               },
               child: const Text('School'),
