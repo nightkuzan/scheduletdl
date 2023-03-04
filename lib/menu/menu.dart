@@ -1,6 +1,8 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:scheduletdl/todolist/listview.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
+import '../firebase_options.dart';
 import 'menu_schedule.dart';
 
 class Menu extends StatefulWidget {
@@ -11,60 +13,94 @@ class Menu extends StatefulWidget {
 }
 
 class _MenuState extends State<Menu> {
+  void test() {
+    // final Future<FirebaseApp> firebase = Firebase.initializeApp(
+    //   options: DefaultFirebaseOptions.currentPlatform,
+    // );
+    User? user = FirebaseAuth.instance.currentUser;
+    print(user?.email);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    test();
+  }
+
+  // const userUid = FirebaseAuth.instance.current;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Schedule'),
-          // actions: [
-          // IconButton(
-          //   icon: const Icon(Icons.menu),
-          //   onPressed: () {
-          //     Navigator.push(
-          //       context,
-          //       MaterialPageRoute(builder: (context) => const Todolist()),
-          //     );
-          //   },
-          // ),
-          // BackButton(
-          //   onPressed: () {
-          //     Navigator.pop(context);
-          //   },
-          // ),
-          // ],
+          title:
+              Row(mainAxisAlignment: MainAxisAlignment.center, children: const [
+            Text(
+              "my",
+              style:
+                  TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+            ),
+            Text(
+              "Schedule",
+              style: TextStyle(
+                  fontWeight: FontWeight.bold, color: Color(0xff6B4EFF)),
+            ),
+          ]),
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(Icons.arrow_back_ios_new),
+            color: Colors.black,
+          ),
+          backgroundColor: Colors.white,
         ),
-        body: Column(
-          children: [
-            const SizedBox(
-              height: 20,
-            ),
-            const Text(
-              "Menu",
-              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const MenuSchedule()),
-                );
-              },
-              child: const Text('School'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const Todolist()),
-                );
-              },
-              child: const Text('Todo List'),
-            ),
-          ],
+        body: Padding(
+          padding: const EdgeInsets.only(left: 20, right: 20),
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 20,
+              ),
+              Image.asset('assets/images/pic_login.jpg'),
+              const SizedBox(
+                height: 15,
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    minimumSize: const Size.fromHeight(60),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30.0),
+                    ),
+                    backgroundColor: const Color(0xff8A2DE8)),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const MenuSchedule()),
+                  );
+                },
+                child: const Text('School', style: TextStyle(fontSize: 24)),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    minimumSize: const Size.fromHeight(60),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30.0),
+                    ),
+                    backgroundColor: const Color(0xffB770FF)),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const Todolist()),
+                  );
+                },
+                child: const Text('Todo List', style: TextStyle(fontSize: 24)),
+              ),
+            ],
+          ),
         ));
   }
 }
