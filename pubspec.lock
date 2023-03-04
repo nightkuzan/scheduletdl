@@ -230,7 +230,14 @@ packages:
       name: test_api
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.16"
+    version: "0.4.12"
+  time_planner:
+    dependency: "direct main"
+    description:
+      name: time_planner
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.1"
   vector_math:
     dependency: transitive
     description:
