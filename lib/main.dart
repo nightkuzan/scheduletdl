@@ -7,9 +7,17 @@ import 'package:scheduletdl/sch-view/schedule-view.dart';
 import 'Reg-Sign/Register.dart';
 import 'Reg-Sign/SignIn.dart';
 import 'todolist/listview.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  runApp(const MaterialApp(
+    home: MyHomePage(title: 'Schedule'),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -17,33 +25,26 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Schedule',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'Schedule'),
+    return const Scaffold(
+      body: SignIn(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+  const MyHomePage({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        title: 'Schedule',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home: const SignIn());
+    return const Scaffold(
+      body: SignIn(),
+    );
   }
 }
