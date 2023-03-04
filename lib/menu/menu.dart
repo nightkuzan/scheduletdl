@@ -24,7 +24,6 @@ class _MenuState extends State<Menu> {
     // create document in collection 'users' for the current user
     FirebaseFirestore.instance.collection('users').doc(user?.uid).set({
       'email': user?.email,
-      'lastSeen': DateTime.now(),
       'uid': user?.uid,
     });
 
