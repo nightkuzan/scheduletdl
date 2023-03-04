@@ -79,15 +79,6 @@ class _SignInState extends State<SignIn> {
                       child: const Text('Submit'),
                     ),
 
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        child: Text("ลงทะเบียน"),
-                        onPressed: () {
-                          
-                        },
-                      ),
-                    ),
                     const SizedBox(
                       height: 20,
                     ),

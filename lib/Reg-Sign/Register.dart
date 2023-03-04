@@ -40,6 +40,13 @@ class _RegisterState extends State<Register> {
           if (snapshot.connectionState == ConnectionState.done) {
             return Scaffold(
               appBar: AppBar(
+                  leading: IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: const Icon(Icons.arrow_back_ios_new),
+                    color: Colors.black,
+                  ),
                   backgroundColor: Colors.white,
                   title: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
