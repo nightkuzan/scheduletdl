@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+List tasks = [];
 
 class Todolist extends StatefulWidget {
   const Todolist({super.key});
@@ -8,24 +12,42 @@ class Todolist extends StatefulWidget {
 }
 
 class _TodolistState extends State<Todolist> {
-  List<dynamic> tasks = [
-    {
-      "taskname": "Math",
-      "taskdescription": "Do math homework",
-      "taskdate": "2021-10-10",
-      "tasktime": "10:00",
-      "taskpriority": "High",
-      "taskstatus": "Incomplete"
-    },
-    {
-      "taskname": "English",
-      "taskdescription": "Do english homework",
-      "taskdate": "2021-10-10",
-      "tasktime": "10:00",
-      "taskpriority": "High",
-      "taskstatus": "Incomplete"
-    }
-  ];
+  // List<dynamic> tasks = [
+  //   {
+  //     "taskname": "Math",
+  //     "taskdescription": "Do math homework",
+  //     "taskdate": "2021-10-10",
+  //     "tasktime": "10:00",
+  //     "taskpriority": "High",
+  //     "taskstatus": "Incomplete"
+  //   },
+  //   {
+  //     "taskname": "English",
+  //     "taskdescription": "Do english homework",
+  //     "taskdate": "2021-10-10",
+  //     "tasktime": "10:00",
+  //     "taskpriority": "High",
+  //     "taskstatus": "Incomplete"
+  //   }
+  // ];
+
+  void getdata() {
+    // ignore: unused_local_variable
+    Future<FirebaseApp> firebase = Firebase.initializeApp();
+    // ignore: no_leading_underscores_for_local_identifiers
+    final CollectionReference _tasks =
+        FirebaseFirestore.instance.collection('TodoList');
+    _tasks.get().then((QuerySnapshot snapshot) {
+      tasks = snapshot.docs.map((e) => e.data()).toList();
+    });
+    
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getdata();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,15 +62,15 @@ class _TodolistState extends State<Todolist> {
         appBar: AppBar(
           title: const Text('Schedule'),
           actions: [
-            IconButton(
-              icon: const Icon(Icons.menu),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const Todolist()),
-                );
-              },
-            ),
+            // IconButton(
+            //   icon: const Icon(Icons.menu),
+            //   onPressed: () {
+            //     Navigator.push(
+            //       context,
+            //       MaterialPageRoute(builder: (context) => const Todolist()),
+            //     );
+            //   },
+            // ),
             BackButton(
               onPressed: () {
                 Navigator.pop(context);
