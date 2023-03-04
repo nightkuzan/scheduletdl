@@ -55,7 +55,10 @@ class _ScheduleViewState extends State<ScheduleView> {
       Colors.blue,
       Colors.green,
       Colors.orange,
-      const Color.fromARGB(255, 246, 43, 43)
+      const Color.fromARGB(255, 246, 43, 43),
+      const Color.fromARGB(255, 54, 228, 191),
+      const Color.fromARGB(255, 255, 183, 211),
+      const Color.fromARGB(255, 63, 61, 103),
     ];
     for (int i = 0; i < plans.length; i++) {
     setState(() {

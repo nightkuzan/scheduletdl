@@ -19,7 +19,9 @@ class _ScheduleManagement extends State<ScheduleManagement> {
       Colors.blue,
       Colors.green,
       Colors.orange,
-      const Color.fromARGB(255, 246, 43, 43)
+      const Color.fromARGB(255, 246, 43, 43),
+      const Color.fromARGB(255, 54, 228, 191),
+      const Color.fromARGB(255, 255, 183, 211),
     ];
 
   List<dynamic> subjectList = [
