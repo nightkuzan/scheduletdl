@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:scheduletdl/sch-management/edit-schedule.dart';
 
@@ -9,8 +10,9 @@ class ScheduleManagement extends StatefulWidget {
 }
 
 class _ScheduleManagement extends State<ScheduleManagement> {
-  List<dynamic> tasks = [
+  List<dynamic> subjectList = [
     {
+      "index": 0,
       "taskname": "Math",
       "taskdescription": "Do math homework",
       "taskmidterm": "2021-10-10",
@@ -22,6 +24,7 @@ class _ScheduleManagement extends State<ScheduleManagement> {
       "taskID": "204441"
     },
     {
+      "index" : 1,
       "taskname": "English",
       "taskdescription": "Do english homework",
       "taskmidterm": "2021-10-10",
@@ -31,10 +34,10 @@ class _ScheduleManagement extends State<ScheduleManagement> {
       "taskstatus": "Incomplete",
       "taskroom": "CSB210",
       "taskID": "204333"
-    }
+    },
   ];
 
-  get index => null;
+  late int index;
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +50,14 @@ class _ScheduleManagement extends State<ScheduleManagement> {
             icon: const Icon(Icons.arrow_back_ios_new),
             color: Colors.black,
           ),
+          actions: [
+            IconButton(
+              onPressed: () {
+
+              },
+              icon:const Icon(Icons.add, color: Colors.black,),
+            ),
+          ],
           backgroundColor: Colors.white,
           title: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -71,7 +82,7 @@ class _ScheduleManagement extends State<ScheduleManagement> {
             ),
             ListView.builder(
                 shrinkWrap: true,
-                itemCount: tasks.length,
+                itemCount: subjectList.length,
                 itemBuilder: (context, index) {
                   return Padding(
                     padding: const EdgeInsets.only(left: 20, right: 20),
@@ -80,7 +91,17 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const Editschedule()));
+                                builder: (context) => Editschedule(
+                                      subjectList: subjectList,
+                                      taskname: subjectList[index]["taskname"],
+                                      taskID: subjectList[index]["taskID"],
+                                      taskRoom: subjectList[index]["taskroom"],
+                                      taskTime: subjectList[index]["tasktime"],
+                                      taskMid: subjectList[index]
+                                          ["taskmidterm"],
+                                      taskFinal: subjectList[index]
+                                          ["taskfinal"],
+                                    )));
                       },
                       child: Card(
                         color: const Color(0xffB89FED),
@@ -88,9 +109,9 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                           padding: const EdgeInsets.all(8.0),
                           child: ListTile(
                             title: Text(
-                              tasks[index]["taskID"] +
+                              subjectList[index]["taskID"] +
                                   " : " +
-                                  tasks[index]["taskname"],
+                                  subjectList[index]["taskname"],
                               style: const TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
@@ -100,14 +121,15 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                               text: TextSpan(
                                 children: [
                                   TextSpan(
-                                    text: (tasks[index]["tasktime"]) + "\n",
+                                    text:
+                                        (subjectList[index]["tasktime"]) + "\n",
                                     style: const TextStyle(
                                         fontSize: 12.0,
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold),
                                   ),
                                   TextSpan(
-                                    text: (tasks[index]["taskroom"]),
+                                    text: (subjectList[index]["taskroom"]),
                                     style: const TextStyle(
                                         fontSize: 12.0,
                                         color: Colors.black,
