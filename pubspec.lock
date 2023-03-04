@@ -309,6 +309,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.4.16"
+  time_planner:
+    dependency: "direct main"
+    description:
+      name: time_planner
+      sha256: "48b21412ed4af53d0b304424290028cbac2f1900a7568c7db091c692eabb6cb5"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.1"
+  typed_data:
+    dependency: transitive
+    description:
+      name: typed_data
+      sha256: "26f87ade979c47a150c9eaab93ccd2bebe70a27dc0b4b29517f2904f04eb11a5"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.3.1"
   vector_math:
     dependency: transitive
     description:
