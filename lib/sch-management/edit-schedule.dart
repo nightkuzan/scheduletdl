@@ -190,7 +190,7 @@ class _Editschedule extends State<Editschedule> {
                         ),
                         TextFormField(
                           decoration: InputDecoration(
-                            hintText: "${widget.taskFinal}" == '' ? 'Midterm Exam' : "${widget.taskFinal}",
+                            hintText: "${widget.taskFinal}" == '' ? 'Final Exam' : "${widget.taskFinal}",
                             suffixIcon: IconButton(
                                 onPressed: () {},
                                 icon: const Icon(Icons.calendar_today_outlined)),
