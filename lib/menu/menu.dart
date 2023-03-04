@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:scheduletdl/Reg-Sign/SignIn.dart';
@@ -14,11 +15,19 @@ class Menu extends StatefulWidget {
 }
 
 class _MenuState extends State<Menu> {
-  void test() {
+  void test() async {
     // final Future<FirebaseApp> firebase = Firebase.initializeApp(
     //   options: DefaultFirebaseOptions.currentPlatform,
     // );
     User? user = FirebaseAuth.instance.currentUser;
+
+    // create document in collection 'users' for the current user
+    FirebaseFirestore.instance.collection('users').doc(user?.uid).set({
+      'email': user?.email,
+      'lastSeen': DateTime.now(),
+      'uid': user?.uid,
+    });
+
     print(user?.email);
   }
 
