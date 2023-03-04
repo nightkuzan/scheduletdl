@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:time_planner/time_planner.dart';
@@ -9,6 +10,15 @@ class ScheduleView extends StatefulWidget {
 
   @override
   State<ScheduleView> createState() => _ScheduleViewState();
+}
+
+class MyCustomScrollBehavior extends MaterialScrollBehavior {
+  // Override behavior methods and getters like dragDevices
+  @override
+  Set<PointerDeviceKind> get dragDevices => {
+    PointerDeviceKind.touch,
+    PointerDeviceKind.mouse,
+  };
 }
 
 class _ScheduleViewState extends State<ScheduleView> {
@@ -90,66 +100,69 @@ class _ScheduleViewState extends State<ScheduleView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-          leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: const Icon(Icons.arrow_back_ios_new),
-            color: Colors.black,
-          ),
-          backgroundColor: Colors.white,
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: const [
-              Text(
-                "My",
-                style:
-                    TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
-              ),
-              Text(
-                "Schedule",
-                style: TextStyle(
-                    fontWeight: FontWeight.bold, color: Color(0xff6B4EFF)),
-              ),
-            ],
-          )),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Center(
-          child: TimePlanner(
-            startHour: 6,
-            endHour: 18,
-            style: TimePlannerStyle(
-              // cellHeight: 60,
-              cellWidth: 93,
-              showScrollBar: true,
+    return MaterialApp(
+      scrollBehavior: MyCustomScrollBehavior(),
+      home: Scaffold(
+        appBar: AppBar(
+            leading: IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: const Icon(Icons.arrow_back_ios_new),
+              color: Colors.black,
             ),
-            headers: const [
-              TimePlannerTitle(
-                title: "Monday",
+            backgroundColor: Colors.white,
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: const [
+                Text(
+                  "my",
+                  style:
+                      TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+                ),
+                Text(
+                  "Schedule",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, color: Color(0xff6B4EFF)),
+                ),
+              ],
+            )),
+        body: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Center(
+            child: TimePlanner(
+              startHour: 6,
+              endHour: 18,
+              style: TimePlannerStyle(
+                // cellHeight: 60,
+                cellWidth: 190,
+                showScrollBar: true,
               ),
-              TimePlannerTitle(
-                title: "Tuesday",
-              ),
-              TimePlannerTitle(
-                title: "Wednesday",
-              ),
-              TimePlannerTitle(
-                title: "Thursday",
-              ),
-              TimePlannerTitle(
-                title: "Friday",
-              ),
-              TimePlannerTitle(
-                title: "Saturday",
-              ),
-              TimePlannerTitle(
-                title: "Sunday",
-              ),
-            ],
-            tasks: tasks,
+              headers: const [
+                TimePlannerTitle(
+                  title: "Monday",
+                ),
+                TimePlannerTitle(
+                  title: "Tuesday",
+                ),
+                TimePlannerTitle(
+                  title: "Wednesday",
+                ),
+                TimePlannerTitle(
+                  title: "Thursday",
+                ),
+                TimePlannerTitle(
+                  title: "Friday",
+                ),
+                TimePlannerTitle(
+                  title: "Saturday",
+                ),
+                TimePlannerTitle(
+                  title: "Sunday",
+                ),
+              ],
+              tasks: tasks,
+            ),
           ),
         ),
       ),
