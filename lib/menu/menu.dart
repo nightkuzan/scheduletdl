@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:scheduletdl/todolist/listview.dart';
-import 'package:scheduletdl/sch-management/schedule-management.dart';
+
+import 'menu_schedule.dart';
 
 class Menu extends StatefulWidget {
   const Menu({super.key});
@@ -54,7 +55,7 @@ class _MenuState extends State<Menu> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const ScheduleManagement()),
+                        builder: (context) => const MenuSchedule()),
                   );
                 },
                 child: const Text('School'),
