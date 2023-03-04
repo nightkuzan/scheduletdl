@@ -44,6 +44,6 @@ class _MyHomePageState extends State<MyHomePage> {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: const ScheduleView(title: '',));
+        home: const SignIn());
   }
 }
