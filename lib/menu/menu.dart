@@ -1,6 +1,8 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:scheduletdl/todolist/listview.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
+import '../firebase_options.dart';
 import 'menu_schedule.dart';
 
 class Menu extends StatefulWidget {
@@ -11,31 +13,47 @@ class Menu extends StatefulWidget {
 }
 
 class _MenuState extends State<Menu> {
+  void test() {
+    // final Future<FirebaseApp> firebase = Firebase.initializeApp(
+    //   options: DefaultFirebaseOptions.currentPlatform,
+    // );
+    User? user = FirebaseAuth.instance.currentUser;
+    print(user?.email);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    test();
+  }
+
+  // const userUid = FirebaseAuth.instance.current;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-        title:
-            Row(mainAxisAlignment: MainAxisAlignment.center, children: const [
-          Text(
-            "my",
-            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+          title:
+              Row(mainAxisAlignment: MainAxisAlignment.center, children: const [
+            Text(
+              "my",
+              style:
+                  TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+            ),
+            Text(
+              "Schedule",
+              style: TextStyle(
+                  fontWeight: FontWeight.bold, color: Color(0xff6B4EFF)),
+            ),
+          ]),
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(Icons.arrow_back_ios_new),
+            color: Colors.black,
           ),
-          Text(
-            "Schedule",
-            style: TextStyle(
-                fontWeight: FontWeight.bold, color: Color(0xff6B4EFF)),
-          ),
-        ]),
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: const Icon(Icons.arrow_back_ios_new),
-          color: Colors.black,
+          backgroundColor: Colors.white,
         ),
-        backgroundColor: Colors.white,
-      ),
         body: Padding(
           padding: const EdgeInsets.only(left: 20, right: 20),
           child: Column(
@@ -53,8 +71,7 @@ class _MenuState extends State<Menu> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30.0),
                     ),
-                    backgroundColor:const Color(0xff8A2DE8)
-                  ),
+                    backgroundColor: const Color(0xff8A2DE8)),
                 onPressed: () {
                   Navigator.push(
                     context,
@@ -73,8 +90,7 @@ class _MenuState extends State<Menu> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30.0),
                     ),
-                    backgroundColor:const Color(0xffB770FF)
-                  ),
+                    backgroundColor: const Color(0xffB770FF)),
                 onPressed: () {
                   Navigator.push(
                     context,
