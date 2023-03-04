@@ -211,7 +211,14 @@ class _RegisterState extends State<Register> {
                                   children: [
                                     const Text("Have an account?"),
                                     TextButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const SignIn()),
+                                        );
+                                      },
                                       child: const Text("Sign In",
                                           style: TextStyle(
                                             color: Color(

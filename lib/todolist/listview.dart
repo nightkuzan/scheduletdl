@@ -41,7 +41,7 @@ class _TodolistState extends State<Todolist> {
     setState(() {
       tasks = snapshot.docs.map((e) => e.data()).toList();
     });
-    print(tasks);
+    print(tasks[0]['1']['taskstatus']);
   }
 
   @override
