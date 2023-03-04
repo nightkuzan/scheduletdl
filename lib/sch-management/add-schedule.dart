@@ -1,44 +1,17 @@
 import 'package:flutter/material.dart';
 
-class Editschedule extends StatefulWidget {
-  const Editschedule({super.key, 
-  required this.subjectList, 
-  required this.taskname, 
-  required this.taskID, 
-  required this.taskRoom, 
-  required this.taskTimeStart, 
-  required this.taskMid, 
-  required this.taskFinal,
-  required this.taskTimeEnd, 
-  required this.taskDay, 
-  });
-
-
-  final List<dynamic> subjectList;
-  final String taskname;
-  final String taskID;
-  final String taskRoom;
-  final String taskTimeStart;
-  final String taskMid;
-  final String taskFinal;
-  final String taskTimeEnd;
-  final String taskDay;
+class AddSchedule extends StatefulWidget {
+  const AddSchedule({super.key, });
   
   @override
-  State<Editschedule> createState() => _Editschedule();
+  State<AddSchedule> createState() => _AddSchedule();
 }
 
-class _Editschedule extends State<Editschedule> {
-  late TextEditingController _textController;
+class _AddSchedule extends State<AddSchedule> {
+  late TimeOfDay time;
 
   @override
-  void initState() {
-    super.initState();
-    _textController = TextEditingController(text: widget.taskname);
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) { 
     return Scaffold(
       appBar: AppBar(
           leading: IconButton(
@@ -74,33 +47,6 @@ class _Editschedule extends State<Editschedule> {
               padding: const EdgeInsets.only(left: 30, right: 30),
               child: Column(
                 children: [
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //   children: [
-                  //     ElevatedButton(
-                  //       onPressed: () {},
-                  //       style: ElevatedButton.styleFrom(
-                  //           backgroundColor: const Color(0xff177C06),
-                  //           shape: RoundedRectangleBorder(
-                  //               borderRadius: BorderRadius.circular(10.0)),
-                  //           textStyle: const TextStyle(
-                  //             fontSize: 15,
-                  //           )),
-                  //       child: const Text("EDIT"),
-                  //     ),
-                  //     ElevatedButton(
-                  //       onPressed: () {},
-                  //       style: ElevatedButton.styleFrom(
-                  //           backgroundColor: const Color(0xffD92D20),
-                  //           shape: RoundedRectangleBorder(
-                  //               borderRadius: BorderRadius.circular(10.0)),
-                  //           textStyle: const TextStyle(
-                  //             fontSize: 15,
-                  //           )),
-                  //       child: const Text("DELETE"),
-                  //     ),
-                  //   ],
-                  // ),
                   const SizedBox(
                     height: 30,
                   ),
@@ -108,30 +54,30 @@ class _Editschedule extends State<Editschedule> {
                     child: Column(
                       children: [
                         TextFormField(
-                          decoration: InputDecoration(
-                            hintText: "${widget.taskname}" == '' ? 'Subject' : "${widget.taskname}",
+                          decoration: const InputDecoration(
+                            hintText: 'Subject',
                             border:
-                                const OutlineInputBorder(borderSide: BorderSide()),
+                                OutlineInputBorder(borderSide: BorderSide()),
                           ),
                         ),
                         const SizedBox(
                           height: 10,
                         ),
                         TextFormField(
-                          decoration: InputDecoration(
-                            hintText: "${widget.taskID}" == '' ? 'Subject ID' : "${widget.taskID}",
+                          decoration:const InputDecoration(
+                            hintText: 'Subject ID',
                             border:
-                                const OutlineInputBorder(borderSide: BorderSide()),
+                                OutlineInputBorder(borderSide: BorderSide()),
                           ),
                         ),
                         const SizedBox(
                           height: 10,
                         ),
                         TextFormField(
-                          decoration: InputDecoration(
-                            hintText: "${widget.taskRoom}" == '' ? 'Room' : "${widget.taskRoom}",
+                          decoration: const InputDecoration(
+                            hintText: 'Room',
                             border:
-                                const OutlineInputBorder(borderSide: BorderSide()),
+                                 OutlineInputBorder(borderSide: BorderSide()),
                           ),
                         ),
                         const SizedBox(
@@ -140,10 +86,13 @@ class _Editschedule extends State<Editschedule> {
                         Row(
                           children: [
                             Expanded(
-                              child: TextFormField(
+                              child:  TextFormField(
                                 decoration: InputDecoration(
-                                  hintText: "${widget.taskTimeStart}" == '' ? 'Time' : "${widget.taskTimeStart}",
-                                  suffixIcon: const Icon(Icons.access_time),
+                                  hintText: 'Time Ex. 08:00',
+                                  suffixIcon: IconButton(
+                                onPressed: () {                                 
+                                },
+                                icon: const Icon(Icons.access_time)),
                                   border:
                                       const OutlineInputBorder(borderSide: BorderSide()),
                                 ),
@@ -153,8 +102,11 @@ class _Editschedule extends State<Editschedule> {
                             Expanded(
                               child: TextFormField(
                                 decoration: InputDecoration(
-                                  hintText: "${widget.taskTimeEnd}" == '' ? 'Time' : "${widget.taskTimeEnd}",
-                                  suffixIcon: const Icon(Icons.access_time),
+                                  hintText: 'Time Ex. 09.30',
+                                  suffixIcon: IconButton(
+                                onPressed: () {
+                                },
+                                icon: const Icon(Icons.access_time)),
                                   border:
                                       const OutlineInputBorder(borderSide: BorderSide()),
                                 ),
@@ -166,10 +118,10 @@ class _Editschedule extends State<Editschedule> {
                           height: 10,
                         ),
                         TextFormField(
-                          decoration: InputDecoration(
-                            hintText: "${widget.taskDay}" == '' ? 'Day' : "${widget.taskDay}",
+                          decoration:const InputDecoration(
+                            hintText: 'Day',
                             border:
-                                const OutlineInputBorder(borderSide: BorderSide()),
+                                 OutlineInputBorder(borderSide: BorderSide()),
                           ),
                         ),
                         const SizedBox(
@@ -177,7 +129,7 @@ class _Editschedule extends State<Editschedule> {
                         ),
                         TextFormField(
                           decoration: InputDecoration(
-                            hintText: "${widget.taskMid}" == '' ? 'Midterm Exam' : "${widget.taskMid}",
+                            hintText: 'Midterm Exam',
                             suffixIcon: IconButton(
                                 onPressed: () {},
                                 icon: const Icon(Icons.calendar_today_outlined)),
@@ -190,7 +142,7 @@ class _Editschedule extends State<Editschedule> {
                         ),
                         TextFormField(
                           decoration: InputDecoration(
-                            hintText: "${widget.taskFinal}" == '' ? 'Midterm Exam' : "${widget.taskFinal}",
+                            hintText: 'Midterm Exam',
                             suffixIcon: IconButton(
                                 onPressed: () {},
                                 icon: const Icon(Icons.calendar_today_outlined)),
@@ -233,7 +185,7 @@ class _Editschedule extends State<Editschedule> {
                               textStyle: const TextStyle(
                                 fontSize: 18,
                               )),
-                          child: const Text("EDIT"),
+                          child: const Text("SAVE"),
                         ),
                       ),
                       const SizedBox(width: 20,),

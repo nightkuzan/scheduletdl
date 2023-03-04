@@ -1,6 +1,10 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:scheduletdl/sch-management/edit-schedule.dart';
+
+import 'add-schedule.dart';
 
 class ScheduleManagement extends StatefulWidget {
   const ScheduleManagement({super.key});
@@ -10,6 +14,14 @@ class ScheduleManagement extends StatefulWidget {
 }
 
 class _ScheduleManagement extends State<ScheduleManagement> {
+  List<Color?> colors = [
+      Colors.purple,
+      Colors.blue,
+      Colors.green,
+      Colors.orange,
+      const Color.fromARGB(255, 246, 43, 43)
+    ];
+
   List<dynamic> subjectList = [
     {
       "index": 0,
@@ -17,7 +29,9 @@ class _ScheduleManagement extends State<ScheduleManagement> {
       "taskdescription": "Do math homework",
       "taskmidterm": "2021-10-10",
       "taskfinal": "2021-12-12",
-      "tasktime": "09:30 - 11:00 TuF",
+      "tasktimeStart": "09:30",
+      "tasktimeEnd": "11:00",
+      "taskDay" : "TuF",
       "taskpriority": "High",
       "taskstatus": "Incomplete",
       "taskroom": "CSB209",
@@ -29,7 +43,51 @@ class _ScheduleManagement extends State<ScheduleManagement> {
       "taskdescription": "Do english homework",
       "taskmidterm": "2021-10-10",
       "taskfinal": "2021-12-12",
-      "tasktime": "12:30 - 14:00 MTh",
+      "tasktimeStart": "12:30",
+      "tasktimeEnd": "14:00",
+      "taskDay": "MTh",
+      "taskpriority": "High",
+      "taskstatus": "Incomplete",
+      "taskroom": "CSB210",
+      "taskID": "204333"
+    },
+    {
+      "index" : 1,
+      "taskname": "English",
+      "taskdescription": "Do english homework",
+      "taskmidterm": "2021-10-10",
+      "taskfinal": "2021-12-12",
+      "tasktimeStart": "12:30",
+      "tasktimeEnd": "14:00",
+      "taskDay": "MTh",
+      "taskpriority": "High",
+      "taskstatus": "Incomplete",
+      "taskroom": "CSB210",
+      "taskID": "204333"
+    },
+    {
+      "index" : 1,
+      "taskname": "English",
+      "taskdescription": "Do english homework",
+      "taskmidterm": "2021-10-10",
+      "taskfinal": "2021-12-12",
+      "tasktimeStart": "12:30",
+      "tasktimeEnd": "14:00",
+      "taskDay": "MTh",
+      "taskpriority": "High",
+      "taskstatus": "Incomplete",
+      "taskroom": "CSB210",
+      "taskID": "204333"
+    },
+    {
+      "index" : 1,
+      "taskname": "English",
+      "taskdescription": "Do english homework",
+      "taskmidterm": "2021-10-10",
+      "taskfinal": "2021-12-12",
+      "tasktimeStart": "12:30",
+      "tasktimeEnd": "14:00",
+      "taskDay": "MTh",
       "taskpriority": "High",
       "taskstatus": "Incomplete",
       "taskroom": "CSB210",
@@ -53,7 +111,10 @@ class _ScheduleManagement extends State<ScheduleManagement> {
           actions: [
             IconButton(
               onPressed: () {
-
+                 Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>const AddSchedule()));
               },
               icon:const Icon(Icons.add, color: Colors.black,),
             ),
@@ -96,7 +157,9 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                                       taskname: subjectList[index]["taskname"],
                                       taskID: subjectList[index]["taskID"],
                                       taskRoom: subjectList[index]["taskroom"],
-                                      taskTime: subjectList[index]["tasktime"],
+                                      taskTimeStart: subjectList[index]["tasktimeStart"],
+                                      taskTimeEnd: subjectList[index]["tasktimeEnd"],
+                                      taskDay: subjectList[index]["taskDay"],
                                       taskMid: subjectList[index]
                                           ["taskmidterm"],
                                       taskFinal: subjectList[index]
@@ -104,7 +167,7 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                                     )));
                       },
                       child: Card(
-                        color: const Color(0xffB89FED),
+                        color: colors[Random().nextInt(colors.length)],
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: ListTile(
@@ -122,7 +185,7 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                                 children: [
                                   TextSpan(
                                     text:
-                                        (subjectList[index]["tasktime"]) + "\n",
+                                        (subjectList[index]["tasktimeStart"]) + ' - ' + (subjectList[index]["tasktimeEnd"]) + ' ' + (subjectList[index]["taskDay"]) +"\n",
                                     style: const TextStyle(
                                         fontSize: 12.0,
                                         color: Colors.black,
