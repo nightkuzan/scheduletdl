@@ -1,8 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:provider/provider.dart';
+import 'package:scheduletdl/Reg-Sign/SignIn.dart';
 import 'package:scheduletdl/Reg-Sign/profile.dart';
 import 'package:scheduletdl/firebase_options.dart';
 import 'package:scheduletdl/menu/menu.dart';
@@ -140,23 +143,34 @@ class _RegisterState extends State<Register> {
                                   height: 30,
                                 ),
                                 ElevatedButton(
-                                    onPressed: () {
+                                    onPressed: () async {
                                       if (formKey.currentState!.validate()) {
                                         formKey.currentState?.save();
-                                        print(
-                                            "${profile.firstname} ${profile.lastname} ${profile.email} ${profile.password}");
-                                        formKey.currentState?.reset();
-                                      }
+                                        // print(
+                                        //     "${profile.firstname} ${profile.lastname} ${profile.email} ${profile.password}");
 
-                                      // go to page menu
-                                      // Navigator.push(
-                                      //   context,
-                                      //   MaterialPageRoute(
-                                      //       builder: (context) =>
-                                      //           const ExamList_Management()),
-                                      // );
+                                        try {
+                                          await FirebaseAuth.instance
+                                              .createUserWithEmailAndPassword(
+                                                  email: profile.email,
+                                                  password: profile.password);
+
+                                          // formKey.currentState?.reset();
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const SignIn()),
+                                          );
+                                        } on FirebaseAuthException catch (e) {
+                                          print(e.message);
+                                          print(e.code);
+                                          // Fluttertoast.showToast(
+                                          //     msg: e.message);
+                                        }
+                                      }
                                     },
-                                    child: const Text("Save")),
+                                    child: const Text("Create account")),
                                 const SizedBox(
                                   height: 20,
                                 ),
