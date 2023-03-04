@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:scheduletdl/Reg-Sign/SignIn.dart';
 import 'package:scheduletdl/todolist/listview.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../firebase_options.dart';
@@ -13,11 +15,19 @@ class Menu extends StatefulWidget {
 }
 
 class _MenuState extends State<Menu> {
-  void test() {
+  void test() async {
     // final Future<FirebaseApp> firebase = Firebase.initializeApp(
     //   options: DefaultFirebaseOptions.currentPlatform,
     // );
     User? user = FirebaseAuth.instance.currentUser;
+
+    // create document in collection 'users' for the current user
+    FirebaseFirestore.instance.collection('users').doc(user?.uid).set({
+      'email': user?.email,
+      'lastSeen': DateTime.now(),
+      'uid': user?.uid,
+    });
+
     print(user?.email);
   }
 
@@ -47,6 +57,7 @@ class _MenuState extends State<Menu> {
           ]),
           leading: IconButton(
             onPressed: () {
+              FirebaseAuth.instance.signOut();
               Navigator.pop(context);
             },
             icon: const Icon(Icons.arrow_back_ios_new),
@@ -98,6 +109,26 @@ class _MenuState extends State<Menu> {
                   );
                 },
                 child: const Text('Todo List', style: TextStyle(fontSize: 24)),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    minimumSize: const Size.fromHeight(60),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30.0),
+                    ),
+                    backgroundColor: const Color.fromARGB(255, 105, 101, 110)),
+                onPressed: () {
+                  FirebaseAuth.instance.signOut();
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const SignIn()),
+                  );
+                },
+                child: const Text('Log Out', style: TextStyle(fontSize: 24)),
               ),
             ],
           ),
