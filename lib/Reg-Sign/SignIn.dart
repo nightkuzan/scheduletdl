@@ -129,7 +129,6 @@ class _SignInState extends State<SignIn> {
                                                 builder: (context) =>
                                                     const Menu()),
                                           );
-                                          
                                         } on FirebaseAuthException catch (e) {
                                           print(e.message);
                                         }
@@ -164,8 +163,16 @@ class _SignInState extends State<SignIn> {
                                   children: [
                                     const Text("Have an account?"),
                                     TextButton(
-                                      onPressed: () {},
-                                      child: const Text("Sign In",
+                                      onPressed: () {
+                                        // go to page register
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const Register()),
+                                        );
+                                      },
+                                      child: const Text("Sign Up",
                                           style: TextStyle(
                                             color: Color(
                                               0xff6B4EFF,
