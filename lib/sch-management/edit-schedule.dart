@@ -29,6 +29,8 @@ class Editschedule extends StatefulWidget {
 }
 
 class _Editschedule extends State<Editschedule> {
+  final TextEditingController _startTimeController = TextEditingController();
+  final TextEditingController _endTimeController = TextEditingController();
   List<String> daysOfWeek = [
     'Select a day',
     'Mon',
@@ -89,33 +91,6 @@ class _Editschedule extends State<Editschedule> {
               padding: const EdgeInsets.only(left: 30, right: 30),
               child: Column(
                 children: [
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //   children: [
-                  //     ElevatedButton(
-                  //       onPressed: () {},
-                  //       style: ElevatedButton.styleFrom(
-                  //           backgroundColor: const Color(0xff177C06),
-                  //           shape: RoundedRectangleBorder(
-                  //               borderRadius: BorderRadius.circular(10.0)),
-                  //           textStyle: const TextStyle(
-                  //             fontSize: 15,
-                  //           )),
-                  //       child: const Text("EDIT"),
-                  //     ),
-                  //     ElevatedButton(
-                  //       onPressed: () {},
-                  //       style: ElevatedButton.styleFrom(
-                  //           backgroundColor: const Color(0xffD92D20),
-                  //           shape: RoundedRectangleBorder(
-                  //               borderRadius: BorderRadius.circular(10.0)),
-                  //           textStyle: const TextStyle(
-                  //             fontSize: 15,
-                  //           )),
-                  //       child: const Text("DELETE"),
-                  //     ),
-                  //   ],
-                  // ),
                   const SizedBox(
                     height: 30,
                   ),
@@ -162,26 +137,64 @@ class _Editschedule extends State<Editschedule> {
                           children: [
                             Expanded(
                               child: TextFormField(
+                                controller:
+                                    _startTimeController, // set the text editing controller
                                 decoration: InputDecoration(
                                   hintText: "${widget.taskTimeStart}" == ''
                                       ? 'Time'
                                       : "${widget.taskTimeStart}",
-                                  suffixIcon: const Icon(Icons.access_time),
+                                  suffixIcon: IconButton(
+                                    icon: const Icon(Icons.access_time),
+                                    onPressed: () async {
+                                      // Show time picker and update form field when user selects a time
+                                      final TimeOfDay? pickedTime =
+                                          await showTimePicker(
+                                        context: context,
+                                        initialTime: TimeOfDay.now(),
+                                      );
+                                      if (pickedTime != null) {
+                                        setState(() {
+                                          _startTimeController.text =
+                                              pickedTime.format(context);
+                                        });
+                                      }
+                                    },
+                                  ),
                                   border: const OutlineInputBorder(
-                                      borderSide: BorderSide()),
+                                    borderSide: BorderSide(),
+                                  ),
                                 ),
                               ),
                             ),
                             const Text("  -  "),
                             Expanded(
                               child: TextFormField(
+                                controller:
+                                    _endTimeController, // set the text editing controller
                                 decoration: InputDecoration(
                                   hintText: "${widget.taskTimeEnd}" == ''
                                       ? 'Time'
                                       : "${widget.taskTimeEnd}",
-                                  suffixIcon: const Icon(Icons.access_time),
+                                  suffixIcon: IconButton(
+                                    icon: const Icon(Icons.access_time),
+                                    onPressed: () async {
+                                      // Show time picker and update form field when user selects a time
+                                      final TimeOfDay? pickedTime =
+                                          await showTimePicker(
+                                        context: context,
+                                        initialTime: TimeOfDay.now(),
+                                      );
+                                      if (pickedTime != null) {
+                                        setState(() {
+                                          _endTimeController.text =
+                                              pickedTime.format(context);
+                                        });
+                                      }
+                                    },
+                                  ),
                                   border: const OutlineInputBorder(
-                                      borderSide: BorderSide()),
+                                    borderSide: BorderSide(),
+                                  ),
                                 ),
                               ),
                             ),
@@ -190,13 +203,6 @@ class _Editschedule extends State<Editschedule> {
                         const SizedBox(
                           height: 10,
                         ),
-                        // TextFormField(
-                        //   decoration: InputDecoration(
-                        //     hintText: "${widget.taskDay}" == '' ? 'Day' : "${widget.taskDay}",
-                        //     border:
-                        //         const OutlineInputBorder(borderSide: BorderSide()),
-                        //   ),
-                        // ),
                         Container(
                           width: double.infinity,
                           decoration: BoxDecoration(
@@ -213,7 +219,12 @@ class _Editschedule extends State<Editschedule> {
                               items: daysOfWeek.map((String day) {
                                 return DropdownMenuItem<String>(
                                   value: day,
-                                  child: Text(day, style:const TextStyle(color: Color.fromARGB(255, 105, 105, 105)),),
+                                  child: Text(
+                                    day,
+                                    style: const TextStyle(
+                                        color:
+                                            Color.fromARGB(255, 0, 0, 0)),
+                                  ),
                                 );
                               }).toList(),
                               onChanged: (String? newValue) {
