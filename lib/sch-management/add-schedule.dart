@@ -8,7 +8,30 @@ class AddSchedule extends StatefulWidget {
 }
 
 class _AddSchedule extends State<AddSchedule> {
+  final TextEditingController _startTimeController = TextEditingController();
+  final TextEditingController _endTimeController = TextEditingController();
+  late TextEditingController _textController;
   late TimeOfDay time;
+
+  List<String> daysOfWeek = [
+    'Select a day',
+    'Mon',
+    'Tue',
+    'Wed',
+    'Thu',
+    'Fri',
+    'Sat',
+    'Sun',
+    'MTh',
+    'TuF',
+  ];
+  String selectedDay = 'Select a day';
+
+  @override
+  void initState() {
+    super.initState();
+    _textController = TextEditingController(text: 'Select Time');
+  }
 
   @override
   Widget build(BuildContext context) { 
@@ -86,29 +109,61 @@ class _AddSchedule extends State<AddSchedule> {
                         Row(
                           children: [
                             Expanded(
-                              child:  TextFormField(
+                              child: TextFormField(
+                                controller:
+                                    _startTimeController, // set the text editing controller
                                 decoration: InputDecoration(
-                                  hintText: 'Time Ex. 08:00',
+                                  hintText: 'Example. 8.00 AM',
                                   suffixIcon: IconButton(
-                                onPressed: () {                                 
-                                },
-                                icon: const Icon(Icons.access_time)),
-                                  border:
-                                      const OutlineInputBorder(borderSide: BorderSide()),
+                                    icon: const Icon(Icons.access_time),
+                                    onPressed: () async {
+                                      // Show time picker and update form field when user selects a time
+                                      final TimeOfDay? pickedTime =
+                                          await showTimePicker(
+                                        context: context,
+                                        initialTime: TimeOfDay.now(),
+                                      );
+                                      if (pickedTime != null) {
+                                        setState(() {
+                                          _startTimeController.text =
+                                              pickedTime.format(context);
+                                        });
+                                      }
+                                    },
+                                  ),
+                                  border: const OutlineInputBorder(
+                                    borderSide: BorderSide(),
+                                  ),
                                 ),
                               ),
                             ),
                             const Text("  -  "),
                             Expanded(
                               child: TextFormField(
+                                controller:
+                                    _endTimeController, // set the text editing controller
                                 decoration: InputDecoration(
-                                  hintText: 'Time Ex. 09.30',
+                                  hintText: 'Example. 10.00 AM',
                                   suffixIcon: IconButton(
-                                onPressed: () {
-                                },
-                                icon: const Icon(Icons.access_time)),
-                                  border:
-                                      const OutlineInputBorder(borderSide: BorderSide()),
+                                    icon: const Icon(Icons.access_time),
+                                    onPressed: () async {
+                                      // Show time picker and update form field when user selects a time
+                                      final TimeOfDay? pickedTime =
+                                          await showTimePicker(
+                                        context: context,
+                                        initialTime: TimeOfDay.now(),
+                                      );
+                                      if (pickedTime != null) {
+                                        setState(() {
+                                          _endTimeController.text =
+                                              pickedTime.format(context);
+                                        });
+                                      }
+                                    },
+                                  ),
+                                  border: const OutlineInputBorder(
+                                    borderSide: BorderSide(),
+                                  ),
                                 ),
                               ),
                             ),
@@ -117,11 +172,39 @@ class _AddSchedule extends State<AddSchedule> {
                         const SizedBox(
                           height: 10,
                         ),
-                        TextFormField(
-                          decoration:const InputDecoration(
-                            hintText: 'Day',
-                            border:
-                                 OutlineInputBorder(borderSide: BorderSide()),
+                        Container(
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Colors.grey,
+                              width: 1,
+                            ),
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            child: DropdownButton<String>(
+                              value: selectedDay,
+                              items: daysOfWeek.map((String day) {
+                                return DropdownMenuItem<String>(
+                                  value: day,
+                                  child: Text(
+                                    day,
+                                    style: const TextStyle(
+                                        color:
+                                            Color.fromARGB(255, 0, 0, 0)),
+                                  ),
+                                );
+                              }).toList(),
+                              onChanged: (String? newValue) {
+                                setState(() {
+                                  selectedDay = newValue!;
+                                });
+                              },
+                              isExpanded: true,
+                              underline: const SizedBox(),
+                              hint: const Text('Select a day'),
+                            ),
                           ),
                         ),
                         const SizedBox(
