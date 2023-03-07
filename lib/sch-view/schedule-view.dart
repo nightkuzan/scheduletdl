@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:time_planner/time_planner.dart';
+import 'package:intl/intl.dart';
 
 class ScheduleView extends StatefulWidget {
   const ScheduleView({Key? key, required this.title}) : super(key: key);
@@ -26,37 +27,83 @@ class _ScheduleViewState extends State<ScheduleView> {
   List<dynamic> plans = [
     {
       "index": 0,
-      "taskname": "Math",
+      "taskname": "Web application",
       "taskdescription": "Do math homework",
       "taskmidterm": "2021-10-10",
       "taskfinal": "2021-12-12",
-      "tasktimeStart": "09:30",
-      "tasktimeEnd": "11:00",
+      "tasktimeStart": "9:30 AM",
+      "tasktimeEnd": "11:00 AM",
       "taskDay": "TuF",
       "taskpriority": "High",
       "taskstatus": "Incomplete",
       "taskroom": "CSB209",
-      "taskID": "204441"
+      "taskID": "204333"
     },
     {
       "index": 1,
-      "taskname": "English",
+      "taskname": "Mobile App",
       "taskdescription": "Do english homework",
       "taskmidterm": "2021-10-10",
       "taskfinal": "2021-12-12",
-      "tasktimeStart": "12:30",
-      "tasktimeEnd": "14:00",
+      "tasktimeStart": "12:30 AM",
+      "tasktimeEnd": "2:00 PM",
       "taskDay": "MTh",
       "taskpriority": "High",
       "taskstatus": "Incomplete",
       "taskroom": "CSB210",
-      "taskID": "204333"
+      "taskID": "204311"
+    },
+    {
+      "index": 2,
+      "taskname": "Fund Programming",
+      "taskdescription": "Do english homework",
+      "taskmidterm": "2021-10-10",
+      "taskfinal": "2021-12-12",
+      "tasktimeStart": "8:00 AM",
+      "tasktimeEnd": "9:00 AM",
+      "taskDay": "Mon",
+      "taskpriority": "High",
+      "taskstatus": "Incomplete",
+      "taskroom": "CSB210",
+      "taskID": "204111"
+    },
+    {
+      "index": 3,
+      "taskname": "OOD",
+      "taskdescription": "Do english homework",
+      "taskmidterm": "2021-10-10",
+      "taskfinal": "2021-12-12",
+      "tasktimeStart": "12:30 AM",
+      "tasktimeEnd": "2:00 PM",
+      "taskDay": "Wed",
+      "taskpriority": "High",
+      "taskstatus": "Incomplete",
+      "taskroom": "CSB210",
+      "taskID": "204362"
     },
   ];
 
   List<dynamic> startStudyHrs = [];
   List<dynamic> startMins = [];
   List<dynamic> durations = [];
+  List<dynamic> dayValue = [
+    {
+      'Mon': 0,
+      'Tue': 1,
+      'Wed': 2,
+      'Thu': 3,
+      'Fri': 4,
+      'Sat': 5,
+      'Sun': 6,
+      'MTh': 7,
+      'TuF': 8,
+    }
+  ];
+
+  Map<String, List<int>> twinDay = {
+    'MTh': [0, 3],
+    'TuF': [1, 4],
+  };
 
   @override
   void initState() {
@@ -84,66 +131,173 @@ class _ScheduleViewState extends State<ScheduleView> {
       const Color.fromARGB(255, 255, 183, 211),
       const Color.fromARGB(255, 63, 61, 103),
     ];
+    // for (var plan in plans) {
+    //   String timeString = plan["tasktimeStart"];
+    //   DateTime time = DateFormat.jm().parse(timeString);
+    //   String formattedTime = DateFormat('HH.mm').format(time);
+    //   String start = formattedTime.substring(0, 2);
+    //   String minutes = formattedTime.substring(3);
+    //   var startTime = DateTime.parse("2022-03-07 ${plan['tasktimeStart']}:00");
+    //   var endTime = DateTime.parse("2022-03-07 ${plan['tasktimeEnd']}:00");
+    //   var duration = endTime.difference(startTime);
+    //   var durationInMinutes = duration.inMinutes;
+    //   int startStudyHr = int.parse(start);
+    //   int startMin = int.parse(minutes);
+    //   startStudyHrs.add(startStudyHr);
+    //   startMins.add(startMin);
+    //   durations.add(durationInMinutes);
+    // }
+
     for (var plan in plans) {
-      String start = plan["tasktimeStart"]?.substring(0, 2);
-      String minutes = plan["tasktimeStart"]?.substring(3);
-      var startTime = DateTime.parse("2022-03-07 ${plan['tasktimeStart']}:00");
-      var endTime = DateTime.parse("2022-03-07 ${plan['tasktimeEnd']}:00");
-      var duration = endTime.difference(startTime);
-      var durationInMinutes = duration.inMinutes;
-      int startStudyHr = int.parse(start);
-      int startMin = int.parse(minutes);
-      startStudyHrs.add(startStudyHr);
-      startMins.add(startMin);
-      durations.add(durationInMinutes);
+      String timeStartString = plan["tasktimeStart"];
+      String timeEndString = plan["tasktimeEnd"];
+
+      DateTime timeStart = DateFormat.jm().parse(timeStartString);
+      if (timeStart.hour == 12 &&
+          (timeStart.timeZoneName == "AM" || timeStart.timeZoneName == "PM")) {
+        timeStart = timeStart.add(const Duration(hours: -12));
+      }
+      String formattedTimeStart = DateFormat('HH.mm').format(timeStart);
+      String start = formattedTimeStart.substring(0, 2);
+      if (start == '00') {
+        start = '12';
+      }
+      String minutesStart = formattedTimeStart.substring(3);
+
+      DateTime timeEnd = DateFormat.jm().parse(timeEndString);
+      if (timeEnd.hour == 12 &&
+          (timeEnd.timeZoneName == "AM" || timeEnd.timeZoneName == "PM")) {
+        timeEnd = timeEnd.add(const Duration(hours: -12));
+      }
+      String formattedTimeEnd = DateFormat('HH.mm').format(timeEnd);
+      String end = formattedTimeEnd.substring(0, 2);
+      if (end == '00') {
+        end = '12';
+      }
+      String minutesEnd = formattedTimeEnd.substring(3);
+      int startHour = int.parse(start);
+      int endHour = int.parse(end);
+      int startMinutes = int.parse(minutesStart);
+      int endMinutes = int.parse(minutesEnd);
+      startStudyHrs.add(startHour);
+      startMins.add(startMinutes);
+      int durationMinutes =
+          (endHour * 60 + endMinutes) - (startHour * 60 + startMinutes);
+      durations.add(durationMinutes);
     }
     for (int i = 0; i < plans.length; i++) {
-      setState(() {
-        tasks.add(
-          TimePlannerTask(
-            color: colors[Random().nextInt(colors.length)],
-            dateTime: TimePlannerDateTime(
-                day: 1, //วันไหน plans[i]["listday"]
-                hour: startStudyHrs[i]!, //เริ่มกี่โมง
-                minutes: startMins[i]!), //นาทีที่
-            minutesDuration:
-                durations[i]!, //นาทีแต่ละวิชา plans[i]["studyTime"]
-            daysDuration: 1, //วันที่เรียน  plans[i]["dayTime"]
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Row(
+      if (plans[i]["taskDay"] == 'Mon' ||
+          plans[i]["taskDay"] == 'Tue' ||
+          plans[i]["taskDay"] == 'Wed' ||
+          plans[i]["taskDay"] == 'Thu' ||
+          plans[i]["taskDay"] == 'Fri' ||
+          plans[i]["taskDay"] == 'Sat' ||
+          plans[i]["taskDay"] == 'Sun') {
+        String taskDay = plans[i]["taskDay"];
+        if (dayValue[0].containsKey(taskDay)) {
+          int dayIndex = dayValue[0][taskDay];
+          setState(() {
+            tasks.add(
+              TimePlannerTask(
+                color: colors[Random().nextInt(colors.length)],
+                dateTime: TimePlannerDateTime(
+                    day: dayIndex, //วันไหน plans[i]["listday"]
+                    hour: startStudyHrs[i]!, //เริ่มกี่โมง
+                    minutes: startMins[i]!), //นาทีที่
+                minutesDuration:
+                    durations[i]!, //นาทีแต่ละวิชา plans[i]["studyTime"]
+                daysDuration: 1, //วันที่เรียน  plans[i]["dayTime"]
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          plans[i]["taskname"],
+                          style: const TextStyle(
+                              color: Color.fromARGB(255, 255, 255, 255),
+                              fontSize: 14),
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          plans[i]["taskID"],
+                          style: const TextStyle(
+                              color: Color.fromARGB(255, 255, 255, 255),
+                              fontSize: 14),
+                        )
+                      ],
+                    ),
                     Text(
-                      plans[i]["taskname"],
+                      plans[i]["taskroom"],
                       style: const TextStyle(
                           color: Color.fromARGB(255, 255, 255, 255),
                           fontSize: 14),
                     ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      plans[i]["taskID"],
-                      style: const TextStyle(
-                          color: Color.fromARGB(255, 255, 255, 255),
-                          fontSize: 14),
-                    )
                   ],
                 ),
-                Text(
-                  plans[i]["taskroom"],
-                  style: const TextStyle(
-                      color: Color.fromARGB(255, 255, 255, 255), fontSize: 14),
+              ),
+            );
+          });
+        }
+      } else if (plans[i]["taskDay"] == 'MTh' || plans[i]["taskDay"] == 'TuF') {
+        if (plans[i]["taskDay"] == 'MTh' || plans[i]["taskDay"] == 'TuF') {
+          List<int>? twinDayValues = twinDay[plans[i]["taskDay"]];
+          for (int j = 0; j < twinDayValues!.length; j++) {
+            setState(() {
+              tasks.add(
+                TimePlannerTask(
+                  color: colors[Random().nextInt(colors.length)],
+                  dateTime: TimePlannerDateTime(
+                      day: twinDayValues[j], //วันไหน plans[i]["listday"]
+                      hour: startStudyHrs[i]!, //เริ่มกี่โมง
+                      minutes: startMins[i]!), //นาทีที่
+                  minutesDuration:
+                      durations[i]!, //นาทีแต่ละวิชา plans[i]["studyTime"]
+                  daysDuration: 1, //วันที่เรียน  plans[i]["dayTime"]
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            plans[i]["taskname"],
+                            style: const TextStyle(
+                                color: Color.fromARGB(255, 255, 255, 255),
+                                fontSize: 14),
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            plans[i]["taskID"],
+                            style: const TextStyle(
+                                color: Color.fromARGB(255, 255, 255, 255),
+                                fontSize: 14),
+                          )
+                        ],
+                      ),
+                      Text(
+                        plans[i]["taskroom"],
+                        style: const TextStyle(
+                            color: Color.fromARGB(255, 255, 255, 255),
+                            fontSize: 14),
+                      ),
+                    ],
+                  ),
                 ),
-              ],
-            ),
-          ),
-        );
-      });
+              );
+            });
+          }
+        }
+      }
     }
   }
 
