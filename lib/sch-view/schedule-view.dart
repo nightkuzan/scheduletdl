@@ -16,23 +16,47 @@ class MyCustomScrollBehavior extends MaterialScrollBehavior {
   // Override behavior methods and getters like dragDevices
   @override
   Set<PointerDeviceKind> get dragDevices => {
-    PointerDeviceKind.touch,
-    PointerDeviceKind.mouse,
-  };
+        PointerDeviceKind.touch,
+        PointerDeviceKind.mouse,
+      };
 }
 
 class _ScheduleViewState extends State<ScheduleView> {
   List<TimePlannerTask> tasks = [];
-
   List<dynamic> plans = [
-    {"subject": "OOP", "listday": 2, "startTime": 8, "minTime": 30, "studyTime": 90, "dayTime": 1, "code": "123", "building": "CSB100"},
-    {"subject": "OOD", "listday": 4, "startTime": 11, "minTime": 0, "studyTime": 90, "dayTime": 1, "code": "444", "building": "CSB100"},
-    {"subject": "Combinatorial", "listday": 0, "startTime": 11, "minTime": 0, "studyTime": 90, "dayTime": 1, "code": "555", "building": "CSB100"},
-    {"subject": "Data Stucture", "listday": 1, "startTime": 9, "minTime": 30, "studyTime": 90, "dayTime": 1, "code": "666", "building": "CSB100"},
-    {"subject": "Web application", "listday": 3, "startTime": 14, "minTime": 30, "studyTime": 90, "dayTime": 1, "code": "777", "building": "CSB100"},
-    {"subject": "Data mining", "listday": 2, "startTime": 12, "minTime": 30, "studyTime": 90, "dayTime": 1, "code": "888", "building": "CSB100"},
+    {
+      "index": 0,
+      "taskname": "Math",
+      "taskdescription": "Do math homework",
+      "taskmidterm": "2021-10-10",
+      "taskfinal": "2021-12-12",
+      "tasktimeStart": "09:30",
+      "tasktimeEnd": "11:00",
+      "taskDay": "TuF",
+      "taskpriority": "High",
+      "taskstatus": "Incomplete",
+      "taskroom": "CSB209",
+      "taskID": "204441"
+    },
+    {
+      "index": 1,
+      "taskname": "English",
+      "taskdescription": "Do english homework",
+      "taskmidterm": "2021-10-10",
+      "taskfinal": "2021-12-12",
+      "tasktimeStart": "12:30",
+      "tasktimeEnd": "14:00",
+      "taskDay": "MTh",
+      "taskpriority": "High",
+      "taskstatus": "Incomplete",
+      "taskroom": "CSB210",
+      "taskID": "204333"
+    },
   ];
-  
+
+  List<dynamic> startStudyHrs = [];
+  List<dynamic> startMins = [];
+  List<dynamic> durations = [];
 
   @override
   void initState() {
@@ -60,46 +84,68 @@ class _ScheduleViewState extends State<ScheduleView> {
       const Color.fromARGB(255, 255, 183, 211),
       const Color.fromARGB(255, 63, 61, 103),
     ];
+    for (var plan in plans) {
+      String start = plan["tasktimeStart"]?.substring(0, 2);
+      String minutes = plan["tasktimeStart"]?.substring(3);
+      var startTime = DateTime.parse("2022-03-07 ${plan['tasktimeStart']}:00");
+      var endTime = DateTime.parse("2022-03-07 ${plan['tasktimeEnd']}:00");
+      var duration = endTime.difference(startTime);
+      var durationInMinutes = duration.inMinutes;
+      int startStudyHr = int.parse(start);
+      int startMin = int.parse(minutes);
+      startStudyHrs.add(startStudyHr);
+      startMins.add(startMin);
+      durations.add(durationInMinutes);
+    }
     for (int i = 0; i < plans.length; i++) {
-    setState(() {
-      tasks.add(
-        TimePlannerTask(
-          color: colors[Random().nextInt(colors.length)],
-          dateTime: TimePlannerDateTime(
-              day: plans[i]["listday"], //วันไหน
-              hour: plans[i]["startTime"], //เริ่มกี่โมง
-              minutes: plans[i]["minTime"]), //นาทีที่
-          minutesDuration: plans[i]["studyTime"], //นาทีแต่ละวิชา
-          daysDuration: plans[i]["dayTime"], //วันที่เรียน
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                plans[i]["subject"],
-                style:const TextStyle(color: Color.fromARGB(255, 255, 255, 255), fontSize: 14),
-              ),
-              const SizedBox(width: 10,),
-              Text(
-                plans[i]["code"],
-                style:const TextStyle(color: Color.fromARGB(255, 255, 255, 255), fontSize: 14),
-              )
-                ],
-              ),
-              Text(
-                plans[i]["building"],
-                style:const TextStyle(color: Color.fromARGB(255, 255, 255, 255), fontSize: 14),
-              ),
-            ],
+      setState(() {
+        tasks.add(
+          TimePlannerTask(
+            color: colors[Random().nextInt(colors.length)],
+            dateTime: TimePlannerDateTime(
+                day: 1, //วันไหน plans[i]["listday"]
+                hour: startStudyHrs[i]!, //เริ่มกี่โมง
+                minutes: startMins[i]!), //นาทีที่
+            minutesDuration:
+                durations[i]!, //นาทีแต่ละวิชา plans[i]["studyTime"]
+            daysDuration: 1, //วันที่เรียน  plans[i]["dayTime"]
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      plans[i]["taskname"],
+                      style: const TextStyle(
+                          color: Color.fromARGB(255, 255, 255, 255),
+                          fontSize: 14),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      plans[i]["taskID"],
+                      style: const TextStyle(
+                          color: Color.fromARGB(255, 255, 255, 255),
+                          fontSize: 14),
+                    )
+                  ],
+                ),
+                Text(
+                  plans[i]["taskroom"],
+                  style: const TextStyle(
+                      color: Color.fromARGB(255, 255, 255, 255), fontSize: 14),
+                ),
+              ],
+            ),
           ),
-        ),
-      );
-    });
-  }}
+        );
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -120,8 +166,8 @@ class _ScheduleViewState extends State<ScheduleView> {
               children: const [
                 Text(
                   "my",
-                  style:
-                      TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, color: Colors.black),
                 ),
                 Text(
                   "Schedule",
@@ -183,5 +229,3 @@ class _ScheduleViewState extends State<ScheduleView> {
     super.dispose();
   }
 }
-
-
