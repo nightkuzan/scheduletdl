@@ -153,18 +153,45 @@ class _RegisterState extends State<Register> {
                                           await FirebaseAuth.instance
                                               .createUserWithEmailAndPassword(
                                                   email: profile.email,
-                                                  password: profile.password);
+                                                  password: profile.password)
+                                              .then((value) {
+                                            formKey.currentState?.reset();
+                                            Fluttertoast.showToast(
+                                                msg: "Create user account",
+                                                gravity: ToastGravity.CENTER);
+                                            Navigator.pushReplacement(context,
+                                                MaterialPageRoute(
+                                                    builder: (context) {
+                                              return SignIn();
+                                            }));
+                                          });
 
                                           // formKey.currentState?.reset();
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const SignIn()),
-                                          );
+                                          // Navigator.push(
+                                          //   context,
+                                          //   MaterialPageRoute(
+                                          //       builder: (context) =>
+                                          //           const SignIn()),
+                                          // );
                                         } on FirebaseAuthException catch (e) {
-                                          print(e.message);
-                                          print(e.code);
+                                          // print(e.message);
+                                          // print(e.code);
+                                          String message;
+                                          if (e.code ==
+                                              "email-already-in-use") {
+                                            message =
+                                                "มีอีเมลล์นี้ในระบบอยู่แล้ว";
+                                          } else if (e.code ==
+                                              'weak-password') {
+                                            message =
+                                                "รหัสผ่านต้องมีความยาว 6 ตัวขึ้นไป";
+                                          } else {
+                                            message = e.message!;
+                                          }
+
+                                          Fluttertoast.showToast(
+                                              msg: message,
+                                              gravity: ToastGravity.CENTER);
                                           // Fluttertoast.showToast(
                                           //     msg: e.message);
                                         }

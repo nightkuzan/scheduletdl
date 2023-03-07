@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:scheduletdl/Reg-Sign/profile.dart';
 import 'package:scheduletdl/menu/menu.dart';
@@ -122,15 +123,19 @@ class _SignInState extends State<SignIn> {
                                               .signInWithEmailAndPassword(
                                                   email: profile.email,
                                                   password: profile.password)
-                                              .then((value) {});
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const Menu()),
-                                          );
+                                              .then((value) {
+                                            formKey.currentState?.reset();
+                                            Navigator.pushReplacement(context,
+                                                MaterialPageRoute(
+                                                    builder: (context) {
+                                              return const Menu();
+                                            }));
+                                          });
                                         } on FirebaseAuthException catch (e) {
-                                          print(e.message);
+                                          // print(e.message);
+                                          Fluttertoast.showToast(
+                                              msg: "${e.message}",
+                                              gravity: ToastGravity.CENTER);
                                         }
                                       }
                                     },
