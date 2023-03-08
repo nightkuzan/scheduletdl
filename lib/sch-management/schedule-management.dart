@@ -15,12 +15,14 @@ class ScheduleManagement extends StatefulWidget {
 
 class _ScheduleManagement extends State<ScheduleManagement> {
   List<Color?> colors = [
-      Colors.purple,
-      Colors.blue,
-      Colors.green,
-      Colors.orange,
-      const Color.fromARGB(255, 246, 43, 43)
-    ];
+    Colors.purple,
+    Colors.blue,
+    Colors.green,
+    Colors.orange,
+    const Color.fromARGB(255, 246, 43, 43),
+    const Color.fromARGB(255, 54, 228, 191),
+    const Color.fromARGB(255, 255, 183, 211),
+  ];
 
   List<dynamic> subjectList = [
     {
@@ -31,14 +33,14 @@ class _ScheduleManagement extends State<ScheduleManagement> {
       "taskfinal": "2021-12-12",
       "tasktimeStart": "09:30",
       "tasktimeEnd": "11:00",
-      "taskDay" : "TuF",
+      "taskDay": "TuF",
       "taskpriority": "High",
       "taskstatus": "Incomplete",
       "taskroom": "CSB209",
       "taskID": "204441"
     },
     {
-      "index" : 1,
+      "index": 1,
       "taskname": "English",
       "taskdescription": "Do english homework",
       "taskmidterm": "2021-10-10",
@@ -52,7 +54,7 @@ class _ScheduleManagement extends State<ScheduleManagement> {
       "taskID": "204333"
     },
     {
-      "index" : 1,
+      "index": 1,
       "taskname": "English",
       "taskdescription": "Do english homework",
       "taskmidterm": "2021-10-10",
@@ -66,7 +68,7 @@ class _ScheduleManagement extends State<ScheduleManagement> {
       "taskID": "204333"
     },
     {
-      "index" : 1,
+      "index": 1,
       "taskname": "English",
       "taskdescription": "Do english homework",
       "taskmidterm": "2021-10-10",
@@ -80,7 +82,7 @@ class _ScheduleManagement extends State<ScheduleManagement> {
       "taskID": "204333"
     },
     {
-      "index" : 1,
+      "index": 1,
       "taskname": "English",
       "taskdescription": "Do english homework",
       "taskmidterm": "2021-10-10",
@@ -111,12 +113,15 @@ class _ScheduleManagement extends State<ScheduleManagement> {
           actions: [
             IconButton(
               onPressed: () {
-                 Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>const AddSchedule()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const AddSchedule()));
               },
-              icon:const Icon(Icons.add, color: Colors.black,),
+              icon: const Icon(
+                Icons.add,
+                color: Colors.black,
+              ),
             ),
           ],
           backgroundColor: Colors.white,
@@ -157,8 +162,10 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                                       taskname: subjectList[index]["taskname"],
                                       taskID: subjectList[index]["taskID"],
                                       taskRoom: subjectList[index]["taskroom"],
-                                      taskTimeStart: subjectList[index]["tasktimeStart"],
-                                      taskTimeEnd: subjectList[index]["tasktimeEnd"],
+                                      taskTimeStart: subjectList[index]
+                                          ["tasktimeStart"],
+                                      taskTimeEnd: subjectList[index]
+                                          ["tasktimeEnd"],
                                       taskDay: subjectList[index]["taskDay"],
                                       taskMid: subjectList[index]
                                           ["taskmidterm"],
@@ -184,8 +191,13 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                               text: TextSpan(
                                 children: [
                                   TextSpan(
-                                    text:
-                                        (subjectList[index]["tasktimeStart"]) + ' - ' + (subjectList[index]["tasktimeEnd"]) + ' ' + (subjectList[index]["taskDay"]) +"\n",
+                                    text: (subjectList[index]
+                                            ["tasktimeStart"]) +
+                                        ' - ' +
+                                        (subjectList[index]["tasktimeEnd"]) +
+                                        ' ' +
+                                        (subjectList[index]["taskDay"]) +
+                                        "\n",
                                     style: const TextStyle(
                                         fontSize: 12.0,
                                         color: Colors.black,
