@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class Editschedule extends StatefulWidget {
   const Editschedule({
@@ -137,8 +138,7 @@ class _Editschedule extends State<Editschedule> {
                           children: [
                             Expanded(
                               child: TextFormField(
-                                controller:
-                                    _startTimeController, // set the text editing controller
+                                controller: _startTimeController,
                                 decoration: InputDecoration(
                                   hintText: "${widget.taskTimeStart}" == ''
                                       ? 'Time'
@@ -146,13 +146,33 @@ class _Editschedule extends State<Editschedule> {
                                   suffixIcon: IconButton(
                                     icon: const Icon(Icons.access_time),
                                     onPressed: () async {
-                                      // Show time picker and update form field when user selects a time
                                       final TimeOfDay? pickedTime =
                                           await showTimePicker(
                                         context: context,
                                         initialTime: TimeOfDay.now(),
                                       );
                                       if (pickedTime != null) {
+                                        if (_endTimeController
+                                            .text.isNotEmpty) {
+                                          final endTime =
+                                              TimeOfDay.fromDateTime(
+                                                  DateFormat.jm().parse(
+                                                      _endTimeController.text));
+                                          if (pickedTime.hour > endTime.hour ||
+                                              (pickedTime.hour ==
+                                                      endTime.hour &&
+                                                  pickedTime.minute >
+                                                      endTime.minute)) {
+                                            // Show error message or do something else to indicate invalid selection
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(const SnackBar(
+                                              content: Text(
+                                                  'The start time cannot be later than the end time.'),
+                                              duration: Duration(seconds: 3),
+                                            ));
+                                            return;
+                                          }
+                                        }
                                         setState(() {
                                           _startTimeController.text =
                                               pickedTime.format(context);
@@ -169,8 +189,7 @@ class _Editschedule extends State<Editschedule> {
                             const Text("  -  "),
                             Expanded(
                               child: TextFormField(
-                                controller:
-                                    _endTimeController, // set the text editing controller
+                                controller: _endTimeController,
                                 decoration: InputDecoration(
                                   hintText: "${widget.taskTimeEnd}" == ''
                                       ? 'Time'
@@ -178,13 +197,35 @@ class _Editschedule extends State<Editschedule> {
                                   suffixIcon: IconButton(
                                     icon: const Icon(Icons.access_time),
                                     onPressed: () async {
-                                      // Show time picker and update form field when user selects a time
                                       final TimeOfDay? pickedTime =
                                           await showTimePicker(
                                         context: context,
                                         initialTime: TimeOfDay.now(),
                                       );
                                       if (pickedTime != null) {
+                                        if (_startTimeController
+                                            .text.isNotEmpty) {
+                                          final startTime =
+                                              TimeOfDay.fromDateTime(
+                                                  DateFormat.jm().parse(
+                                                      _startTimeController
+                                                          .text));
+                                          if (pickedTime.hour <
+                                                  startTime.hour ||
+                                              (pickedTime.hour ==
+                                                      startTime.hour &&
+                                                  pickedTime.minute <
+                                                      startTime.minute)) {
+                                            // Show error message or do something else to indicate invalid selection
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(const SnackBar(
+                                              content: Text(
+                                                  'The start time cannot be later than the end time.'),
+                                              duration: Duration(seconds: 3),
+                                            ));
+                                            return;
+                                          }
+                                        }
                                         setState(() {
                                           _endTimeController.text =
                                               pickedTime.format(context);
@@ -222,8 +263,7 @@ class _Editschedule extends State<Editschedule> {
                                   child: Text(
                                     day,
                                     style: const TextStyle(
-                                        color:
-                                            Color.fromARGB(255, 0, 0, 0)),
+                                        color: Color.fromARGB(255, 0, 0, 0)),
                                   ),
                                 );
                               }).toList(),
