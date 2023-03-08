@@ -33,15 +33,15 @@ class _TodolistState extends State<Todolist> {
   getdata() async {
     // Initialize Firebase
 
-    await Firebase.initializeApp();
+    // await Firebase.initializeApp();
 
-    final CollectionReference taskstdl =
-        FirebaseFirestore.instance.collection('Todolist');
-    final snapshot = await taskstdl.get();
-    setState(() {
-      tasks = snapshot.docs.map((e) => e.data()).toList();
-    });
-    print(tasks[0]['1']['taskstatus']);
+    // final CollectionReference taskstdl =
+    //     FirebaseFirestore.instance.collection('Todolist');
+    // final snapshot = await taskstdl.get();
+    // setState(() {
+    //   tasks = snapshot.docs.map((e) => e.data()).toList();
+    // });
+    // print(tasks[0]['1']['taskstatus']);
   }
 
   @override
