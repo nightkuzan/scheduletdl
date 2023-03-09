@@ -84,14 +84,6 @@ class _MenuState extends State<Menu> {
                   fontWeight: FontWeight.bold, color: Color(0xff6B4EFF)),
             ),
           ]),
-          leading: IconButton(
-            onPressed: () {
-              FirebaseAuth.instance.signOut();
-              Navigator.pop(context);
-            },
-            icon: const Icon(Icons.arrow_back_ios_new),
-            color: Colors.black,
-          ),
           backgroundColor: Colors.white,
         ),
         body: SingleChildScrollView(
