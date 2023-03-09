@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:scheduletdl/todolist/addtask.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:scheduletdl/todolist/edittask.dart';
 
 class Todolist extends StatefulWidget {
   const Todolist({super.key});
@@ -140,7 +141,24 @@ class _TodolistState extends State<Todolist> {
                               children: [
                                 IconButton(
                                   icon: const Icon(Icons.edit),
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => EditTask(
+                                                  taskname: tasks[index]
+                                                      ['taskname'],
+                                                  taskdescription: tasks[index]
+                                                      ['taskdescription'],
+                                                  taskdate: tasks[index]
+                                                      ['taskdate'],
+                                                  tasktime: tasks[index]
+                                                      ['tasktime'],
+                                                  taskpriority: tasks[index]
+                                                      ['taskpriority'],
+                                                  index: index,
+                                                )));
+                                  },
                                   iconSize: 30,
                                   color: Colors.blue,
                                 ),
