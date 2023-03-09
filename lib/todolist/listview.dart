@@ -90,167 +90,165 @@ class _TodolistState extends State<Todolist> {
                 ),
               ],
             ),
-            body: SingleChildScrollView(
-              child: ListView.builder(
-                // add top margin
-                padding: const EdgeInsets.only(top: 20),
-                itemCount: tasks.length,
-                itemBuilder: (context, index) {
-                  return Column(
-                    children: [
-                      Card(
-                        elevation: 5,
-                        child: Column(
-                          children: [
-                            ListTile(
-                              title: Text(tasks[index]['taskname']),
-                              subtitle: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Column(
-                                    children: [
-                                      Row(
-                                        children: [
-                                          const Text('Description: '),
-                                          Text(tasks[index]['taskdescription']),
-                                        ],
-                                      ),
-                                      Row(
-                                        children: [
-                                          const Text('Date: '),
-                                          Text(tasks[index]['taskdate']),
-                                        ],
-                                      ),
-                                      Row(
-                                        children: [
-                                          const Text('Time: '),
-                                          Text(tasks[index]['tasktime']),
-                                        ],
-                                      ),
-                                      Row(
-                                        children: [
-                                          const Text('Priority: '),
-                                          Text(tasks[index]['taskpriority']),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              trailing: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  IconButton(
-                                    icon: const Icon(Icons.edit),
-                                    onPressed: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => EditTask(
-                                                    taskname: tasks[index]
-                                                        ['taskname'],
-                                                    taskdescription: tasks[index]
-                                                        ['taskdescription'],
-                                                    taskdate: tasks[index]
-                                                        ['taskdate'],
-                                                    tasktime: tasks[index]
-                                                        ['tasktime'],
-                                                    taskpriority: tasks[index]
-                                                        ['taskpriority'],
-                                                    index: index,
-                                                  )));
-                                    },
-                                    iconSize: 30,
-                                    color: Colors.blue,
-                                  ),
-                                  IconButton(
-                                    icon: const Icon(Icons.delete),
-                                    onPressed: () {
-                                      // alert for confirmation
-                                      AlertDialog alert = AlertDialog(
-                                        title: const Text('Delete Task'),
-                                        content: const Text(
-                                            'Are you sure you want to delete this task?'),
-                                        actions: [
-                                          TextButton(
-                                            onPressed: () {
-                                              Navigator.pop(context);
-                                            },
-                                            child: const Text('Cancel'),
-                                          ),
-                                          TextButton(
-                                            onPressed: () {
-                                              setState(() {
-                                                tasks.removeAt(index);
-                                                FirebaseFirestore.instance
-                                                    .collection('users')
-                                                    .doc(user!.uid)
-                                                    .collection('tasks')
-                                                    .doc('task')
-                                                    .set({'tasks': tasks},
-                                                        SetOptions(merge: true));
-                                              });
-                                              Navigator.pop(context);
-                                              Fluttertoast.showToast(
-                                                  msg: 'Task Deleted',
-                                                  toastLength: Toast.LENGTH_SHORT,
-                                                  gravity: ToastGravity.BOTTOM,
-                                                  timeInSecForIosWeb: 1,
-                                                  backgroundColor: Colors.green,
-                                                  textColor: Colors.white,
-                                                  fontSize: 20.0);
-                                            },
-                                            child: const Text('Delete'),
-                                          ),
-                                        ],
-                                      );
-            
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return alert;
-                                        },
-                                      );
-                                      // show toast message for notification of deletion
-                                    },
-                                    iconSize: 30,
-                                    color: Colors.red,
-                                  ),
-                                ],
-                              ),
-                              leading: IconButton(
-                                icon: Icon(
-                                  tasks[index]["taskstatus"] == "Incomplete"
-                                      ? Icons.check_box_outline_blank
-                                      : Icons.check_box,
-                                  // add style to the icon
+            body: ListView.builder(
+              // add top margin
+              padding: const EdgeInsets.only(top: 20),
+              itemCount: tasks.length,
+              itemBuilder: (context, index) {
+                return Column(
+                  children: [
+                    Card(
+                      elevation: 5,
+                      child: Column(
+                        children: [
+                          ListTile(
+                            title: Text(tasks[index]['taskname']),
+                            subtitle: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        const Text('Description: '),
+                                        Text(tasks[index]['taskdescription']),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        const Text('Date: '),
+                                        Text(tasks[index]['taskdate']),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        const Text('Time: '),
+                                        Text(tasks[index]['tasktime']),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        const Text('Priority: '),
+                                        Text(tasks[index]['taskpriority']),
+                                      ],
+                                    ),
+                                  ],
                                 ),
-                                color: tasks[index]["taskstatus"] == "Incomplete"
-                                    ? Colors.black
-                                    : Colors.green,
-                                iconSize: 30,
-                                onPressed: () {
-                                  setState(() {
-                                    if (tasks[index]["taskstatus"] ==
-                                        "Incomplete") {
-                                      tasks[index]["taskstatus"] = "Complete";
-                                    } else {
-                                      tasks[index]["taskstatus"] = "Incomplete";
-                                    }
-                                  });
-                                },
-                              ),
+                              ],
                             ),
-                          ],
-                        ),
+                            trailing: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                IconButton(
+                                  icon: const Icon(Icons.edit),
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => EditTask(
+                                                  taskname: tasks[index]
+                                                      ['taskname'],
+                                                  taskdescription: tasks[index]
+                                                      ['taskdescription'],
+                                                  taskdate: tasks[index]
+                                                      ['taskdate'],
+                                                  tasktime: tasks[index]
+                                                      ['tasktime'],
+                                                  taskpriority: tasks[index]
+                                                      ['taskpriority'],
+                                                  index: index,
+                                                )));
+                                  },
+                                  iconSize: 30,
+                                  color: Colors.blue,
+                                ),
+                                IconButton(
+                                  icon: const Icon(Icons.delete),
+                                  onPressed: () {
+                                    // alert for confirmation
+                                    AlertDialog alert = AlertDialog(
+                                      title: const Text('Delete Task'),
+                                      content: const Text(
+                                          'Are you sure you want to delete this task?'),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: const Text('Cancel'),
+                                        ),
+                                        TextButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              tasks.removeAt(index);
+                                              FirebaseFirestore.instance
+                                                  .collection('users')
+                                                  .doc(user!.uid)
+                                                  .collection('tasks')
+                                                  .doc('task')
+                                                  .set({'tasks': tasks},
+                                                      SetOptions(merge: true));
+                                            });
+                                            Navigator.pop(context);
+                                            Fluttertoast.showToast(
+                                                msg: 'Task Deleted',
+                                                toastLength: Toast.LENGTH_SHORT,
+                                                gravity: ToastGravity.BOTTOM,
+                                                timeInSecForIosWeb: 1,
+                                                backgroundColor: Colors.green,
+                                                textColor: Colors.white,
+                                                fontSize: 20.0);
+                                          },
+                                          child: const Text('Delete'),
+                                        ),
+                                      ],
+                                    );
+            
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return alert;
+                                      },
+                                    );
+                                    // show toast message for notification of deletion
+                                  },
+                                  iconSize: 30,
+                                  color: Colors.red,
+                                ),
+                              ],
+                            ),
+                            leading: IconButton(
+                              icon: Icon(
+                                tasks[index]["taskstatus"] == "Incomplete"
+                                    ? Icons.check_box_outline_blank
+                                    : Icons.check_box,
+                                // add style to the icon
+                              ),
+                              color: tasks[index]["taskstatus"] == "Incomplete"
+                                  ? Colors.black
+                                  : Colors.green,
+                              iconSize: 30,
+                              onPressed: () {
+                                setState(() {
+                                  if (tasks[index]["taskstatus"] ==
+                                      "Incomplete") {
+                                    tasks[index]["taskstatus"] = "Complete";
+                                  } else {
+                                    tasks[index]["taskstatus"] = "Incomplete";
+                                  }
+                                });
+                              },
+                            ),
+                          ),
+                        ],
                       ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                    ],
-                  );
-                },
-              ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                  ],
+                );
+              },
             ),
           );
         }
