@@ -84,22 +84,22 @@ class _ExamList_ManagementState extends State<ExamList_Management> {
                   },
                   title: Text(tasks[index]["taskname"]),
                   subtitle: Text(tasks[index]["taskdescription"]),
-                  trailing: Wrap(
-                    children: [
-                      IconButton(
-                        icon: Icon(Icons.edit),
-                        onPressed: () {},
-                      ),
-                      IconButton(
-                        icon: Icon(Icons.delete),
-                        onPressed: () {
-                          setState(() {
-                            tasks.removeAt(index);
-                          });
-                        },
-                      ),
-                    ],
-                  ),
+                  // trailing: Wrap(
+                  //   children: [
+                  //     IconButton(
+                  //       icon: Icon(Icons.edit),
+                  //       onPressed: () {},
+                  //     ),
+                  //     IconButton(
+                  //       icon: Icon(Icons.delete),
+                  //       onPressed: () {
+                  //         setState(() {
+                  //           tasks.removeAt(index);
+                  //         });
+                  //       },
+                  //     ),
+                  //   ],
+                  // ),
                 ),
               );
             },
