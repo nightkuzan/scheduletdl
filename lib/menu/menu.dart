@@ -19,15 +19,45 @@ class _MenuState extends State<Menu> {
     // final Future<FirebaseApp> firebase = Firebase.initializeApp(
     //   options: DefaultFirebaseOptions.currentPlatform,
     // );
+
     User? user = FirebaseAuth.instance.currentUser;
 
-    // create document in collection 'users' for the current user
-    FirebaseFirestore.instance.collection('users').doc(user?.uid).set({
-      'email': user?.email,
-      'uid': user?.uid,
-    });
+    // checj user uid in firestore
+    final CollectionReference userstdl =
+        FirebaseFirestore.instance.collection('users');
+    final snapshot = await userstdl.get();
+    List users = snapshot.docs.map((e) => e.data()).toList();
+    bool noLogin = false;
+    for (int i = 0; i < users.length; i++) {
+      if (users[i]['uid'] == user?.uid) {
+        noLogin = true;
+        print('user is already in firestore');
+      }
+    }
 
-    print(user?.email);
+    if (noLogin == false) {
+      User? user = FirebaseAuth.instance.currentUser;
+
+      // create document in collection 'users' for the current user
+      FirebaseFirestore.instance.collection('users').doc(user?.uid).set({
+        'email': user?.email,
+        'uid': user?.uid,
+      });
+
+      // create collection
+      // FirebaseFirestore.instance
+      //     .collection('users')
+      //     .doc(user?.uid)
+      //     .collection('tasks')
+      //     .doc('todolist')
+      //     .set({
+      //   'task': 'task',
+      //   'date': 'date',
+      //   'time': 'time',
+      //   'priority': 'priority',
+      //   'status': 'status',
+      // });
+    }
   }
 
   @override
