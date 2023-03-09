@@ -26,72 +26,77 @@ class _ScheduleManagement extends State<ScheduleManagement> {
 
   List<dynamic> subjectList = [
     {
-      "index": 0,
       "taskname": "Math",
-      "taskdescription": "Do math homework",
-      "taskmidterm": "2021-10-10",
-      "taskfinal": "2021-12-12",
-      "tasktimeStart": "09:30",
-      "tasktimeEnd": "11:00",
-      "taskDay": "TuF",
-      "taskpriority": "High",
-      "taskstatus": "Incomplete",
+      "taskID": "204441",
       "taskroom": "CSB209",
-      "taskID": "204441"
+      "tasktimeStart": "9:30 AM",
+      "tasktimeEnd": "11:00 AM",
+      "taskDay": "TuF",
+      "taskmidterm": "2021-10-10",
+      "taskStartmidterm": "3.30 PM",
+      "taskEndmidterm": "6.30 PM",
+      "taskfinal": "2021-12-12",
+      "taskStartfinal": "3.30 PM",
+      "taskEndfinal": "4.30 PM",
+      "taskdescription": "Do math homework",
     },
     {
-      "index": 1,
       "taskname": "English",
       "taskdescription": "Do english homework",
       "taskmidterm": "2021-10-10",
+      "taskStartmidterm": "3.30 PM",
+      "taskEndmidterm": "6.30 PM",
       "taskfinal": "2021-12-12",
+      "taskStartfinal": "3.30 PM",
+      "taskEndfinal": "4.30 PM",
       "tasktimeStart": "12:30",
       "tasktimeEnd": "14:00",
       "taskDay": "MTh",
-      "taskpriority": "High",
-      "taskstatus": "Incomplete",
       "taskroom": "CSB210",
       "taskID": "204333"
     },
     {
-      "index": 1,
       "taskname": "English",
       "taskdescription": "Do english homework",
       "taskmidterm": "2021-10-10",
+      "taskStartmidterm": "3.30 PM",
+      "taskEndmidterm": "6.30 PM",
       "taskfinal": "2021-12-12",
+      "taskStartfinal": "3.30 PM",
+      "taskEndfinal": "4.30 PM",
       "tasktimeStart": "12:30",
       "tasktimeEnd": "14:00",
       "taskDay": "MTh",
-      "taskpriority": "High",
-      "taskstatus": "Incomplete",
       "taskroom": "CSB210",
       "taskID": "204333"
     },
     {
-      "index": 1,
       "taskname": "English",
       "taskdescription": "Do english homework",
       "taskmidterm": "2021-10-10",
+      "taskStartmidterm": "3.30 PM",
+      "taskEndmidterm": "6.30 PM",
       "taskfinal": "2021-12-12",
+      "taskStartfinal": "3.30 PM",
+      "taskEndfinal": "4.30 PM",
       "tasktimeStart": "12:30",
       "tasktimeEnd": "14:00",
       "taskDay": "MTh",
-      "taskpriority": "High",
-      "taskstatus": "Incomplete",
       "taskroom": "CSB210",
       "taskID": "204333"
     },
     {
-      "index": 1,
       "taskname": "English",
       "taskdescription": "Do english homework",
       "taskmidterm": "2021-10-10",
+      "taskStartmidterm": "3.30 PM",
+      "taskEndmidterm": "6.30 PM",
       "taskfinal": "2021-12-12",
+      "taskStartfinal": "3.30 PM",
+      "taskEndfinal": "4.30 PM",
       "tasktimeStart": "12:30",
       "tasktimeEnd": "14:00",
       "taskDay": "MTh",
-      "taskpriority": "High",
-      "taskstatus": "Incomplete",
       "taskroom": "CSB210",
       "taskID": "204333"
     },
@@ -171,6 +176,17 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                                           ["taskmidterm"],
                                       taskFinal: subjectList[index]
                                           ["taskfinal"],
+                                      taskStartmidterm: subjectList[index]
+                                          ["taskStartmidterm"],
+                                      taskEndmidterm: subjectList[index]
+                                          ["taskEndmidterm"],
+                                      taskStartfinal: subjectList[index]
+                                          ["taskStartfinal"],
+                                      taskEndfinal: subjectList[index]
+                                          ["taskEndfinal"],
+                                      taskdescription: subjectList[index]
+                                          ["taskdescription"],
+                                      
                                     )));
                       },
                       child: Card(
