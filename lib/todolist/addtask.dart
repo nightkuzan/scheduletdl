@@ -46,13 +46,20 @@ class _AddTaskState extends State<AddTask> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add Task'),
+        title: const Text('Schedule'),
       ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(12),
           child: Column(
             children: [
+              const Text(
+                "Add Task",
+                style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               Form(
                 key: _formKey,
                 child: Wrap(
@@ -63,7 +70,7 @@ class _AddTaskState extends State<AddTask> {
                       decoration: const InputDecoration(
                         hintText: 'Task Name',
                       ),
-                      validator: (String? value) {
+                      validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter some text';
                         }
@@ -96,28 +103,36 @@ class _AddTaskState extends State<AddTask> {
                         } else {}
                       },
                     ),
-                    TextFormField(
-                      controller: _tasktime,
-                      readOnly: true,
-                      decoration: InputDecoration(
-                        hintText: "Enter Time",
-                        suffixIcon: IconButton(
-                            icon: const Icon(Icons.access_time),
-                            onPressed: () async {
-                              TimeOfDay? pickedTime = await showTimePicker(
-                                context: context,
-                                initialTime: TimeOfDay.now(),
-                              );
-                              if (pickedTime != null) {
-                                setState(() {
-                                  _tasktime.text = pickedTime.format(context);
-                                });
-                              } else {}
-                            }),
-                        border: const OutlineInputBorder(
-                          borderSide: BorderSide(),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text("Task Time"),
+                        const SizedBox(height: 10),
+                        TextFormField(
+                          controller: _tasktime,
+                          readOnly: true,
+                          decoration: InputDecoration(
+                            hintText: "Enter Time",
+                            suffixIcon: IconButton(
+                                icon: const Icon(Icons.access_time),
+                                onPressed: () async {
+                                  TimeOfDay? pickedTime = await showTimePicker(
+                                    context: context,
+                                    initialTime: TimeOfDay.now(),
+                                  );
+                                  if (pickedTime != null) {
+                                    setState(() {
+                                      _tasktime.text =
+                                          pickedTime.format(context);
+                                    });
+                                  } else {}
+                                }),
+                            border: const OutlineInputBorder(
+                              borderSide: BorderSide(),
+                            ),
+                          ),
                         ),
-                      ),
+                      ],
                     ),
                     // dropdown
                     Column(
@@ -158,32 +173,38 @@ class _AddTaskState extends State<AddTask> {
                       ],
                     ),
                     // dropdown
-                    DropdownButtonFormField(
-                      value: _taskstatus.text,
-                      items: const [
-                        DropdownMenuItem(
-                          value: "Incomplete",
-                          child: Text("Incomplete"),
-                        ),
-                        DropdownMenuItem(
-                          value: "Complete",
-                          child: Text("Complete"),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text("Task Status"),
+                        DropdownButtonFormField(
+                          value: _taskstatus.text,
+                          items: const [
+                            DropdownMenuItem(
+                              value: "Incomplete",
+                              child: Text("Incomplete"),
+                            ),
+                            DropdownMenuItem(
+                              value: "Complete",
+                              child: Text("Complete"),
+                            ),
+                          ],
+                          onChanged: (value) {
+                            setState(() {
+                              _taskstatus.text = value.toString();
+                            });
+                          },
+                          decoration: const InputDecoration(
+                            hintText: 'Task Status',
+                          ),
+                          validator: (String? value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter some text';
+                            }
+                            return null;
+                          },
                         ),
                       ],
-                      onChanged: (value) {
-                        setState(() {
-                          _taskstatus.text = value.toString();
-                        });
-                      },
-                      decoration: const InputDecoration(
-                        hintText: 'Task Status',
-                      ),
-                      validator: (String? value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter some text';
-                        }
-                        return null;
-                      },
                     ),
                     TextFormField(
                       controller: _taskdescription,
@@ -200,41 +221,46 @@ class _AddTaskState extends State<AddTask> {
                   ],
                 ),
               ),
+              const SizedBox(
+                height: 20,
+              ),
               ElevatedButton(
                 onPressed: () {
-                  Map<String, dynamic> task = {
-                    'taskname': _taskname.text,
-                    'taskdate': _taskdate.text,
-                    'tasktime': _tasktime.text,
-                    'taskpriority': _taskpriority.text,
-                    'taskstatus': _taskstatus.text,
-                    'taskdescription': _taskdescription.text,
-                  };
-                  FirebaseFirestore.instance
-                      .collection('users')
-                      .doc(user?.uid)
-                      .collection('tasks')
-                      .doc('task')
-                      .set(
-                    {
-                      'tasks': FieldValue.arrayUnion([task])
-                    },
-                    SetOptions(merge: true),
-                  );
-                  // pop and return to previous page and refresh
-                  Navigator.pop(context);
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const Todolist()));
-                  Fluttertoast.showToast(
-                      msg: "Task Added",
-                      toastLength: Toast.LENGTH_SHORT,
-                      gravity: ToastGravity.BOTTOM,
-                      timeInSecForIosWeb: 1,
-                      backgroundColor: Colors.green,
-                      textColor: Colors.white,
-                      fontSize: 16.0);
+                  if (_formKey.currentState!.validate()) {
+                    Map<String, dynamic> task = {
+                      'taskname': _taskname.text,
+                      'taskdate': _taskdate.text,
+                      'tasktime': _tasktime.text,
+                      'taskpriority': _taskpriority.text,
+                      'taskstatus': _taskstatus.text,
+                      'taskdescription': _taskdescription.text,
+                    };
+                    FirebaseFirestore.instance
+                        .collection('users')
+                        .doc(user?.uid)
+                        .collection('tasks')
+                        .doc('task')
+                        .set(
+                      {
+                        'tasks': FieldValue.arrayUnion([task])
+                      },
+                      SetOptions(merge: true),
+                    );
+                    // pop and return to previous page and refresh
+                    Navigator.pop(context);
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const Todolist()));
+                    Fluttertoast.showToast(
+                        msg: "Task Added",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.BOTTOM,
+                        timeInSecForIosWeb: 1,
+                        backgroundColor: Colors.green,
+                        textColor: Colors.white,
+                        fontSize: 16.0);
+                  }
                 },
                 child: const Text('Add Task'),
               ),
