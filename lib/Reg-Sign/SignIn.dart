@@ -6,6 +6,8 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:scheduletdl/Reg-Sign/profile.dart';
 import 'package:scheduletdl/menu/menu.dart';
 
+import '../Management/edit_exam.dart';
+import '../Management/examDate_mng.dart';
 import '../firebase_options.dart';
 import 'Register.dart';
 
@@ -159,7 +161,22 @@ class _SignInState extends State<SignIn> {
                                       );
                                     },
                                     child: const Text(
-                                        "Go to Menu page for Testing")),
+                                        "Go to Menu page for testing")),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                ElevatedButton(
+                                    onPressed: () {
+                                      // go to page menu
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const EditExamDate()),
+                                      );
+                                    },
+                                    child: const Text(
+                                        "Go to Menu page for Testing Exam")),
                                 const SizedBox(
                                   height: 20,
                                 ),
