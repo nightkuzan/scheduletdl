@@ -13,6 +13,12 @@ class AddSchedule extends StatefulWidget {
 class _AddSchedule extends State<AddSchedule> {
   final TextEditingController _startTimeController = TextEditingController();
   final TextEditingController _endTimeController = TextEditingController();
+  final TextEditingController _startMidTimeController = TextEditingController();
+  final TextEditingController _endMidTimeController = TextEditingController();
+  final TextEditingController _startFinalTimeController = TextEditingController();
+  final TextEditingController _endFinalTimeController = TextEditingController();
+  final TextEditingController _examMiddate = TextEditingController();
+  final TextEditingController _examFidate = TextEditingController();
   late TextEditingController _textController;
   late TimeOfDay time;
 
@@ -83,7 +89,7 @@ class _AddSchedule extends State<AddSchedule> {
                       children: [
                         TextFormField(
                           decoration: const InputDecoration(
-                            hintText: 'Subject',
+                            labelText: 'Subject',
                             border:
                                 OutlineInputBorder(borderSide: BorderSide()),
                           ),
@@ -93,7 +99,7 @@ class _AddSchedule extends State<AddSchedule> {
                         ),
                         TextFormField(
                           decoration: const InputDecoration(
-                            hintText: 'Subject ID',
+                            labelText: 'Subject ID',
                             border:
                                 OutlineInputBorder(borderSide: BorderSide()),
                           ),
@@ -103,7 +109,7 @@ class _AddSchedule extends State<AddSchedule> {
                         ),
                         TextFormField(
                           decoration: const InputDecoration(
-                            hintText: 'Room',
+                            labelText: 'Room',
                             border:
                                 OutlineInputBorder(borderSide: BorderSide()),
                           ),
@@ -117,11 +123,14 @@ class _AddSchedule extends State<AddSchedule> {
                               child: TextFormField(
                                 readOnly: true,
                                 controller: _startTimeController,
-                                decoration: InputDecoration(
-                                  hintText: "Start Time",
-                                  suffixIcon: IconButton(
-                                    icon: const Icon(Icons.access_time),
-                                    onPressed: () async {
+                                decoration: const InputDecoration(
+                                  labelText: "Start Time",
+                                  suffixIcon: Icon(Icons.access_time),
+                                  border:  OutlineInputBorder(
+                                    borderSide: BorderSide(),
+                                  ),
+                                ),
+                                onTap: () async {
                                       final TimeOfDay? pickedTime =
                                           await showTimePicker(
                                         context: context,
@@ -155,11 +164,6 @@ class _AddSchedule extends State<AddSchedule> {
                                         });
                                       }
                                     },
-                                  ),
-                                  border: const OutlineInputBorder(
-                                    borderSide: BorderSide(),
-                                  ),
-                                ),
                               ),
                             ),
                             const Text("  -  "),
@@ -167,11 +171,14 @@ class _AddSchedule extends State<AddSchedule> {
                               child: TextFormField(
                                 readOnly: true,
                                 controller: _endTimeController,
-                                decoration: InputDecoration(
-                                  hintText: 'End time',
-                                  suffixIcon: IconButton(
-                                    icon: const Icon(Icons.access_time),
-                                    onPressed: () async {
+                                decoration: const InputDecoration(
+                                  labelText: 'End time',
+                                  suffixIcon: Icon(Icons.access_time),
+                                  border: OutlineInputBorder(
+                                    borderSide: BorderSide(),
+                                  ),
+                                ),
+                                onTap: () async {
                                       final TimeOfDay? pickedTime =
                                           await showTimePicker(
                                         context: context,
@@ -207,11 +214,6 @@ class _AddSchedule extends State<AddSchedule> {
                                         });
                                       }
                                     },
-                                  ),
-                                  border: const OutlineInputBorder(
-                                    borderSide: BorderSide(),
-                                  ),
-                                ),
                               ),
                             ),
                           ],
@@ -257,29 +259,269 @@ class _AddSchedule extends State<AddSchedule> {
                           height: 10,
                         ),
                         TextFormField(
-                          decoration: InputDecoration(
-                            hintText: 'Midterm Exam',
-                            suffixIcon: IconButton(
-                                onPressed: () {},
-                                icon:
-                                    const Icon(Icons.calendar_today_outlined)),
-                            border: const OutlineInputBorder(
-                                borderSide: BorderSide()),
-                          ),
+                        controller: _examMiddate,
+                        decoration: const InputDecoration(
+                            suffixIcon:
+                                Icon(Icons.calendar_today), 
+                            labelText: "Midterm date",
+                                border: OutlineInputBorder(
+                                borderSide: BorderSide()),),
+                        readOnly: true,
+                        onTap: () async {
+                          DateTime? pickedDate = await showDatePicker(
+                              context: context,
+                              initialDate: DateTime.now(),
+                              firstDate: DateTime.now(),
+                              lastDate: DateTime(2100));
+
+                          if (pickedDate != null) {
+                            String formattedDate =
+                                DateFormat('yyyy-MM-dd').format(pickedDate);
+                            setState(() {
+                              _examMiddate.text =
+                                  formattedDate; 
+                            });
+                          } else {}
+                        },
+                      ),
+                      const SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: TextFormField(
+                                readOnly: true,
+                                controller: _startMidTimeController,
+                                decoration: const InputDecoration(
+                                  labelText: "Start Time Midterm",
+                                  suffixIcon: Icon(Icons.access_time),
+                                  border:  OutlineInputBorder(
+                                    borderSide: BorderSide(),
+                                  ),
+                                ),
+                                onTap: () async {
+                                      final TimeOfDay? pickedTime =
+                                          await showTimePicker(
+                                        context: context,
+                                        initialTime: TimeOfDay.now(),
+                                      );
+                                      if (pickedTime != null) {
+                                        if (_endMidTimeController
+                                            .text.isNotEmpty) {
+                                          final endtimeMid =
+                                              TimeOfDay.fromDateTime(
+                                                  DateFormat.jm().parse(
+                                                      _endMidTimeController.text));
+                                          if (pickedTime.hour > endtimeMid.hour ||
+                                              (pickedTime.hour ==
+                                                      endtimeMid.hour &&
+                                                  pickedTime.minute >
+                                                      endtimeMid.minute)) {
+                                            // Show error message or do something else to indicate invalid selection
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(const SnackBar(
+                                              content: Text(
+                                                  'The start time cannot be later than the end time.'),
+                                              duration: Duration(seconds: 3),
+                                            ));
+                                            return;
+                                          }
+                                        }
+                                        setState(() {
+                                          _startMidTimeController.text =
+                                              pickedTime.format(context);
+                                        });
+                                      }
+                                    },
+                              ),
+                            ),
+                            const Text("  -  "),
+                            Expanded(
+                              child: TextFormField(
+                                readOnly: true,
+                                controller: _endMidTimeController,
+                                decoration: const InputDecoration(
+                                  labelText: 'End time Midterm',
+                                  suffixIcon: Icon(Icons.access_time),
+                                  border: OutlineInputBorder(
+                                    borderSide: BorderSide(),
+                                  ),
+                                ),
+                                onTap: () async {
+                                      final TimeOfDay? pickedTime =
+                                          await showTimePicker(
+                                        context: context,
+                                        initialTime: TimeOfDay.now(),
+                                      );
+                                      if (pickedTime != null) {
+                                        if (_startMidTimeController
+                                            .text.isNotEmpty) {
+                                          final startMidTime =
+                                              TimeOfDay.fromDateTime(
+                                                  DateFormat.jm().parse(
+                                                      _startMidTimeController
+                                                          .text));
+                                          if (pickedTime.hour <
+                                                  startMidTime.hour ||
+                                              (pickedTime.hour ==
+                                                      startMidTime.hour &&
+                                                  pickedTime.minute <
+                                                      startMidTime.minute)) {
+                                            // Show error message or do something else to indicate invalid selection
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(const SnackBar(
+                                              content: Text(
+                                                  'The start time cannot be later than the end time.'),
+                                              duration: Duration(seconds: 3),
+                                            ));
+                                            return;
+                                          }
+                                        }
+                                        setState(() {
+                                          _endMidTimeController.text =
+                                              pickedTime.format(context);
+                                        });
+                                      }
+                                    },
+                              ),
+                            ),
+                          ],
                         ),
                         const SizedBox(
                           height: 10,
                         ),
                         TextFormField(
-                          decoration: InputDecoration(
-                            hintText: 'Midterm Exam',
-                            suffixIcon: IconButton(
-                                onPressed: () {},
-                                icon:
-                                    const Icon(Icons.calendar_today_outlined)),
-                            border: const OutlineInputBorder(
-                                borderSide: BorderSide()),
-                          ),
+                        controller: _examFidate,
+                        decoration:const InputDecoration(
+                            suffixIcon:
+                               Icon(Icons.calendar_today), //icon of text field
+                            labelText: "Final date",
+                            border: OutlineInputBorder(
+                                borderSide: BorderSide()), //label text of field
+                            ),
+                        readOnly: true,
+                        onTap: () async {
+                          DateTime? pickedDate = await showDatePicker(
+                              context: context,
+                              initialDate: DateTime.now(),
+                              firstDate: DateTime.now(),
+                              //DateTime.now() - not to allow to choose before today.
+                              lastDate: DateTime(2100));
+
+                          if (pickedDate != null) {
+                            String formattedDate =
+                                DateFormat('yyyy-MM-dd').format(pickedDate);
+                            setState(() {
+                              _examFidate.text =
+                                  formattedDate; //set output date to TextField value.
+                            });
+                          } else {}
+                        },
+                      ),
+                      const SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: TextFormField(
+                                readOnly: true,
+                                controller: _startFinalTimeController,
+                                decoration: const InputDecoration(
+                                  labelText: "Start Time Final",
+                                  suffixIcon: Icon(Icons.access_time),
+                                  border:  OutlineInputBorder(
+                                    borderSide: BorderSide(),
+                                  ),
+                                ),
+                                onTap: () async {
+                                      final TimeOfDay? pickedTime =
+                                          await showTimePicker(
+                                        context: context,
+                                        initialTime: TimeOfDay.now(),
+                                      );
+                                      if (pickedTime != null) {
+                                        if (_endFinalTimeController
+                                            .text.isNotEmpty) {
+                                          final endtimeFinal =
+                                              TimeOfDay.fromDateTime(
+                                                  DateFormat.jm().parse(
+                                                      _endFinalTimeController.text));
+                                          if (pickedTime.hour > endtimeFinal.hour ||
+                                              (pickedTime.hour ==
+                                                      endtimeFinal.hour &&
+                                                  pickedTime.minute >
+                                                      endtimeFinal.minute)) {
+                                            // Show error message or do something else to indicate invalid selection
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(const SnackBar(
+                                              content: Text(
+                                                  'The start time cannot be later than the end time.'),
+                                              duration: Duration(seconds: 3),
+                                            ));
+                                            return;
+                                          }
+                                        }
+                                        setState(() {
+                                          _startFinalTimeController.text =
+                                              pickedTime.format(context);
+                                        });
+                                      }
+                                    },
+                              ),
+                            ),
+                            const Text("  -  "),
+                            Expanded(
+                              child: TextFormField(
+                                readOnly: true,
+                                controller: _endFinalTimeController,
+                                decoration: const InputDecoration(
+                                  labelText: 'End time Final',
+                                  suffixIcon: Icon(Icons.access_time),
+                                  border: OutlineInputBorder(
+                                    borderSide: BorderSide(),
+                                  ),
+                                ),
+                                onTap: () async {
+                                      final TimeOfDay? pickedTime =
+                                          await showTimePicker(
+                                        context: context,
+                                        initialTime: TimeOfDay.now(),
+                                      );
+                                      if (pickedTime != null) {
+                                        if (_startFinalTimeController
+                                            .text.isNotEmpty) {
+                                          final startFinalTime =
+                                              TimeOfDay.fromDateTime(
+                                                  DateFormat.jm().parse(
+                                                      _startFinalTimeController
+                                                          .text));
+                                          if (pickedTime.hour <
+                                                  startFinalTime.hour ||
+                                              (pickedTime.hour ==
+                                                      startFinalTime.hour &&
+                                                  pickedTime.minute <
+                                                      startFinalTime.minute)) {
+                                            // Show error message or do something else to indicate invalid selection
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(const SnackBar(
+                                              content: Text(
+                                                  'The start time cannot be later than the end time.'),
+                                              duration: Duration(seconds: 3),
+                                            ));
+                                            return;
+                                          }
+                                        }
+                                        setState(() {
+                                          _endFinalTimeController.text =
+                                              pickedTime.format(context);
+                                        });
+                                      }
+                                    },
+                              ),
+                            ),
+                          ],
                         ),
                         const SizedBox(
                           height: 10,
@@ -292,7 +534,7 @@ class _AddSchedule extends State<AddSchedule> {
                             keyboardType: TextInputType.multiline,
                             decoration: InputDecoration(
                               filled: true,
-                              hintText: 'Enter a description...',
+                              labelText: 'Enter a description...',
                             ),
                           ),
                         )
