@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:scheduletdl/todolist/addtask.dart';
 
 class Todolist extends StatefulWidget {
   const Todolist({super.key});
@@ -68,28 +69,26 @@ class _TodolistState extends State<Todolist> {
           return Scaffold(
             appBar: AppBar(
               title: const Text('Todo List'),
-              // actions: [
-              //   BackButton(
-              //     onPressed: () {
-              //       Navigator.pop(context);
-              //     },
-              //   ),
-              // ],
+              actions: [
+                IconButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const AddTask()));
+                  },
+                  icon: const Icon(Icons.add),
+                ),
+              ],
             ),
-            //tasks is flutter: [{0: {"taskstatus": "Incomplete", "tasktime": "10:00", "taskdate": "2021-10-10",       "taskname":  "English", "taskdescription": "Do english homework", "taskpriority": "High"}}]
             body: ListView.builder(
               itemCount: tasks.length,
               itemBuilder: (context, index) {
-                final task = tasks[index]
-                    [index.toString()]; // get the task data from the list
                 return Card(
                   child: ListTile(
-                    title: Text(
-                        task['taskname'] ?? "no data"), // display task name
-                    subtitle: Text(task['taskdescription'] ??
-                        "no data"), // display task description
-                    trailing: Text(
-                        task['taskdate'] ?? "no data"), // display task date
+                    title: Text(tasks[index]['taskname']),
+                    subtitle: Text(tasks[index]['taskdescription']),
+                    trailing: Text(tasks[index]['taskstatus']),
                   ),
                 );
               },
