@@ -115,6 +115,7 @@ class _AddSchedule extends State<AddSchedule> {
                           children: [
                             Expanded(
                               child: TextFormField(
+                                readOnly: true,
                                 controller: _startTimeController,
                                 decoration: InputDecoration(
                                   hintText: "Start Time",
@@ -164,6 +165,7 @@ class _AddSchedule extends State<AddSchedule> {
                             const Text("  -  "),
                             Expanded(
                               child: TextFormField(
+                                readOnly: true,
                                 controller: _endTimeController,
                                 decoration: InputDecoration(
                                   hintText: 'End time',

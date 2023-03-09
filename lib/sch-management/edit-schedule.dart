@@ -138,6 +138,7 @@ class _Editschedule extends State<Editschedule> {
                           children: [
                             Expanded(
                               child: TextFormField(
+                                readOnly: true,
                                 controller: _startTimeController,
                                 decoration: InputDecoration(
                                   hintText: "${widget.taskTimeStart}" == ''
@@ -189,6 +190,7 @@ class _Editschedule extends State<Editschedule> {
                             const Text("  -  "),
                             Expanded(
                               child: TextFormField(
+                                readOnly: true,
                                 controller: _endTimeController,
                                 decoration: InputDecoration(
                                   hintText: "${widget.taskTimeEnd}" == ''
