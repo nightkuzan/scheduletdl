@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:scheduletdl/Management/edit_exam.dart';
 
 class ExamList_Management extends StatefulWidget {
   const ExamList_Management({super.key});
@@ -74,6 +75,13 @@ class _ExamList_ManagementState extends State<ExamList_Management> {
             itemBuilder: (context, index) {
               return Card(
                 child: ListTile(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const EditExamDate()),
+                    );
+                  },
                   title: Text(tasks[index]["taskname"]),
                   subtitle: Text(tasks[index]["taskdescription"]),
                   trailing: Wrap(
