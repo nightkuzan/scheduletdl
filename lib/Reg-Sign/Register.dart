@@ -201,35 +201,6 @@ class _RegisterState extends State<Register> {
                                 const SizedBox(
                                   height: 20,
                                 ),
-                                ElevatedButton(
-                                    onPressed: () {
-                                      // go to page menu
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const ExamList_Management()),
-                                      );
-                                    },
-                                    child: const Text(
-                                        "Go to Exam listview page for Testing")),
-                                const SizedBox(
-                                  height: 20,
-                                ),
-                                const SizedBox(
-                                  height: 20,
-                                ),
-                                ElevatedButton(
-                                    onPressed: () {
-                                      // go to page menu
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => const Menu()),
-                                      );
-                                    },
-                                    child: const Text(
-                                        "Go to Menu page for Testing")),
                                 const SizedBox(
                                   height: 20,
                                 ),
