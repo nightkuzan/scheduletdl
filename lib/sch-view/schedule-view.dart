@@ -1,5 +1,8 @@
 import 'dart:math';
 import 'dart:ui';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:time_planner/time_planner.dart';
@@ -23,66 +26,87 @@ class MyCustomScrollBehavior extends MaterialScrollBehavior {
 }
 
 class _ScheduleViewState extends State<ScheduleView> {
+  User? user = FirebaseAuth.instance.currentUser;
   List<TimePlannerTask> tasks = [];
-  List<dynamic> plans = [
-    {
-      "index": 0,
-      "taskname": "Web application",
-      "taskdescription": "Do math homework",
-      "taskmidterm": "2021-10-10",
-      "taskfinal": "2021-12-12",
-      "tasktimeStart": "9:30 AM",
-      "tasktimeEnd": "11:00 AM",
-      "taskDay": "TuF",
-      "taskpriority": "High",
-      "taskstatus": "Incomplete",
-      "taskroom": "CSB209",
-      "taskID": "204333"
-    },
-    {
-      "index": 1,
-      "taskname": "Mobile App",
-      "taskdescription": "Do english homework",
-      "taskmidterm": "2021-10-10",
-      "taskfinal": "2021-12-12",
-      "tasktimeStart": "12:30 AM",
-      "tasktimeEnd": "2:00 PM",
-      "taskDay": "MTh",
-      "taskpriority": "High",
-      "taskstatus": "Incomplete",
-      "taskroom": "CSB210",
-      "taskID": "204311"
-    },
-    {
-      "index": 2,
-      "taskname": "Fund Programming",
-      "taskdescription": "Do english homework",
-      "taskmidterm": "2021-10-10",
-      "taskfinal": "2021-12-12",
-      "tasktimeStart": "8:00 AM",
-      "tasktimeEnd": "9:00 AM",
-      "taskDay": "Mon",
-      "taskpriority": "High",
-      "taskstatus": "Incomplete",
-      "taskroom": "CSB210",
-      "taskID": "204111"
-    },
-    {
-      "index": 3,
-      "taskname": "OOD",
-      "taskdescription": "Do english homework",
-      "taskmidterm": "2021-10-10",
-      "taskfinal": "2021-12-12",
-      "tasktimeStart": "12:30 AM",
-      "tasktimeEnd": "2:00 PM",
-      "taskDay": "Wed",
-      "taskpriority": "High",
-      "taskstatus": "Incomplete",
-      "taskroom": "CSB210",
-      "taskID": "204362"
-    },
-  ];
+  List<dynamic> subjectList = [];
+  final List testss = [];
 
+  getdata() async {
+    // Initialize Firebase
+
+    await Firebase.initializeApp();
+
+    final CollectionReference taskView = FirebaseFirestore.instance
+        .collection('users')
+        .doc(user!.uid)
+        .collection('subjectList');
+
+    final snapshot = await taskView.get();
+    setState(() {
+      subjectList = snapshot.docs.map((e) => e.data()).toList();
+      subjectList = subjectList[0]['subjectList'];
+    });
+    // print(subjectList);
+  }
+
+  // List<dynamic> subjectList1 = [
+  //   {
+  //     "index": 0,
+  //     "taskname": "Web application",
+  //     "taskdescription": "Do math homework",
+  //     "taskmidterm": "2021-10-10",
+  //     "taskfinal": "2021-12-12",
+  //     "tasktimeStart": "9:30 AM",
+  //     "tasktimeEnd": "11:00 AM",
+  //     "taskDay": "TuF",
+  //     "taskpriority": "High",
+  //     "taskstatus": "Incomplete",
+  //     "taskroom": "CSB209",
+  //     "taskID": "204333"
+  //   },
+  //   {
+  //     "index": 1,
+  //     "taskname": "Mobile App",
+  //     "taskdescription": "Do english homework",
+  //     "taskmidterm": "2021-10-10",
+  //     "taskfinal": "2021-12-12",
+  //     "tasktimeStart": "12:30 AM",
+  //     "tasktimeEnd": "2:00 PM",
+  //     "taskDay": "MTh",
+  //     "taskpriority": "High",
+  //     "taskstatus": "Incomplete",
+  //     "taskroom": "CSB210",
+  //     "taskID": "204311"
+  //   },
+  //   {
+  //     "index": 2,
+  //     "taskname": "Fund Programming",
+  //     "taskdescription": "Do english homework",
+  //     "taskmidterm": "2021-10-10",
+  //     "taskfinal": "2021-12-12",
+  //     "tasktimeStart": "8:00 AM",
+  //     "tasktimeEnd": "9:00 AM",
+  //     "taskDay": "Mon",
+  //     "taskpriority": "High",
+  //     "taskstatus": "Incomplete",
+  //     "taskroom": "CSB210",
+  //     "taskID": "204111"
+  //   },
+  //   {
+  //     "index": 3,
+  //     "taskname": "OOD",
+  //     "taskdescription": "Do english homework",
+  //     "taskmidterm": "2021-10-10",
+  //     "taskfinal": "2021-12-12",
+  //     "tasktimeStart": "12:30 AM",
+  //     "tasktimeEnd": "2:00 PM",
+  //     "taskDay": "Wed",
+  //     "taskpriority": "High",
+  //     "taskstatus": "Incomplete",
+  //     "taskroom": "CSB210",
+  //     "taskID": "204362"
+  //   },
+  // ];
   List<dynamic> startStudyHrs = [];
   List<dynamic> startMins = [];
   List<dynamic> durations = [];
@@ -108,11 +132,14 @@ class _ScheduleViewState extends State<ScheduleView> {
   @override
   void initState() {
     super.initState();
+    getdata();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.landscapeRight,
     ]);
   }
+
+  Future<FirebaseApp> firebase = Firebase.initializeApp();
 
   @override
   void didChangeDependencies() {
@@ -131,8 +158,7 @@ class _ScheduleViewState extends State<ScheduleView> {
       const Color.fromARGB(255, 255, 183, 211),
       const Color.fromARGB(255, 63, 61, 103),
     ];
-
-    for (var plan in plans) {
+    for (var plan in subjectList) {
       String timeStartString = plan["tasktimeStart"];
       String timeEndString = plan["tasktimeEnd"];
 
@@ -169,15 +195,15 @@ class _ScheduleViewState extends State<ScheduleView> {
           (endHour * 60 + endMinutes) - (startHour * 60 + startMinutes);
       durations.add(durationMinutes);
     }
-    for (int i = 0; i < plans.length; i++) {
-      if (plans[i]["taskDay"] == 'Mon' ||
-          plans[i]["taskDay"] == 'Tue' ||
-          plans[i]["taskDay"] == 'Wed' ||
-          plans[i]["taskDay"] == 'Thu' ||
-          plans[i]["taskDay"] == 'Fri' ||
-          plans[i]["taskDay"] == 'Sat' ||
-          plans[i]["taskDay"] == 'Sun') {
-        String taskDay = plans[i]["taskDay"];
+    for (int i = 0; i < subjectList.length; i++) {
+      if (subjectList[i]["taskDay"] == 'Mon' ||
+          subjectList[i]["taskDay"] == 'Tue' ||
+          subjectList[i]["taskDay"] == 'Wed' ||
+          subjectList[i]["taskDay"] == 'Thu' ||
+          subjectList[i]["taskDay"] == 'Fri' ||
+          subjectList[i]["taskDay"] == 'Sat' ||
+          subjectList[i]["taskDay"] == 'Sun') {
+        String taskDay = subjectList[i]["taskDay"];
         if (dayValue[0].containsKey(taskDay)) {
           int dayIndex = dayValue[0][taskDay];
           setState(() {
@@ -185,12 +211,12 @@ class _ScheduleViewState extends State<ScheduleView> {
               TimePlannerTask(
                 color: colors[Random().nextInt(colors.length)],
                 dateTime: TimePlannerDateTime(
-                    day: dayIndex, //วันไหน plans[i]["listday"]
+                    day: dayIndex, //วันไหน subjectList[i]["listday"]
                     hour: startStudyHrs[i]!, //เริ่มกี่โมง
                     minutes: startMins[i]!), //นาทีที่
                 minutesDuration:
-                    durations[i]!, //นาทีแต่ละวิชา plans[i]["studyTime"]
-                daysDuration: 1, //วันที่เรียน  plans[i]["dayTime"]
+                    durations[i]!, //นาทีแต่ละวิชา subjectList[i]["studyTime"]
+                daysDuration: 1, //วันที่เรียน  subjectList[i]["dayTime"]
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -200,7 +226,7 @@ class _ScheduleViewState extends State<ScheduleView> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          plans[i]["taskname"],
+                          subjectList[i]["taskname"],
                           style: const TextStyle(
                               color: Color.fromARGB(255, 255, 255, 255),
                               fontSize: 14),
@@ -209,7 +235,7 @@ class _ScheduleViewState extends State<ScheduleView> {
                           width: 10,
                         ),
                         Text(
-                          plans[i]["taskID"],
+                          subjectList[i]["taskID"],
                           style: const TextStyle(
                               color: Color.fromARGB(255, 255, 255, 255),
                               fontSize: 14),
@@ -217,7 +243,7 @@ class _ScheduleViewState extends State<ScheduleView> {
                       ],
                     ),
                     Text(
-                      plans[i]["taskroom"],
+                      subjectList[i]["taskroom"],
                       style: const TextStyle(
                           color: Color.fromARGB(255, 255, 255, 255),
                           fontSize: 14),
@@ -228,21 +254,23 @@ class _ScheduleViewState extends State<ScheduleView> {
             );
           });
         }
-      } else if (plans[i]["taskDay"] == 'MTh' || plans[i]["taskDay"] == 'TuF') {
-        if (plans[i]["taskDay"] == 'MTh' || plans[i]["taskDay"] == 'TuF') {
-          List<int>? twinDayValues = twinDay[plans[i]["taskDay"]];
+      } else if (subjectList[i]["taskDay"] == 'MTh' ||
+          subjectList[i]["taskDay"] == 'TuF') {
+        if (subjectList[i]["taskDay"] == 'MTh' ||
+            subjectList[i]["taskDay"] == 'TuF') {
+          List<int>? twinDayValues = twinDay[subjectList[i]["taskDay"]];
           for (int j = 0; j < twinDayValues!.length; j++) {
             setState(() {
               tasks.add(
                 TimePlannerTask(
                   color: colors[Random().nextInt(colors.length)],
                   dateTime: TimePlannerDateTime(
-                      day: twinDayValues[j], //วันไหน plans[i]["listday"]
+                      day: twinDayValues[j], //วันไหน subjectList[i]["listday"]
                       hour: startStudyHrs[i]!, //เริ่มกี่โมง
                       minutes: startMins[i]!), //นาทีที่
                   minutesDuration:
-                      durations[i]!, //นาทีแต่ละวิชา plans[i]["studyTime"]
-                  daysDuration: 1, //วันที่เรียน  plans[i]["dayTime"]
+                      durations[i]!, //นาทีแต่ละวิชา subjectList[i]["studyTime"]
+                  daysDuration: 1, //วันที่เรียน  subjectList[i]["dayTime"]
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -252,7 +280,7 @@ class _ScheduleViewState extends State<ScheduleView> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Text(
-                            plans[i]["taskname"],
+                            subjectList[i]["taskname"],
                             style: const TextStyle(
                                 color: Color.fromARGB(255, 255, 255, 255),
                                 fontSize: 14),
@@ -261,7 +289,7 @@ class _ScheduleViewState extends State<ScheduleView> {
                             width: 10,
                           ),
                           Text(
-                            plans[i]["taskID"],
+                            subjectList[i]["taskID"],
                             style: const TextStyle(
                                 color: Color.fromARGB(255, 255, 255, 255),
                                 fontSize: 14),
@@ -269,7 +297,7 @@ class _ScheduleViewState extends State<ScheduleView> {
                         ],
                       ),
                       Text(
-                        plans[i]["taskroom"],
+                        subjectList[i]["taskroom"],
                         style: const TextStyle(
                             color: Color.fromARGB(255, 255, 255, 255),
                             fontSize: 14),
@@ -287,73 +315,93 @@ class _ScheduleViewState extends State<ScheduleView> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      scrollBehavior: MyCustomScrollBehavior(),
-      home: Scaffold(
-        appBar: AppBar(
-            leading: IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: const Icon(Icons.arrow_back_ios_new),
-              color: Colors.black,
-            ),
-            backgroundColor: Colors.white,
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: const [
-                Text(
-                  "my",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold, color: Colors.black),
-                ),
-                Text(
-                  "Schedule",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold, color: Color(0xff6B4EFF)),
-                ),
-              ],
-            )),
-        body: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Center(
-            child: TimePlanner(
-              startHour: 6,
-              endHour: 18,
-              style: TimePlannerStyle(
-                // cellHeight: 60,
-                cellWidth: 190,
-                showScrollBar: true,
+    return FutureBuilder(
+        future: firebase,
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return const Scaffold(
+              body: Center(
+                child: Text('Error initializing Firebase'),
               ),
-              headers: const [
-                TimePlannerTitle(
-                  title: "Monday",
+            );
+          }
+          if (snapshot.connectionState == ConnectionState.done) {
+            final List testss = List.from(subjectList);
+            return MaterialApp(
+              scrollBehavior: MyCustomScrollBehavior(),
+              home: Scaffold(
+                appBar: AppBar(
+                    leading: IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: const Icon(Icons.arrow_back_ios_new),
+                      color: Colors.black,
+                    ),
+                    backgroundColor: Colors.white,
+                    title: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: const [
+                        Text(
+                          "my",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, color: Colors.black),
+                        ),
+                        Text(
+                          "Schedule",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xff6B4EFF)),
+                        ),
+                      ],
+                    )),
+                body: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Center(
+                    child: TimePlanner(
+                      startHour: 6,
+                      endHour: 18,
+                      style: TimePlannerStyle(
+                        // cellHeight: 60,
+                        cellWidth: 190,
+                        showScrollBar: true,
+                      ),
+                      headers: const [
+                        TimePlannerTitle(
+                          title: "Monday",
+                        ),
+                        TimePlannerTitle(
+                          title: "Tuesday",
+                        ),
+                        TimePlannerTitle(
+                          title: "Wednesday",
+                        ),
+                        TimePlannerTitle(
+                          title: "Thursday",
+                        ),
+                        TimePlannerTitle(
+                          title: "Friday",
+                        ),
+                        TimePlannerTitle(
+                          title: "Saturday",
+                        ),
+                        TimePlannerTitle(
+                          title: "Sunday",
+                        ),
+                      ],
+                      tasks: tasks,
+                    ),
+                  ),
                 ),
-                TimePlannerTitle(
-                  title: "Tuesday",
-                ),
-                TimePlannerTitle(
-                  title: "Wednesday",
-                ),
-                TimePlannerTitle(
-                  title: "Thursday",
-                ),
-                TimePlannerTitle(
-                  title: "Friday",
-                ),
-                TimePlannerTitle(
-                  title: "Saturday",
-                ),
-                TimePlannerTitle(
-                  title: "Sunday",
-                ),
-              ],
-              tasks: tasks,
+              ),
+            );
+          }
+          return const Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(),
             ),
-          ),
-        ),
-      ),
-    );
+          );
+        });
   }
 
   @override
