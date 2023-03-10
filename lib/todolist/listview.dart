@@ -14,24 +14,6 @@ class Todolist extends StatefulWidget {
 }
 
 class _TodolistState extends State<Todolist> {
-  // List<dynamic> tasks = [
-  //   {
-  //     "taskname": "Math",
-  //     "taskdescription": "Do math homework",
-  //     "taskdate": "2021-10-10",
-  //     "tasktime": "10:00",
-  //     "taskpriority": "High",
-  //     "taskstatus": "Incomplete"
-  //   },
-  //   {
-  //     "taskname": "English",
-  //     "taskdescription": "Do english homework",
-  //     "taskdate": "2021-10-10",
-  //     "tasktime": "10:00",
-  //     "taskpriority": "High",
-  //     "taskstatus": "Incomplete"
-  //   }
-  // ];
   User? user = FirebaseAuth.instance.currentUser;
   List tasks = [];
 
@@ -50,8 +32,8 @@ class _TodolistState extends State<Todolist> {
       tasks = snapshot.docs.map((e) => e.data()).toList();
       tasks = tasks[0]['tasks'];
     });
-    print(tasks);
-      // [{tasks: [{taskstatus: 12, taskdescription: 12, tasktime: 3:02 PM, taskname: 12, taskdate: 2023-03-09, taskpriority: 12}, {taskstatus: sd, taskdescription: asd, tasktime: 3:03 PM, taskname: ad, taskdate: 2023-03-09, taskpriority: sd}]}]
+    // print(tasks);
+    // [{tasks: [{taskstatus: 12, taskdescription: 12, tasktime: 3:02 PM, taskname: 12, taskdate: 2023-03-09, taskpriority: 12}, {taskstatus: sd, taskdescription: asd, tasktime: 3:03 PM, taskname: ad, taskdate: 2023-03-09, taskpriority: sd}]}]
   }
 
   @override
@@ -156,6 +138,8 @@ class _TodolistState extends State<Todolist> {
                                                       ['tasktime'],
                                                   taskpriority: tasks[index]
                                                       ['taskpriority'],
+                                                  taskstatus: tasks[index]
+                                                      ['taskstatus'],
                                                   index: index,
                                                 )));
                                   },
@@ -203,7 +187,7 @@ class _TodolistState extends State<Todolist> {
                                         ),
                                       ],
                                     );
-            
+
                                     showDialog(
                                       context: context,
                                       builder: (BuildContext context) {
