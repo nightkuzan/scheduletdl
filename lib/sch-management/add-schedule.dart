@@ -1,5 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
+import 'package:scheduletdl/sch-management/schedule-management.dart';
 
 class AddSchedule extends StatefulWidget {
   const AddSchedule({
@@ -11,35 +15,45 @@ class AddSchedule extends StatefulWidget {
 }
 
 class _AddSchedule extends State<AddSchedule> {
+  User? user = FirebaseAuth.instance.currentUser;
+
+  final TextEditingController _subjectName = TextEditingController();
+  final TextEditingController _subjectID = TextEditingController();
+  final TextEditingController _room = TextEditingController();
   final TextEditingController _startTimeController = TextEditingController();
   final TextEditingController _endTimeController = TextEditingController();
+  final TextEditingController _studyDay = TextEditingController();
   final TextEditingController _startMidTimeController = TextEditingController();
   final TextEditingController _endMidTimeController = TextEditingController();
   final TextEditingController _startFinalTimeController = TextEditingController();
   final TextEditingController _endFinalTimeController = TextEditingController();
   final TextEditingController _examMiddate = TextEditingController();
   final TextEditingController _examFidate = TextEditingController();
+  final TextEditingController _subjectDescription = TextEditingController();
   late TextEditingController _textController;
   late TimeOfDay time;
 
-  List<String> daysOfWeek = [
-    'Select a day',
-    'Mon',
-    'Tue',
-    'Wed',
-    'Thu',
-    'Fri',
-    'Sat',
-    'Sun',
-    'MTh',
-    'TuF',
-  ];
-  String selectedDay = 'Select a day';
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  // List<String> daysOfWeek = [
+  //   'Mon',
+  //   'Tue',
+  //   'Wed',
+  //   'Thu',
+  //   'Fri',
+  //   'Sat',
+  //   'Sun',
+  //   'MTh',
+  //   'TuF',
+  // ];
+
+  // String selectedDay = 'Mon';
 
   @override
   void initState() {
     super.initState();
     _textController = TextEditingController(text: 'Select Time');
+    _studyDay.text = "Mon";
   }
 
   @override
@@ -85,34 +99,56 @@ class _AddSchedule extends State<AddSchedule> {
                     height: 30,
                   ),
                   Form(
+                    key: _formKey,
                     child: Column(
                       children: [
                         TextFormField(
+                          controller: _subjectName,
                           decoration: const InputDecoration(
                             labelText: 'Subject',
                             border:
                                 OutlineInputBorder(borderSide: BorderSide()),
                           ),
+                          validator: (String? value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter some text';
+                        }
+                        return null;
+                      },
                         ),
                         const SizedBox(
                           height: 10,
                         ),
                         TextFormField(
+                          controller: _subjectID,
                           decoration: const InputDecoration(
                             labelText: 'Subject ID',
                             border:
                                 OutlineInputBorder(borderSide: BorderSide()),
                           ),
+                          validator: (String? value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter some text';
+                        }
+                        return null;
+                      },
                         ),
                         const SizedBox(
                           height: 10,
                         ),
                         TextFormField(
+                          controller: _room,
                           decoration: const InputDecoration(
                             labelText: 'Room',
                             border:
                                 OutlineInputBorder(borderSide: BorderSide()),
                           ),
+                          validator: (String? value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter some text';
+                        }
+                        return null;
+                      },
                         ),
                         const SizedBox(
                           height: 10,
@@ -230,30 +266,69 @@ class _AddSchedule extends State<AddSchedule> {
                             ),
                             borderRadius: BorderRadius.circular(4),
                           ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            child: DropdownButton<String>(
-                              value: selectedDay,
-                              items: daysOfWeek.map((String day) {
-                                return DropdownMenuItem<String>(
-                                  value: day,
-                                  child: Text(
-                                    day,
-                                    style: const TextStyle(
-                                        color: Color.fromARGB(255, 0, 0, 0)),
-                                  ),
-                                );
-                              }).toList(),
-                              onChanged: (String? newValue) {
-                                setState(() {
-                                  selectedDay = newValue!;
-                                });
-                              },
-                              isExpanded: true,
-                              underline: const SizedBox(),
-                              hint: const Text('Select a day'),
+                          child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10),
+                          child: DropdownButtonFormField(
+                            value: _studyDay.text,
+                            items: const [
+                              DropdownMenuItem(
+                                value: "Mon",
+                                child: Text("Mon"),
+                              ),
+                              DropdownMenuItem(
+                                value: "Tue",
+                                child: Text("Tue"),
+                              ),
+                              DropdownMenuItem(
+                                value: "Wed",
+                                child: Text("Wed"),
+                              ),
+                              DropdownMenuItem(
+                                value: "Thu",
+                                child: Text("Thu"),
+                              ),
+                              DropdownMenuItem(
+                                value: "Fri",
+                                child: Text("Fri"),
+                              ),
+                              DropdownMenuItem(
+                                value: "Sat",
+                                child: Text("Sat"),
+                              ),
+                              DropdownMenuItem(
+                                value: "Sun",
+                                child: Text("Sun"),
+                              ),
+                              DropdownMenuItem(
+                                value: "MTh",
+                                child: Text("MTh"),
+                              ),
+                              DropdownMenuItem(
+                                value: "TuF",
+                                child: Text("TuF"),
+                              ),
+                            ],
+                            onChanged: (value) {
+                              setState(() {
+                                _studyDay.text = value.toString();
+                              });
+                            },
+                            decoration: const InputDecoration(
+                              hintText: 'Task Priority',
                             ),
+                            validator: (String? value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter some text';
+                              }
+                              return null;
+                            },
                           ),
+                        ),
+                      ],
+                    ),
                         ),
                         const SizedBox(
                           height: 10,
@@ -526,18 +601,20 @@ class _AddSchedule extends State<AddSchedule> {
                         const SizedBox(
                           height: 10,
                         ),
-                        const SizedBox(
-                          height: 120,
-                          child: TextField(
-                            maxLines: null,
-                            expands: true,
-                            keyboardType: TextInputType.multiline,
-                            decoration: InputDecoration(
-                              filled: true,
-                              labelText: 'Enter a description...',
-                            ),
-                          ),
-                        )
+                        TextFormField(
+                      controller: _subjectDescription,
+                      decoration: const InputDecoration(
+                        hintText: 'Enter some description. . .',
+                        border:
+                                OutlineInputBorder(borderSide: BorderSide()),
+                      ),
+                      validator: (String? value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter some text';
+                        }
+                        return null;
+                      },
+                    ),
                       ],
                     ),
                   ),
@@ -550,7 +627,51 @@ class _AddSchedule extends State<AddSchedule> {
                       Padding(
                         padding: const EdgeInsets.only(bottom: 20),
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                    Map<String, dynamic> subjectTask = {
+                      "taskname": _subjectName.text,
+                      "taskID": _subjectID.text,
+                      "taskroom": _room.text,
+                      "tasktimeStart": _startTimeController.text,
+                      "tasktimeEnd": _endTimeController.text,
+                      "taskDay": _studyDay.text,
+                      "taskmidterm": _examMiddate.text,
+                      "taskStartmidterm": _startMidTimeController.text,
+                      "taskEndmidterm": _endMidTimeController.text,
+                      "taskfinal": _examFidate.text,
+                      "taskStartfinal": _startFinalTimeController.text,
+                      "taskEndfinal": _endFinalTimeController.text,
+                      "taskdescription": _subjectDescription.text,
+                      
+                    };
+                    FirebaseFirestore.instance
+                        .collection('users')
+                        .doc(user?.uid)
+                        .collection('subjectList')
+                        .doc('subjectTask')
+                        .set(
+                      {
+                        'subjectList': FieldValue.arrayUnion([subjectTask])
+                      },
+                      SetOptions(merge: true),
+                    );
+                    // pop and return to previous page and refresh
+                    Navigator.pop(context);
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ScheduleManagement()));
+                    Fluttertoast.showToast(
+                        msg: "Task Added",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.BOTTOM,
+                        timeInSecForIosWeb: 1,
+                        backgroundColor: Colors.green,
+                        textColor: Colors.white,
+                        fontSize: 16.0);
+                  }
+                          },
                           style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xff177C06),
                               shape: RoundedRectangleBorder(
