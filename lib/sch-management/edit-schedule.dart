@@ -42,28 +42,28 @@ class Editschedule extends StatefulWidget {
 class _Editschedule extends State<Editschedule> {
   final TextEditingController _startTimeController = TextEditingController();
   final TextEditingController _endTimeController = TextEditingController();
+  final TextEditingController _studyDay = TextEditingController();
   final TextEditingController _examMiddate = TextEditingController();
   final TextEditingController _examFidate = TextEditingController();
   final TextEditingController _startMidTimeController = TextEditingController();
   final TextEditingController _endMidTimeController = TextEditingController();
-  final TextEditingController _startFinalTimeController =
-      TextEditingController();
+  final TextEditingController _startFinalTimeController = TextEditingController();
   final TextEditingController _endFinalTimeController = TextEditingController();
 
-  List<String> daysOfWeek = [
-    'Select a day',
-    'Mon',
-    'Tue',
-    'Wed',
-    'Thu',
-    'Fri',
-    'Sat',
-    'Sun',
-    'MTh',
-    'TuF',
-  ];
+  // List<String> daysOfWeek = [
+  //   'Select a day',
+  //   'Mon',
+  //   'Tue',
+  //   'Wed',
+  //   'Thu',
+  //   'Fri',
+  //   'Sat',
+  //   'Sun',
+  //   'MTh',
+  //   'TuF',
+  // ];
 
-  late String selectedDay = widget.taskDay;
+  // late String selectedDay = widget.taskDay;
 
   late TextEditingController _textController;
 
@@ -71,6 +71,7 @@ class _Editschedule extends State<Editschedule> {
   void initState() {
     super.initState();
     _textController = TextEditingController(text: widget.taskname);
+    _studyDay.text = widget.taskDay;
   }
 
   @override
@@ -268,30 +269,69 @@ class _Editschedule extends State<Editschedule> {
                             ),
                             borderRadius: BorderRadius.circular(4),
                           ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            child: DropdownButton<String>(
-                              value: selectedDay,
-                              items: daysOfWeek.map((String day) {
-                                return DropdownMenuItem<String>(
-                                  value: day,
-                                  child: Text(
-                                    day,
-                                    style: const TextStyle(
-                                        color: Color.fromARGB(255, 0, 0, 0)),
-                                  ),
-                                );
-                              }).toList(),
-                              onChanged: (String? newValue) {
-                                setState(() {
-                                  selectedDay = newValue!;
-                                });
-                              },
-                              isExpanded: true,
-                              underline: const SizedBox(),
-                              hint: Text("${widget.taskdescription}"),
+                          child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10),
+                          child: DropdownButtonFormField(
+                            value: _studyDay.text,
+                            items: const [
+                              DropdownMenuItem(
+                                value: "Mon",
+                                child: Text("Mon"),
+                              ),
+                              DropdownMenuItem(
+                                value: "Tue",
+                                child: Text("Tue"),
+                              ),
+                              DropdownMenuItem(
+                                value: "Wed",
+                                child: Text("Wed"),
+                              ),
+                              DropdownMenuItem(
+                                value: "Thu",
+                                child: Text("Thu"),
+                              ),
+                              DropdownMenuItem(
+                                value: "Fri",
+                                child: Text("Fri"),
+                              ),
+                              DropdownMenuItem(
+                                value: "Sat",
+                                child: Text("Sat"),
+                              ),
+                              DropdownMenuItem(
+                                value: "Sun",
+                                child: Text("Sun"),
+                              ),
+                              DropdownMenuItem(
+                                value: "MTh",
+                                child: Text("MTh"),
+                              ),
+                              DropdownMenuItem(
+                                value: "TuF",
+                                child: Text("TuF"),
+                              ),
+                            ],
+                            onChanged: (value) {
+                              setState(() {
+                                _studyDay.text = value.toString();
+                              });
+                            },
+                            decoration: const InputDecoration(
+                              hintText: 'Task Priority',
                             ),
+                            validator: (String? value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter some text';
+                              }
+                              return null;
+                            },
                           ),
+                        ),
+                      ],
+                    ),
                         ),
                         const SizedBox(
                           height: 10,
@@ -573,21 +613,19 @@ class _Editschedule extends State<Editschedule> {
                         const SizedBox(
                           height: 10,
                         ),
-                        SizedBox(
-                          height: 120,
-                          child: TextField(
-                            maxLines: null,
-                            expands: true,
-                            keyboardType: TextInputType.multiline,
-                            decoration: InputDecoration(
-                              filled: true,
-                              labelText: "${widget.taskdescription}" == ''
-                                  ? 'Enter a description . . .'
-                                  : "${widget.taskdescription}",
-                              hintText: "Enter new description . . .",
-                            ),
-                          ),
-                        )
+                        TextFormField(
+                      decoration: const InputDecoration(
+                        hintText: 'Enter some description. . .',
+                        border:
+                                OutlineInputBorder(borderSide: BorderSide()),
+                      ),
+                      validator: (String? value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter some text';
+                        }
+                        return null;
+                      },
+                    ),
                       ],
                     ),
                   ),
