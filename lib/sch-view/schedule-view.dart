@@ -131,22 +131,6 @@ class _ScheduleViewState extends State<ScheduleView> {
       const Color.fromARGB(255, 255, 183, 211),
       const Color.fromARGB(255, 63, 61, 103),
     ];
-    // for (var plan in plans) {
-    //   String timeString = plan["tasktimeStart"];
-    //   DateTime time = DateFormat.jm().parse(timeString);
-    //   String formattedTime = DateFormat('HH.mm').format(time);
-    //   String start = formattedTime.substring(0, 2);
-    //   String minutes = formattedTime.substring(3);
-    //   var startTime = DateTime.parse("2022-03-07 ${plan['tasktimeStart']}:00");
-    //   var endTime = DateTime.parse("2022-03-07 ${plan['tasktimeEnd']}:00");
-    //   var duration = endTime.difference(startTime);
-    //   var durationInMinutes = duration.inMinutes;
-    //   int startStudyHr = int.parse(start);
-    //   int startMin = int.parse(minutes);
-    //   startStudyHrs.add(startStudyHr);
-    //   startMins.add(startMin);
-    //   durations.add(durationInMinutes);
-    // }
 
     for (var plan in plans) {
       String timeStartString = plan["tasktimeStart"];
