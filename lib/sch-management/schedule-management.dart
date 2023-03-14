@@ -19,15 +19,18 @@ class ScheduleManagement extends StatefulWidget {
 class _ScheduleManagement extends State<ScheduleManagement> {
   User? user = FirebaseAuth.instance.currentUser;
 
-  List<Color?> colors = [
-    Colors.purple,
-    Colors.blue,
-    Colors.green,
-    Colors.orange,
-    const Color.fromARGB(255, 246, 43, 43),
-    const Color.fromARGB(255, 54, 228, 191),
-    const Color.fromARGB(255, 255, 183, 211),
-  ];
+  // List<Color?> colors = [
+  //   const Color(0xffF198AF),
+  //   const Color.fromARGB(255, 255, 198, 201),
+  //   // const Color(0xFFEBB2D6),
+  //   // const Color(0xFF9F81CD),
+  //   // const Color(0xFF766DC1),
+  //   // Colors.green,
+  //   // Colors.orange,
+  //   // const Color.fromARGB(255, 246, 43, 43),
+  //   // const Color.fromARGB(255, 54, 228, 191),
+  //   // const Color.fromARGB(255, 255, 183, 211),
+  // ];
 
   List subjectList = [];
 
@@ -163,7 +166,8 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                                             )));
                               },
                               child: Card(
-                                color: colors[Random().nextInt(colors.length)],
+                                // color: colors[Random().nextInt(colors.length)],
+                                color: index % 2 == 0 ? const Color(0xffF198AF) : const Color.fromARGB(255, 255, 198, 201),
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: ListTile(
