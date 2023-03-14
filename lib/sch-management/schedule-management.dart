@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:scheduletdl/sch-management/edit-schedule.dart';
 
 import 'add-schedule.dart';
@@ -47,83 +48,6 @@ class _ScheduleManagement extends State<ScheduleManagement> {
     });
     // print(subjectList);
   }
-  // List<dynamic> subjectList = [
-  //   {
-  //     "taskname": "Math",
-  //     "taskID": "204441",
-  //     "taskroom": "CSB209",
-  //     "tasktimeStart": "9:30 AM",
-  //     "tasktimeEnd": "11:00 AM",
-  //     "taskDay": "TuF",
-  //     "taskmidterm": "2021-10-10",
-  //     "taskStartmidterm": "3.30 PM",
-  //     "taskEndmidterm": "6.30 PM",
-  //     "taskfinal": "2021-12-12",
-  //     "taskStartfinal": "3.30 PM",
-  //     "taskEndfinal": "4.30 PM",
-  //     "taskdescription": "Do math homework",
-  //   },
-  //   {
-  //     "taskname": "English",
-  //     "taskdescription": "Do english homework",
-  //     "taskmidterm": "2021-10-10",
-  //     "taskStartmidterm": "3.30 PM",
-  //     "taskEndmidterm": "6.30 PM",
-  //     "taskfinal": "2021-12-12",
-  //     "taskStartfinal": "3.30 PM",
-  //     "taskEndfinal": "4.30 PM",
-  //     "tasktimeStart": "12:30",
-  //     "tasktimeEnd": "14:00",
-  //     "taskDay": "MTh",
-  //     "taskroom": "CSB210",
-  //     "taskID": "204333"
-  //   },
-  //   {
-  //     "taskname": "English",
-  //     "taskdescription": "Do english homework",
-  //     "taskmidterm": "2021-10-10",
-  //     "taskStartmidterm": "3.30 PM",
-  //     "taskEndmidterm": "6.30 PM",
-  //     "taskfinal": "2021-12-12",
-  //     "taskStartfinal": "3.30 PM",
-  //     "taskEndfinal": "4.30 PM",
-  //     "tasktimeStart": "12:30",
-  //     "tasktimeEnd": "14:00",
-  //     "taskDay": "MTh",
-  //     "taskroom": "CSB210",
-  //     "taskID": "204333"
-  //   },
-  //   {
-  //     "taskname": "English",
-  //     "taskdescription": "Do english homework",
-  //     "taskmidterm": "2021-10-10",
-  //     "taskStartmidterm": "3.30 PM",
-  //     "taskEndmidterm": "6.30 PM",
-  //     "taskfinal": "2021-12-12",
-  //     "taskStartfinal": "3.30 PM",
-  //     "taskEndfinal": "4.30 PM",
-  //     "tasktimeStart": "12:30",
-  //     "tasktimeEnd": "14:00",
-  //     "taskDay": "MTh",
-  //     "taskroom": "CSB210",
-  //     "taskID": "204333"
-  //   },
-  //   {
-  //     "taskname": "English",
-  //     "taskdescription": "Do english homework",
-  //     "taskmidterm": "2021-10-10",
-  //     "taskStartmidterm": "3.30 PM",
-  //     "taskEndmidterm": "6.30 PM",
-  //     "taskfinal": "2021-12-12",
-  //     "taskStartfinal": "3.30 PM",
-  //     "taskEndfinal": "4.30 PM",
-  //     "tasktimeStart": "12:30",
-  //     "tasktimeEnd": "14:00",
-  //     "taskDay": "MTh",
-  //     "taskroom": "CSB210",
-  //     "taskID": "204333"
-  //   },
-  // ];
 
   late int index;
 
@@ -206,6 +130,7 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => Editschedule(
+                                          index:index,
                                               subjectList: subjectList,
                                               taskname: subjectList[index]
                                                   ["taskname"],
@@ -279,6 +204,57 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                                           ),
                                         ],
                                       ),
+                                    ),
+                                    trailing: IconButton(
+                                      icon: const Icon(Icons.delete),
+                                      onPressed: () {
+                                  // alert for confirmation
+                                  AlertDialog alert = AlertDialog(
+                                    title: const Text('Delete Subject'),
+                                    content: const Text(
+                                        'Are you sure you want to delete this Subject?'),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: const Text('Cancel'),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            subjectList.removeAt(index);
+                                            FirebaseFirestore.instance
+                                                .collection('users')
+                                                .doc(user!.uid)
+                                                .collection('subjectList')
+                                                .doc('subjectTask')
+                                                .set({'subjectList': subjectList},
+                                                      SetOptions(merge: true));
+                                            });
+                                          Navigator.pop(context);
+                                          Fluttertoast.showToast(
+                                              msg: 'Subject Deleted',
+                                              toastLength: Toast.LENGTH_SHORT,
+                                              gravity: ToastGravity.BOTTOM,
+                                              timeInSecForIosWeb: 1,
+                                              backgroundColor: Colors.green,
+                                              textColor: Colors.white,
+                                              fontSize: 20.0);
+                                        },
+                                        child: const Text('Delete'),
+                                      ),
+                                    ],
+                                  );
+
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return alert;
+                                    },
+                                  );
+                                  // show toast message for notification of deletion
+                                },
                                     ),
                                   ),
                                 ),
