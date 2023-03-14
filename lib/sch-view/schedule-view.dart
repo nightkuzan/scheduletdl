@@ -29,7 +29,7 @@ class _ScheduleViewState extends State<ScheduleView> {
   User? user = FirebaseAuth.instance.currentUser;
   List<TimePlannerTask> tasks = [];
   List<dynamic> subjectList = [];
-  final List testss = [];
+  // List<dynamic> copySubjectList = [];
 
   getdata() async {
     // Initialize Firebase
@@ -45,68 +45,12 @@ class _ScheduleViewState extends State<ScheduleView> {
     setState(() {
       subjectList = snapshot.docs.map((e) => e.data()).toList();
       subjectList = subjectList[0]['subjectList'];
+      // copySubjectList = List.from(subjectList.map((e) => Map<String, dynamic>.from(e)));
+      _addObject(context);
     });
     // print(subjectList);
   }
 
-  // List<dynamic> subjectList1 = [
-  //   {
-  //     "index": 0,
-  //     "taskname": "Web application",
-  //     "taskdescription": "Do math homework",
-  //     "taskmidterm": "2021-10-10",
-  //     "taskfinal": "2021-12-12",
-  //     "tasktimeStart": "9:30 AM",
-  //     "tasktimeEnd": "11:00 AM",
-  //     "taskDay": "TuF",
-  //     "taskpriority": "High",
-  //     "taskstatus": "Incomplete",
-  //     "taskroom": "CSB209",
-  //     "taskID": "204333"
-  //   },
-  //   {
-  //     "index": 1,
-  //     "taskname": "Mobile App",
-  //     "taskdescription": "Do english homework",
-  //     "taskmidterm": "2021-10-10",
-  //     "taskfinal": "2021-12-12",
-  //     "tasktimeStart": "12:30 AM",
-  //     "tasktimeEnd": "2:00 PM",
-  //     "taskDay": "MTh",
-  //     "taskpriority": "High",
-  //     "taskstatus": "Incomplete",
-  //     "taskroom": "CSB210",
-  //     "taskID": "204311"
-  //   },
-  //   {
-  //     "index": 2,
-  //     "taskname": "Fund Programming",
-  //     "taskdescription": "Do english homework",
-  //     "taskmidterm": "2021-10-10",
-  //     "taskfinal": "2021-12-12",
-  //     "tasktimeStart": "8:00 AM",
-  //     "tasktimeEnd": "9:00 AM",
-  //     "taskDay": "Mon",
-  //     "taskpriority": "High",
-  //     "taskstatus": "Incomplete",
-  //     "taskroom": "CSB210",
-  //     "taskID": "204111"
-  //   },
-  //   {
-  //     "index": 3,
-  //     "taskname": "OOD",
-  //     "taskdescription": "Do english homework",
-  //     "taskmidterm": "2021-10-10",
-  //     "taskfinal": "2021-12-12",
-  //     "tasktimeStart": "12:30 AM",
-  //     "tasktimeEnd": "2:00 PM",
-  //     "taskDay": "Wed",
-  //     "taskpriority": "High",
-  //     "taskstatus": "Incomplete",
-  //     "taskroom": "CSB210",
-  //     "taskID": "204362"
-  //   },
-  // ];
   List<dynamic> startStudyHrs = [];
   List<dynamic> startMins = [];
   List<dynamic> durations = [];
@@ -137,17 +81,19 @@ class _ScheduleViewState extends State<ScheduleView> {
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.landscapeRight,
     ]);
+
   }
 
   Future<FirebaseApp> firebase = Firebase.initializeApp();
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _addObject(context);
-  }
+  // @override
+  // void didChangeDependencies() {
+  //   super.didChangeDependencies();
+  //   _addObject(context);
+  // }
 
   void _addObject(BuildContext context) {
+    // print(subjectList);
     List<Color?> colors = [
       Colors.purple,
       Colors.blue,
@@ -326,7 +272,7 @@ class _ScheduleViewState extends State<ScheduleView> {
             );
           }
           if (snapshot.connectionState == ConnectionState.done) {
-            final List testss = List.from(subjectList);
+
             return MaterialApp(
               scrollBehavior: MyCustomScrollBehavior(),
               home: Scaffold(
@@ -391,8 +337,8 @@ class _ScheduleViewState extends State<ScheduleView> {
                       ],
                       tasks: tasks,
                     ),
-                  ),
-                ),
+                  ),               
+                ),              
               ),
             );
           }
