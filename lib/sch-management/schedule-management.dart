@@ -1,5 +1,5 @@
 import 'dart:math';
-
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -18,6 +18,7 @@ class ScheduleManagement extends StatefulWidget {
 
 class _ScheduleManagement extends State<ScheduleManagement> {
   User? user = FirebaseAuth.instance.currentUser;
+  // bool _isNotificationActive = false;
 
   // List<Color?> colors = [
   //   const Color(0xffF198AF),
@@ -53,13 +54,13 @@ class _ScheduleManagement extends State<ScheduleManagement> {
   }
 
   late int index;
+  late List<bool> _isSelectedList;
 
   @override
   void initState() {
     super.initState();
     getdata();
   }
-
   Future<FirebaseApp> firebase = Firebase.initializeApp();
 
   @override
@@ -133,7 +134,7 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => Editschedule(
-                                          index:index,
+                                              index: index,
                                               subjectList: subjectList,
                                               taskname: subjectList[index]
                                                   ["taskname"],
@@ -167,7 +168,9 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                               },
                               child: Card(
                                 // color: colors[Random().nextInt(colors.length)],
-                                color: index % 2 == 0 ? const Color(0xffF198AF) : const Color.fromARGB(255, 255, 198, 201),
+                                color: index % 2 == 0
+                                    ? const Color(0xffF198AF)
+                                    : const Color.fromARGB(255, 255, 198, 201),
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: ListTile(
@@ -209,56 +212,82 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                                         ],
                                       ),
                                     ),
-                                    trailing: IconButton(
-                                      icon: const Icon(Icons.delete),
-                                      onPressed: () {
-                                  // alert for confirmation
-                                  AlertDialog alert = AlertDialog(
-                                    title: const Text('Delete Subject'),
-                                    content: const Text(
-                                        'Are you sure you want to delete this Subject?'),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                        child: const Text('Cancel'),
-                                      ),
-                                      TextButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            subjectList.removeAt(index);
-                                            FirebaseFirestore.instance
-                                                .collection('users')
-                                                .doc(user!.uid)
-                                                .collection('subjectList')
-                                                .doc('subjectTask')
-                                                .set({'subjectList': subjectList},
-                                                      SetOptions(merge: true));
-                                            });
-                                          Navigator.pop(context);
-                                          Fluttertoast.showToast(
-                                              msg: 'Subject Deleted',
-                                              toastLength: Toast.LENGTH_SHORT,
-                                              gravity: ToastGravity.BOTTOM,
-                                              timeInSecForIosWeb: 1,
-                                              backgroundColor: Colors.green,
-                                              textColor: Colors.white,
-                                              fontSize: 20.0);
-                                        },
-                                        child: const Text('Delete'),
-                                      ),
-                                    ],
-                                  );
+                                    trailing: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        IconButton(
+                                          icon: const Icon(Icons.delete),
+                                          onPressed: () {
+                                            // alert for confirmation
+                                            AlertDialog alert = AlertDialog(
+                                              title:
+                                                  const Text('Delete Subject'),
+                                              content: const Text(
+                                                  'Are you sure you want to delete this Subject?'),
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: const Text('Cancel'),
+                                                ),
+                                                TextButton(
+                                                  onPressed: () {
+                                                    setState(() {
+                                                      subjectList
+                                                          .removeAt(index);
+                                                      FirebaseFirestore.instance
+                                                          .collection('users')
+                                                          .doc(user!.uid)
+                                                          .collection(
+                                                              'subjectList')
+                                                          .doc('subjectTask')
+                                                          .set(
+                                                              {
+                                                            'subjectList':
+                                                                subjectList
+                                                          },
+                                                              SetOptions(
+                                                                  merge: true));
+                                                    });
+                                                    Navigator.pop(context);
+                                                    Fluttertoast.showToast(
+                                                        msg: 'Subject Deleted',
+                                                        toastLength:
+                                                            Toast.LENGTH_SHORT,
+                                                        gravity:
+                                                            ToastGravity.BOTTOM,
+                                                        timeInSecForIosWeb: 1,
+                                                        backgroundColor:
+                                                            Colors.green,
+                                                        textColor: Colors.white,
+                                                        fontSize: 20.0);
+                                                  },
+                                                  child: const Text('Delete'),
+                                                ),
+                                              ],
+                                            );
 
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return alert;
-                                    },
-                                  );
-                                  // show toast message for notification of deletion
-                                },
+                                            showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return alert;
+                                              },
+                                            );
+                                            // show toast message for notification of deletion
+                                          },
+                                        ),
+                                        IconButton(
+                                          onPressed: () {
+                                            // _toggleSelection(index);
+                                          },
+                                          // icon: Icon(_isSelectedList[index]
+                                          //     ? Icons.notifications_active
+                                          //     : Icons.notifications),
+                                          icon: const Icon(Icons.notifications_active)
+                                              
+                                        )
+                                      ],
                                     ),
                                   ),
                                 ),
@@ -272,10 +301,10 @@ class _ScheduleManagement extends State<ScheduleManagement> {
             );
           }
           return const Scaffold(
-          body: Center(
-            child: CircularProgressIndicator(),
-          ),
-        );
+            body: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
         });
   }
 }
