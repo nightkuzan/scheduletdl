@@ -18,7 +18,7 @@ class ScheduleManagement extends StatefulWidget {
 
 class _ScheduleManagement extends State<ScheduleManagement> {
   User? user = FirebaseAuth.instance.currentUser;
-  // bool _isNotificationActive = false;
+  late int index;
 
   // List<Color?> colors = [
   //   const Color(0xffF198AF),
@@ -53,14 +53,12 @@ class _ScheduleManagement extends State<ScheduleManagement> {
     // print(subjectList);
   }
 
-  late int index;
-  late List<bool> _isSelectedList;
-
   @override
   void initState() {
     super.initState();
     getdata();
   }
+
   Future<FirebaseApp> firebase = Firebase.initializeApp();
 
   @override
@@ -278,15 +276,12 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                                           },
                                         ),
                                         IconButton(
-                                          onPressed: () {
-                                            // _toggleSelection(index);
-                                          },
-                                          // icon: Icon(_isSelectedList[index]
-                                          //     ? Icons.notifications_active
-                                          //     : Icons.notifications),
-                                          icon: const Icon(Icons.notifications_active)
-                                              
-                                        )
+                                            onPressed: () {
+                                              setState(() {});
+                                            },
+                                            icon: Icon(
+                                              Icons.notifications,
+                                            ))
                                       ],
                                     ),
                                   ),
