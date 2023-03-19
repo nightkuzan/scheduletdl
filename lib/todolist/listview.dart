@@ -63,7 +63,7 @@ class _TodolistState extends State<Todolist> {
               actions: [
                 IconButton(
                   onPressed: () {
-                    Navigator.push(
+                    Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                             builder: (context) => const AddTask()));
@@ -80,6 +80,8 @@ class _TodolistState extends State<Todolist> {
                 return Column(
                   children: [
                     Card(
+                      // add color to card
+                      color: const Color.fromARGB(255, 115, 211, 170),
                       elevation: 5,
                       child: Column(
                         children: [
