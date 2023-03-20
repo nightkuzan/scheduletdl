@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -17,22 +18,11 @@ class ScheduleManagement extends StatefulWidget {
 }
 
 class _ScheduleManagement extends State<ScheduleManagement> {
+  final String notificationStatusYes = "true";
+  final String notificationStatusNo = "false";
   User? user = FirebaseAuth.instance.currentUser;
   late int index;
   List<bool> _itemNotifications = List.generate(100, (_) => false);
-
-  // List<Color?> colors = [
-  //   const Color(0xffF198AF),
-  //   const Color.fromARGB(255, 255, 198, 201),
-  //   // const Color(0xFFEBB2D6),
-  //   // const Color(0xFF9F81CD),
-  //   // const Color(0xFF766DC1),
-  //   // Colors.green,
-  //   // Colors.orange,
-  //   // const Color.fromARGB(255, 246, 43, 43),
-  //   // const Color.fromARGB(255, 54, 228, 191),
-  //   // const Color.fromARGB(255, 255, 183, 211),
-  // ];
 
   List subjectList = [];
   List uidList = [];
@@ -51,6 +41,7 @@ class _ScheduleManagement extends State<ScheduleManagement> {
 
     final CollectionReference userstdl =
         FirebaseFirestore.instance.collection('users');
+        
     final snapshot1 = await userstdl.get();
 
     setState(() {
@@ -87,11 +78,15 @@ class _ScheduleManagement extends State<ScheduleManagement> {
   Future<FirebaseApp> firebase = Firebase.initializeApp();
 
   String uidimport = '';
+  String uidUser = '';
 
   @override
   Widget build(BuildContext context) {
-    // int n = subjectList.length;
-    // List<bool> boolList = List.generate(n, (_) => false);
+    for (int i = 0; i < uidList.length; i++){
+      if(uidList[i]['email'] == user!.email){
+        uidUser = uidList[i]['uid'];
+      }
+    }
     return FutureBuilder(
         future: firebase,
         builder: (context, snapshot) {
@@ -101,6 +96,125 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                 child: Text('Error initializing Firebase'),
               ),
             );
+          }
+          if (snapshot.connectionState == ConnectionState.done && subjectList.isEmpty){
+            return Scaffold(
+              appBar: AppBar(
+                  leading: IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: const Icon(Icons.arrow_back_ios_new),
+                    color: Colors.black,
+                  ),
+                  actions: [
+                    // import button
+                    IconButton(
+                      onPressed: () {
+                        //  show dialog for input uid of friend
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: const Text('Import Schedule'),
+                                content: TextField(
+                                  decoration: const InputDecoration(
+                                    hintText: 'Enter UID',
+                                  ),
+                                  onChanged: (value) {
+                                    uidimport = value;
+                                  },
+                                ),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text('Cancel'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () async {
+                                      // check uid is exist
+                                      bool check = false;
+                                      for (int i = 0; i < uidList.length; i++) {
+                                        if (uidList[i]['uid'] == uidimport) {
+                                          check = true;
+                                          break;
+                                        }
+                                      }
+
+                                      if (check) {
+                                        await getdataFromfriend(uidimport);
+
+                                        // print(subjectList);
+                                        // remove all schedule
+                                        FirebaseFirestore.instance
+                                            .collection('users')
+                                            .doc(user!.uid)
+                                            .collection('subjectList')
+                                            .doc('subjectList')
+                                            .set({
+                                          'subjectList': subjectList,
+                                        }, SetOptions(merge: true));
+                                        // replacement new schedule
+                                        Navigator.pop(context);
+                                        Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const ScheduleManagement()));
+                                      }
+                                    },
+                                    child: const Text('Import'),
+                                  ),
+                                ],
+                              );
+                            });
+                      },
+                      icon: const Icon(
+                        Icons.import_export,
+                        color: Colors.black,
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const AddSchedule()));
+                      },
+                      icon: const Icon(
+                        Icons.add,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ],
+                  backgroundColor: Colors.white,
+                  title: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      Text(
+                        "Schedule",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, color: Colors.black),
+                      ),
+                      Text(
+                        "Management",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xff6B4EFF)),
+                      ),
+                    ],
+                  )),
+              body:const Center(
+              child: Text(
+                "No Task",
+                style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xff6B4EFF)),
+              ),
+            ));
           }
           if (snapshot.connectionState == ConnectionState.done) {
             return Scaffold(
@@ -151,7 +265,7 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                                       if (check) {
                                         await getdataFromfriend(uidimport);
 
-                                        print(subjectList);
+                                        // print(subjectList);
                                         // remove all schedule
                                         FirebaseFirestore.instance
                                             .collection('users')
@@ -215,7 +329,19 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                 child: Column(
                   children: [
                     const SizedBox(
-                      height: 30,
+                      height: 20,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 25, right: 20),
+                      child: Row(
+                        children: [
+                          Text("uid: $uidUser   ", style: const TextStyle(fontWeight: FontWeight.bold),),
+                          CopyTextButton(textToCopy: uidUser)
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
                     ),
                     ListView.builder(
                         shrinkWrap: true,
@@ -231,41 +357,41 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                                         builder: (context) => Editschedule(
                                               index: index,
                                               subjectList: subjectList,
-                                              taskname: subjectList[index]
-                                                  ["taskname"],
-                                              taskID: subjectList[index]
-                                                  ["taskID"],
-                                              taskRoom: subjectList[index]
-                                                  ["taskroom"],
-                                              taskTimeStart: subjectList[index]
-                                                  ["tasktimeStart"],
-                                              taskTimeEnd: subjectList[index]
-                                                  ["tasktimeEnd"],
-                                              taskDay: subjectList[index]
-                                                  ["taskDay"],
-                                              taskMid: subjectList[index]
-                                                  ["taskmidterm"],
-                                              taskFinal: subjectList[index]
-                                                  ["taskfinal"],
-                                              taskStartmidterm:
-                                                  subjectList[index]
-                                                      ["taskStartmidterm"],
-                                              taskEndmidterm: subjectList[index]
-                                                  ["taskEndmidterm"],
-                                              taskStartfinal: subjectList[index]
-                                                  ["taskStartfinal"],
-                                              taskEndfinal: subjectList[index]
-                                                  ["taskEndfinal"],
-                                              taskdescription:
-                                                  subjectList[index]
-                                                      ["taskdescription"],
+                                              // taskname: subjectList[index]
+                                              //     ["taskname"],
+                                              // taskID: subjectList[index]
+                                              //     ["taskID"],
+                                              // taskRoom: subjectList[index]
+                                              //     ["taskroom"],
+                                              // taskTimeStart: subjectList[index]
+                                              //     ["tasktimeStart"],
+                                              // taskTimeEnd: subjectList[index]
+                                              //     ["tasktimeEnd"],
+                                              // taskDay: subjectList[index]
+                                              //     ["taskDay"],
+                                              // taskMid: subjectList[index]
+                                              //     ["taskmidterm"],
+                                              // taskFinal: subjectList[index]
+                                              //     ["taskfinal"],
+                                              // taskStartmidterm:
+                                              //     subjectList[index]
+                                              //         ["taskStartmidterm"],
+                                              // taskEndmidterm: subjectList[index]
+                                              //     ["taskEndmidterm"],
+                                              // taskStartfinal: subjectList[index]
+                                              //     ["taskStartfinal"],
+                                              // taskEndfinal: subjectList[index]
+                                              //     ["taskEndfinal"],
+                                              // taskdescription:
+                                              //     subjectList[index]
+                                              //         ["taskdescription"],
                                             )));
                               },
                               child: Card(
                                 // color: colors[Random().nextInt(colors.length)],
                                 color: index % 2 == 0
-                                    ? const Color(0xffF198AF)
-                                    : const Color.fromARGB(255, 255, 198, 201),
+                                    ? const Color.fromARGB(255, 158, 69, 248)
+                                    : const Color(0xffB770FF),
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: ListTile(
@@ -375,6 +501,7 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                                         IconButton(
                                             onPressed: () {
                                               setState(() {
+                                                // print(notificationStatusYes);
                                                 // print(subjectList.indexOf(subjectList[index].boolList[subjectList.indexOf(subjectList[index])]));
                                                 _itemNotifications[index] =
                                                     !_itemNotifications[index];
@@ -382,8 +509,8 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                                             },
                                             icon: Icon(
                                               _itemNotifications[index]
-                                                  ? Icons.notifications
-                                                  : Icons.notifications_active,
+                                                  ? Icons.notifications_active
+                                                  : Icons.notifications,
                                             ))
                                       ],
                                     ),
@@ -406,3 +533,26 @@ class _ScheduleManagement extends State<ScheduleManagement> {
         });
   }
 }
+
+class CopyTextButton extends StatelessWidget {
+  final String textToCopy;
+
+  CopyTextButton({required this.textToCopy});
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      onPressed: () {
+        Clipboard.setData(ClipboardData(text: textToCopy));
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Text copied to clipboard')),
+        );
+      },
+      icon: const Icon(Icons.copy),
+    );
+  }
+}
+
+
+
+

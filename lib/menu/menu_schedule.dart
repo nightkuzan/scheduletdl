@@ -51,7 +51,7 @@ class _MenuScheduleState extends State<MenuSchedule> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30.0),
                     ),
-                    backgroundColor: const Color(0xff005B3C)),
+                    backgroundColor: const Color.fromARGB(255, 158, 69, 248)),
                 onPressed: () {
                   Navigator.push(
                     context,
@@ -75,7 +75,7 @@ class _MenuScheduleState extends State<MenuSchedule> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30.0),
                     ),
-                    backgroundColor: const Color(0xffEBE784)),
+                    backgroundColor: const Color(0xffB770FF)),
                 onPressed: () {
                   Navigator.push(
                     context,
@@ -97,7 +97,7 @@ class _MenuScheduleState extends State<MenuSchedule> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30.0),
                     ),
-                    backgroundColor: const Color(0xffB2AF4F)),
+                    backgroundColor: const Color.fromARGB(255, 158, 69, 248)),
                 onPressed: () {
                   Navigator.push(
                     context,
