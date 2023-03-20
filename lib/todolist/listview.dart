@@ -60,27 +60,35 @@ class _TodolistState extends State<Todolist> {
         if (snapshot.connectionState == ConnectionState.done) {
           return Scaffold(
             appBar: AppBar(
-              title: const Text('Todo List'),
-              actions: [
-                // go back to home page
-                IconButton(
-                  onPressed: () {
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (context) => const Menu()));
-                  },
-                  icon: const Icon(Icons.home),
+                leading: IconButton(
+                  onPressed: () {},
+                  icon: IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const Menu()));
+                      },
+                      icon: const Icon(Icons.arrow_back_ios_new)),
+                  color: Colors.black,
                 ),
-                IconButton(
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const AddTask()));
-                  },
-                  icon: const Icon(Icons.add),
-                ),
-              ],
-            ),
+                backgroundColor: Colors.white,
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Text(
+                      "Todo",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, color: Colors.black),
+                    ),
+                    Text(
+                      "List",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xff6B4EFF)),
+                    ),
+                  ],
+                )),
             body: ListView.builder(
               // add top margin
               padding: const EdgeInsets.only(top: 20),
