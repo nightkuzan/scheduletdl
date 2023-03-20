@@ -243,7 +243,7 @@ class _AddTaskState extends State<AddTask> {
                           width: 50,
                           height: 50,
                           decoration: BoxDecoration(
-                            color: Colors.red,
+                            color: Colors.red[300],
                             borderRadius: _taskcolor.text == 'red'
                                 ? BorderRadius.circular(10)
                                 : BorderRadius.circular(0),
@@ -266,7 +266,7 @@ class _AddTaskState extends State<AddTask> {
                           width: 50,
                           height: 50,
                           decoration: BoxDecoration(
-                            color: Colors.blue,
+                            color: Colors.blue[300],
                             borderRadius: _taskcolor.text == 'blue'
                                 ? BorderRadius.circular(10)
                                 : BorderRadius.circular(0),
@@ -287,7 +287,7 @@ class _AddTaskState extends State<AddTask> {
                           width: 50,
                           height: 50,
                           decoration: BoxDecoration(
-                            color: Colors.green,
+                            color: Colors.green[200],
                             borderRadius: _taskcolor.text == 'green'
                                 ? BorderRadius.circular(10)
                                 : BorderRadius.circular(0),
@@ -308,7 +308,7 @@ class _AddTaskState extends State<AddTask> {
                           width: 50,
                           height: 50,
                           decoration: BoxDecoration(
-                            color: Colors.yellow,
+                            color: Colors.yellow[300],
                             borderRadius: _taskcolor.text == 'yellow'
                                 ? BorderRadius.circular(10)
                                 : BorderRadius.circular(0),
@@ -330,7 +330,7 @@ class _AddTaskState extends State<AddTask> {
                           width: 50,
                           height: 50,
                           decoration: BoxDecoration(
-                            color: Colors.purple,
+                            color: Colors.purple[300],
                             borderRadius: _taskcolor.text == 'purple'
                                 ? BorderRadius.circular(10)
                                 : BorderRadius.circular(0),
