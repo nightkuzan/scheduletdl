@@ -87,6 +87,149 @@ class _ScheduleManagement extends State<ScheduleManagement> {
               ),
             );
           }
+          if (snapshot.connectionState == ConnectionState.done && subjectList.isEmpty){
+            return Scaffold(
+              appBar: AppBar(
+                  leading: IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: const Icon(Icons.arrow_back_ios_new),
+                    color: Colors.black,
+                  ),
+                  actions: [
+                    // import button
+                    IconButton(
+                      onPressed: () {
+                        //  show dialog for input uid of friend
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: const Text('Import Schedule'),
+                                content: TextField(
+                                  decoration: const InputDecoration(
+                                    hintText: 'Enter UID',
+                                  ),
+                                  onChanged: (value) {
+                                    uidimport = value;
+                                  },
+                                ),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text('Cancel'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () async {
+                                      // check uid is exist
+                                      bool check = false;
+                                      for (int i = 0; i < uidList.length; i++) {
+                                        if (uidList[i]['uid'] == uidimport) {
+                                          check = true;
+                                          break;
+                                        }
+                                      }
+
+                                      if (check) {
+                                        await getdataFromfriend(uidimport);
+
+                                        // remove all schedule
+                                        FirebaseFirestore.instance
+                                            .collection('users')
+                                            .doc(user!.uid)
+                                            .collection('subjectList')
+                                            .doc('subjectTask')
+                                            .set({
+                                              'subjectList': subjectList,
+                                            }, SetOptions(merge: true))
+                                            // flutter toast
+                                            .then((value) =>
+                                                Fluttertoast.showToast(
+                                                    msg: "Import Success",
+                                                    toastLength: Toast
+                                                        .LENGTH_SHORT,
+                                                    gravity:
+                                                        ToastGravity.BOTTOM,
+                                                    timeInSecForIosWeb: 1,
+                                                    backgroundColor:
+                                                        Colors.green,
+                                                    textColor: Colors.white,
+                                                    fontSize: 16.0))
+                                            .catchError((error) =>
+                                                Fluttertoast.showToast(
+                                                    msg: "Import Fail",
+                                                    toastLength:
+                                                        Toast.LENGTH_SHORT,
+                                                    gravity:
+                                                        ToastGravity.BOTTOM,
+                                                    timeInSecForIosWeb: 1,
+                                                    backgroundColor: Colors.red,
+                                                    textColor: Colors.white,
+                                                    fontSize: 16.0));
+
+                                        // replacement new schedule
+                                        Navigator.pop(context);
+                                        Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const ScheduleManagement()));
+                                      }
+                                    },
+                                    child: const Text('Import'),
+                                  ),
+                                ],
+                              );
+                            });
+                      },
+                      icon: const Icon(
+                        Icons.import_export,
+                        color: Colors.black,
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const AddSchedule()));
+                      },
+                      icon: const Icon(
+                        Icons.add,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ],
+                  backgroundColor: Colors.white,
+                  title: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      Text(
+                        "Schedule",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, color: Colors.black),
+                      ),
+                      Text(
+                        "Management",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xff6B4EFF)),
+                      ),
+                    ],
+                  )),
+              body: const Center(
+              child: Text(
+                "No Task",
+                style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xff6B4EFF)),
+              ),
+            ));
+          }
           if (snapshot.connectionState == ConnectionState.done) {
             return Scaffold(
               appBar: AppBar(
