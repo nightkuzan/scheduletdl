@@ -160,7 +160,7 @@ class _MenuScheduleState extends State<MenuSchedule> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30.0),
                     ),
-                    backgroundColor: const Color(0xff7B7B1B)),
+                    backgroundColor: const Color(0xffB770FF)),
                 onPressed: () {
                   //  show dialog for input uid of friend
                   showDialog(
