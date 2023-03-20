@@ -1,13 +1,12 @@
-import 'dart:math';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:scheduletdl/sch-management/edit-schedule.dart';
+import 'package:scheduletdl/sch-management/edit_schedule.dart';
 
-import 'add-schedule.dart';
+import 'add_schedule.dart';
 
 class ScheduleManagement extends StatefulWidget {
   const ScheduleManagement({super.key});
@@ -21,18 +20,6 @@ class _ScheduleManagement extends State<ScheduleManagement> {
   late int index;
   List<bool> _itemNotifications = List.generate(100, (_) => false);
 
-  // List<Color?> colors = [
-  //   const Color(0xffF198AF),
-  //   const Color.fromARGB(255, 255, 198, 201),
-  //   // const Color(0xFFEBB2D6),
-  //   // const Color(0xFF9F81CD),
-  //   // const Color(0xFF766DC1),
-  //   // Colors.green,
-  //   // Colors.orange,
-  //   // const Color.fromARGB(255, 246, 43, 43),
-  //   // const Color.fromARGB(255, 54, 228, 191),
-  //   // const Color.fromARGB(255, 255, 183, 211),
-  // ];
 
   List subjectList = [];
   List uidList = [];
@@ -63,7 +50,6 @@ class _ScheduleManagement extends State<ScheduleManagement> {
   getdataFromfriend(frienduid) async {
     // Initialize Firebase
 
-    // await Firebase.initializeApp();
 
     final CollectionReference taskschManagement = FirebaseFirestore.instance
         .collection('users')
@@ -90,8 +76,7 @@ class _ScheduleManagement extends State<ScheduleManagement> {
 
   @override
   Widget build(BuildContext context) {
-    // int n = subjectList.length;
-    // List<bool> boolList = List.generate(n, (_) => false);
+   
     return FutureBuilder(
         future: firebase,
         builder: (context, snapshot) {
@@ -151,7 +136,6 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                                       if (check) {
                                         await getdataFromfriend(uidimport);
 
-                                        print(subjectList);
                                         // remove all schedule
                                         FirebaseFirestore.instance
                                             .collection('users')
@@ -159,8 +143,33 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                                             .collection('subjectList')
                                             .doc('subjectTask')
                                             .set({
-                                          'subjectList': subjectList,
-                                        }, SetOptions(merge: true));
+                                              'subjectList': subjectList,
+                                            }, SetOptions(merge: true))
+                                            // flutter toast
+                                            .then((value) =>
+                                                Fluttertoast.showToast(
+                                                    msg: "Import Success",
+                                                    toastLength: Toast
+                                                        .LENGTH_SHORT,
+                                                    gravity:
+                                                        ToastGravity.BOTTOM,
+                                                    timeInSecForIosWeb: 1,
+                                                    backgroundColor:
+                                                        Colors.green,
+                                                    textColor: Colors.white,
+                                                    fontSize: 16.0))
+                                            .catchError((error) =>
+                                                Fluttertoast.showToast(
+                                                    msg: "Import Fail",
+                                                    toastLength:
+                                                        Toast.LENGTH_SHORT,
+                                                    gravity:
+                                                        ToastGravity.BOTTOM,
+                                                    timeInSecForIosWeb: 1,
+                                                    backgroundColor: Colors.red,
+                                                    textColor: Colors.white,
+                                                    fontSize: 16.0));
+
                                         // replacement new schedule
                                         Navigator.pop(context);
                                         Navigator.pushReplacement(
@@ -234,7 +243,6 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                                             )));
                               },
                               child: Card(
-                                // color: colors[Random().nextInt(colors.length)],
                                 color: index % 2 == 0
                                     ? const Color(0xffF198AF)
                                     : const Color.fromARGB(255, 255, 198, 201),
@@ -347,7 +355,6 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                                         IconButton(
                                             onPressed: () {
                                               setState(() {
-                                                // print(subjectList.indexOf(subjectList[index].boolList[subjectList.indexOf(subjectList[index])]));
                                                 _itemNotifications[index] =
                                                     !_itemNotifications[index];
                                               });

@@ -44,7 +44,6 @@ class _EditTaskState extends State<EditTask> {
     taskstatus = TextEditingController(text: widget.tasks[index]['taskstatus']);
     _taskcolor = TextEditingController(text: widget.tasks[index]['taskcolor']);
 
-    print(index);
     setState(() {
       tasks = widget.tasks;
     });

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../Management/examDate_mng.dart';
-import '../sch-management/schedule-management.dart';
-import '../sch-view/schedule-view.dart';
+import '../Management/examdate_manage.dart';
+import '../sch-management/schedule_management.dart';
+import '../sch-view/schedule_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -205,8 +205,26 @@ class _MenuScheduleState extends State<MenuSchedule> {
                                     .collection('subjectList')
                                     .doc('subjectTask')
                                     .set({
-                                  'subjectList': subjectList,
-                                }, SetOptions(merge: true));
+                                      'subjectList': subjectList,
+                                    }, SetOptions(merge: true))
+                                    // flutter toast
+                                    .then((value) => Fluttertoast.showToast(
+                                        msg: 'Import Success',
+                                        toastLength: Toast.LENGTH_SHORT,
+                                        gravity: ToastGravity.BOTTOM,
+                                        timeInSecForIosWeb: 1,
+                                        backgroundColor: Colors.green,
+                                        textColor: Colors.white,
+                                        fontSize: 16.0))
+                                    .catchError((error) =>
+                                        Fluttertoast.showToast(
+                                            msg: 'Import Fail',
+                                            toastLength: Toast.LENGTH_SHORT,
+                                            gravity: ToastGravity.BOTTOM,
+                                            timeInSecForIosWeb: 1,
+                                            backgroundColor: Colors.red,
+                                            textColor: Colors.white,
+                                            fontSize: 16.0));
                                 Navigator.pop(context);
                                 Navigator.pushReplacement(
                                     context,

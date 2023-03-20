@@ -1,10 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:scheduletdl/Reg-Sign/SignIn.dart';
+import 'package:scheduletdl/Reg-Sign/signIn_user.dart';
 import 'package:scheduletdl/todolist/listview.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../firebase_options.dart';
 import 'menu_schedule.dart';
 
 class Menu extends StatefulWidget {
@@ -16,10 +14,6 @@ class Menu extends StatefulWidget {
 
 class _MenuState extends State<Menu> {
   void test() async {
-    // final Future<FirebaseApp> firebase = Firebase.initializeApp(
-    //   options: DefaultFirebaseOptions.currentPlatform,
-    // );
-
     User? user = FirebaseAuth.instance.currentUser;
 
     // checj user uid in firestore
@@ -31,7 +25,6 @@ class _MenuState extends State<Menu> {
     for (int i = 0; i < users.length; i++) {
       if (users[i]['uid'] == user?.uid) {
         noLogin = true;
-        print('user is already in firestore');
       }
     }
 
@@ -44,19 +37,7 @@ class _MenuState extends State<Menu> {
         'uid': user?.uid,
       });
 
-      // create collection
-      // FirebaseFirestore.instance
-      //     .collection('users')
-      //     .doc(user?.uid)
-      //     .collection('tasks')
-      //     .doc('todolist')
-      //     .set({
-      //   'task': 'task',
-      //   'date': 'date',
-      //   'time': 'time',
-      //   'priority': 'priority',
-      //   'status': 'status',
-      // });
+   
     }
   }
 
@@ -66,7 +47,6 @@ class _MenuState extends State<Menu> {
     test();
   }
 
-  // const userUid = FirebaseAuth.instance.current;
   @override
   Widget build(BuildContext context) {
     return Scaffold(

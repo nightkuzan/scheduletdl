@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
-import 'package:scheduletdl/sch-management/schedule-management.dart';
+import 'package:scheduletdl/sch-management/schedule_management.dart';
 
 class AddSchedule extends StatefulWidget {
   const AddSchedule({
@@ -30,29 +30,15 @@ class _AddSchedule extends State<AddSchedule> {
   final TextEditingController _examMiddate = TextEditingController();
   final TextEditingController _examFidate = TextEditingController();
   final TextEditingController _subjectDescription = TextEditingController();
-  late TextEditingController _textController;
   late TimeOfDay time;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  // List<String> daysOfWeek = [
-  //   'Mon',
-  //   'Tue',
-  //   'Wed',
-  //   'Thu',
-  //   'Fri',
-  //   'Sat',
-  //   'Sun',
-  //   'MTh',
-  //   'TuF',
-  // ];
 
-  // String selectedDay = 'Mon';
 
   @override
   void initState() {
     super.initState();
-    _textController = TextEditingController(text: 'Select Time');
     _studyDay.text = "Mon";
   }
 

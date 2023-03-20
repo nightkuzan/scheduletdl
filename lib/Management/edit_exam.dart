@@ -4,7 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
-import 'package:scheduletdl/Management/examDate_mng.dart';
+import 'package:scheduletdl/Management/examdate_manage.dart';
 
 import '../firebase_options.dart';
 

@@ -29,7 +29,6 @@ class _ScheduleViewState extends State<ScheduleView> {
   User? user = FirebaseAuth.instance.currentUser;
   List<TimePlannerTask> tasks = [];
   List<dynamic> subjectList = [];
-  // List<dynamic> copySubjectList = [];
 
   getdata() async {
     // Initialize Firebase
@@ -45,10 +44,8 @@ class _ScheduleViewState extends State<ScheduleView> {
     setState(() {
       subjectList = snapshot.docs.map((e) => e.data()).toList();
       subjectList = subjectList[0]['subjectList'];
-      // copySubjectList = List.from(subjectList.map((e) => Map<String, dynamic>.from(e)));
       _addObject(context);
     });
-    // print(subjectList);
   }
 
   List<dynamic> startStudyHrs = [];
@@ -86,14 +83,9 @@ class _ScheduleViewState extends State<ScheduleView> {
 
   Future<FirebaseApp> firebase = Firebase.initializeApp();
 
-  // @override
-  // void didChangeDependencies() {
-  //   super.didChangeDependencies();
-  //   _addObject(context);
-  // }
+
 
   void _addObject(BuildContext context) {
-    // print(subjectList);
     List<Color?> colors = [
       Colors.purple,
       Colors.blue,

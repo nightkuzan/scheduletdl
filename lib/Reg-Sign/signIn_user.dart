@@ -1,30 +1,29 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_field_validator/form_field_validator.dart';
-import 'package:provider/provider.dart';
-import 'package:scheduletdl/Reg-Sign/SignIn.dart';
 import 'package:scheduletdl/Reg-Sign/profile.dart';
-import 'package:scheduletdl/firebase_options.dart';
 import 'package:scheduletdl/menu/menu.dart';
-import '../Management/examDate_mng.dart';
 
-class Register extends StatefulWidget {
-  const Register({super.key});
+import '../firebase_options.dart';
+import 'register_user.dart';
+
+class SignIn extends StatefulWidget {
+  const SignIn({super.key});
 
   @override
-  State<Register> createState() => _RegisterState();
+  State<SignIn> createState() => _SignInState();
 }
 
-class _RegisterState extends State<Register> {
+class _SignInState extends State<SignIn> {
+  final formKey = GlobalKey<FormState>();
   Profile profile =
       Profile(firstname: '', lastname: '', email: '', password: '');
-  final formKey = GlobalKey<FormState>();
   final Future<FirebaseApp> firebase = Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -33,7 +32,7 @@ class _RegisterState extends State<Register> {
           if (snapshot.hasError) {
             return Scaffold(
               appBar: AppBar(
-                title: Text("Error"),
+                title: const Text("Error"),
               ),
               body: Center(
                 child: Text("${snapshot.error}"),
@@ -43,13 +42,6 @@ class _RegisterState extends State<Register> {
           if (snapshot.connectionState == ConnectionState.done) {
             return Scaffold(
               appBar: AppBar(
-                  leading: IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: const Icon(Icons.arrow_back_ios_new),
-                    color: Colors.black,
-                  ),
                   backgroundColor: Colors.white,
                   title: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -69,14 +61,14 @@ class _RegisterState extends State<Register> {
                   )),
               body: SingleChildScrollView(
                 child: Container(
-                  padding: EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(20),
                   child: Column(
                     children: [
                       const SizedBox(
                         height: 20,
                       ),
                       const Text(
-                        "Register",
+                        "Sign In",
                         style: TextStyle(
                             fontSize: 30, fontWeight: FontWeight.bold),
                       ),
@@ -89,37 +81,14 @@ class _RegisterState extends State<Register> {
                             padding: const EdgeInsets.only(right: 30, left: 30),
                             child: Column(
                               children: [
-                                TextFormField(
-                                    onSaved: (String? firstname) {
-                                      profile.firstname = firstname!;
-                                    },
-                                    decoration: const InputDecoration(
-                                        hintText: "First name"),
-                                    validator: RequiredValidator(
-                                        errorText:
-                                            "Please fill your firstname")),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                TextFormField(
-                                    onSaved: (String? lastname) {
-                                      profile.lastname = lastname!;
-                                    },
-                                    decoration: const InputDecoration(
-                                        hintText: "Last name"),
-                                    validator: RequiredValidator(
-                                        errorText:
-                                            "Please fill your lastname")),
-                                const SizedBox(
-                                  height: 10,
-                                ),
+                                Image.asset('assets/images/pic_login.jpg'),
                                 TextFormField(
                                     keyboardType: TextInputType.emailAddress,
                                     onSaved: (String? email) {
                                       profile.email = email!;
                                     },
                                     decoration: const InputDecoration(
-                                        hintText: "example@mail.com"),
+                                        hintText: "example@gmail.com"),
                                     validator: MultiValidator([
                                       RequiredValidator(
                                           errorText: "Please fill your email"),
@@ -144,8 +113,8 @@ class _RegisterState extends State<Register> {
                                 ),
                                 ElevatedButton(
                                     style: ElevatedButton.styleFrom(
-                                        minimumSize: Size(100, 40),
-                                        primary: Color(
+                                        minimumSize: const Size(100, 40),
+                                        backgroundColor: const Color(
                                           0xff6B4EFF,
                                         ),
                                         shape: RoundedRectangleBorder(
@@ -154,58 +123,34 @@ class _RegisterState extends State<Register> {
                                     onPressed: () async {
                                       if (formKey.currentState!.validate()) {
                                         formKey.currentState?.save();
-                                        // print(
-                                        //     "${profile.firstname} ${profile.lastname} ${profile.email} ${profile.password}");
 
                                         try {
                                           await FirebaseAuth.instance
-                                              .createUserWithEmailAndPassword(
+                                              .signInWithEmailAndPassword(
                                                   email: profile.email,
                                                   password: profile.password)
                                               .then((value) {
                                             formKey.currentState?.reset();
-                                            Fluttertoast.showToast(
-                                                msg: "Create user account",
-                                                gravity: ToastGravity.CENTER);
                                             Navigator.pushReplacement(context,
                                                 MaterialPageRoute(
                                                     builder: (context) {
-                                              return SignIn();
+                                              return const Menu();
                                             }));
                                           });
-
-                                          // formKey.currentState?.reset();
-                                          // Navigator.push(
-                                          //   context,
-                                          //   MaterialPageRoute(
-                                          //       builder: (context) =>
-                                          //           const SignIn()),
-                                          // );
                                         } on FirebaseAuthException catch (e) {
-                                          // print(e.message);
-                                          // print(e.code);
-                                          String message;
-                                          if (e.code ==
-                                              "email-already-in-use") {
-                                            message =
-                                                "มีอีเมลล์นี้ในระบบอยู่แล้ว";
-                                          } else if (e.code ==
-                                              'weak-password') {
-                                            message =
-                                                "รหัสผ่านต้องมีความยาว 6 ตัวขึ้นไป";
-                                          } else {
-                                            message = e.message!;
-                                          }
-
                                           Fluttertoast.showToast(
-                                              msg: message,
+                                              msg: "${e.message}",
                                               gravity: ToastGravity.CENTER);
-                                          // Fluttertoast.showToast(
-                                          //     msg: e.message);
                                         }
                                       }
                                     },
-                                    child: const Text("Create account")),
+                                    child: const Text(
+                                      "Sign In",
+                                      style: TextStyle(fontSize: 17),
+                                    )),
+                                const SizedBox(
+                                  height: 20,
+                                ),
                                 const SizedBox(
                                   height: 20,
                                 ),
@@ -218,14 +163,15 @@ class _RegisterState extends State<Register> {
                                     const Text("Have an account?"),
                                     TextButton(
                                       onPressed: () {
+                                        // go to page register
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  const SignIn()),
+                                                  const Register()),
                                         );
                                       },
-                                      child: const Text("Sign In",
+                                      child: const Text("Sign Up",
                                           style: TextStyle(
                                             color: Color(
                                               0xff6B4EFF,
@@ -244,18 +190,11 @@ class _RegisterState extends State<Register> {
             );
           }
 
-          return Scaffold(
+          return const Scaffold(
             body: Center(
               child: CircularProgressIndicator(),
             ),
           );
-        }
-
-        // return Scaffold(
-        //   body: Center(
-        //     child: CircularProgressIndicator(),
-        //   ),
-        // );
-        );
+        });
   }
 }

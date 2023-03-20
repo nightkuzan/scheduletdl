@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -18,13 +17,7 @@ class _AddTaskState extends State<AddTask> {
 
   // fromkey
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  // taskname: "English""
-  // taskdate: "2021-10-10"
-  // tasktime: "10:00"
-  // taskpriority: "High"
-  // taskstatus: "Incomplete"
-  // taskdescription: "Do english homework"
-  // controller
+
   final TextEditingController _taskname = TextEditingController();
   final TextEditingController _taskdate = TextEditingController();
   final TextEditingController _tasktime = TextEditingController();
@@ -91,7 +84,6 @@ class _AddTaskState extends State<AddTask> {
                             context: context,
                             initialDate: DateTime.now(),
                             firstDate: DateTime.now(),
-                            //DateTime.now() - not to allow to choose before today.
                             lastDate: DateTime(2100));
 
                         if (pickedDate != null) {
