@@ -401,31 +401,15 @@ class _EditExamDateState extends State<EditExamDate> {
                           //       .collection("subjectList")
                           //       .doc("subjectList")
                           //       .set({
-                          //         "subjectList": subjectList,
-                          //       }, SetOptions(merge: true))
-                          //       .then((value) => Fluttertoast.showToast(
-                          //           msg: "Task Updated Successfully",
-                          //           toastLength: Toast.LENGTH_SHORT,
-                          //           gravity: ToastGravity.BOTTOM,
-                          //           timeInSecForIosWeb: 1,
-                          //           backgroundColor: Colors.green,
-                          //           textColor: Colors.white,
-                          //           fontSize: 16.0))
-                          //       .catchError((error) => Fluttertoast.showToast(
-                          //           msg: "Failed to update task: $error",
-                          //           toastLength: Toast.LENGTH_SHORT,
-                          //           gravity: ToastGravity.BOTTOM,
-                          //           timeInSecForIosWeb: 1,
-                          //           backgroundColor: Colors.red,
-                          //           textColor: Colors.white,
-                          //           fontSize: 16.0));
+                          //     "subjectList": subjectList,
+                          //   }, SetOptions(merge: true));
                           // }
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //       builder: (context) =>
-                          //           const ExamListManagement()),
-                          // );
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const ExamListManagement()),
+                          );
                         },
                         child: Text("Submit"),
                         style: ElevatedButton.styleFrom(
