@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'Reg-Sign/signIn_user.dart';
+import 'Reg-Sign/signin_user.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 

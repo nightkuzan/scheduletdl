@@ -3,7 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_field_validator/form_field_validator.dart';
-import 'package:scheduletdl/Reg-Sign/signIn_user.dart';
+import 'package:scheduletdl/Reg-Sign/signin_user.dart';
 import 'package:scheduletdl/Reg-Sign/profile.dart';
 import 'package:scheduletdl/firebase_options.dart';
 
