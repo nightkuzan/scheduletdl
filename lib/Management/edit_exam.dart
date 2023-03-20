@@ -1,5 +1,9 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:scheduletdl/Management/examDate_mng.dart';
+
+import '../firebase_options.dart';
 
 class EditExamDate extends StatefulWidget {
   const EditExamDate({super.key});
@@ -18,11 +22,14 @@ class EditExamDate extends StatefulWidget {
 }
 
 class _EditExamDateState extends State<EditExamDate> {
+  final formKey = GlobalKey<FormState>();
   final TextEditingController _examMiddate = TextEditingController();
   final TextEditingController _examFidate = TextEditingController();
   final TextEditingController _startTimeController = TextEditingController();
   final TextEditingController _endTimeController = TextEditingController();
-
+  final Future<FirebaseApp> firebase = Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -103,13 +110,16 @@ class _EditExamDateState extends State<EditExamDate> {
                           } else {}
                         },
                       ),
+                      SizedBox(
+                        height: 10,
+                      ),
                       Row(
                         children: [
                           Expanded(
                             child: TextFormField(
                               controller: _startTimeController,
                               decoration: InputDecoration(
-                                hintText: "เวลา1" == '' ? 'เวลา2' : "เวลา3",
+                                hintText: "เวลา1" == '' ? 'เวลา2' : "เวลาเริ่ม",
                                 suffixIcon: IconButton(
                                   icon: const Icon(Icons.access_time),
                                   onPressed: () async {
@@ -155,7 +165,8 @@ class _EditExamDateState extends State<EditExamDate> {
                             child: TextFormField(
                               controller: _endTimeController,
                               decoration: InputDecoration(
-                                hintText: "เวลา4" == '' ? 'เวลา5' : "เวลา6",
+                                hintText:
+                                    "เวลา4" == '' ? 'เวลา5' : "เวลาสิ้นสุด",
                                 suffixIcon: IconButton(
                                   icon: const Icon(Icons.access_time),
                                   onPressed: () async {
@@ -241,13 +252,16 @@ class _EditExamDateState extends State<EditExamDate> {
                           } else {}
                         },
                       ),
+                      SizedBox(
+                        height: 10,
+                      ),
                       Row(
                         children: [
                           Expanded(
                             child: TextFormField(
                               controller: _startTimeController,
                               decoration: InputDecoration(
-                                hintText: "เวลา1" == '' ? 'เวลา2' : "เวลา3",
+                                hintText: "เวลา1" == '' ? 'เวลา2' : "เวลาเริ่ม",
                                 suffixIcon: IconButton(
                                   icon: const Icon(Icons.access_time),
                                   onPressed: () async {
@@ -293,7 +307,8 @@ class _EditExamDateState extends State<EditExamDate> {
                             child: TextFormField(
                               controller: _endTimeController,
                               decoration: InputDecoration(
-                                hintText: "เวลา4" == '' ? 'เวลา5' : "เวลา6",
+                                hintText:
+                                    "เวลา4" == '' ? 'เวลา5' : "เวลาสิ้นสุด",
                                 suffixIcon: IconButton(
                                   icon: const Icon(Icons.access_time),
                                   onPressed: () async {
@@ -339,6 +354,27 @@ class _EditExamDateState extends State<EditExamDate> {
                           ),
                         ],
                       ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const ExamList_Management()),
+                          );
+                        },
+                        child: Text("Submit"),
+                        style: ElevatedButton.styleFrom(
+                            minimumSize: Size(100, 40),
+                            primary: Color(
+                              0xff6B4EFF,
+                            ),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30))),
+                      )
                     ],
                   ),
                 ),

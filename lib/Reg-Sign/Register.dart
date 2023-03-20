@@ -143,6 +143,14 @@ class _RegisterState extends State<Register> {
                                   height: 30,
                                 ),
                                 ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                        minimumSize: Size(100, 40),
+                                        primary: Color(
+                                          0xff6B4EFF,
+                                        ),
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(30))),
                                     onPressed: () async {
                                       if (formKey.currentState!.validate()) {
                                         formKey.currentState?.save();

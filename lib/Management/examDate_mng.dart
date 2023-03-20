@@ -9,6 +9,8 @@ class ExamList_Management extends StatefulWidget {
 }
 
 class _ExamList_ManagementState extends State<ExamList_Management> {
+  
+  
   List<dynamic> tasks = [
     {
       "taskname": "Math",
@@ -75,15 +77,24 @@ class _ExamList_ManagementState extends State<ExamList_Management> {
             itemBuilder: (context, index) {
               return Card(
                 child: ListTile(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const EditExamDate()),
-                    );
-                  },
+                  // onTap: () {
+                  //   Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //         builder: (context) => const EditExamDate()),
+                  //   );
+                  // },
                   title: Text(tasks[index]["taskname"]),
                   subtitle: Text(tasks[index]["taskdescription"]),
+                  trailing: IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const EditExamDate()),
+                        );
+                      },
+                      icon: Icon(Icons.edit)),
                   // trailing: Wrap(
                   //   children: [
                   //     IconButton(
