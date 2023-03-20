@@ -271,6 +271,76 @@ class _ScheduleViewState extends State<ScheduleView> {
               ),
             );
           }
+          if (snapshot.connectionState == ConnectionState.done && subjectList.isEmpty){
+            return MaterialApp(
+              scrollBehavior: MyCustomScrollBehavior(),
+              home: Scaffold(
+                appBar: AppBar(
+                    leading: IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: const Icon(Icons.arrow_back_ios_new),
+                      color: Colors.black,
+                    ),
+                    backgroundColor: Colors.white,
+                    title: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: const [
+                        Text(
+                          "my",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, color: Colors.black),
+                        ),
+                        Text(
+                          "Schedule",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xff6B4EFF)),
+                        ),
+                      ],
+                    )),
+                body: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Center(
+                    child: TimePlanner(
+                      startHour: 6,
+                      endHour: 18,
+                      style: TimePlannerStyle(
+                        // cellHeight: 60,
+                        cellWidth: 190,
+                        showScrollBar: true,
+                      ),
+                      headers: const [
+                        TimePlannerTitle(
+                          title: "Monday",
+                        ),
+                        TimePlannerTitle(
+                          title: "Tuesday",
+                        ),
+                        TimePlannerTitle(
+                          title: "Wednesday",
+                        ),
+                        TimePlannerTitle(
+                          title: "Thursday",
+                        ),
+                        TimePlannerTitle(
+                          title: "Friday",
+                        ),
+                        TimePlannerTitle(
+                          title: "Saturday",
+                        ),
+                        TimePlannerTitle(
+                          title: "Sunday",
+                        ),
+                      ],
+                      tasks: tasks,
+                    ),
+                  ),               
+                ),              
+              ),
+            );
+          }
           if (snapshot.connectionState == ConnectionState.done) {
             return MaterialApp(
               scrollBehavior: MyCustomScrollBehavior(),
