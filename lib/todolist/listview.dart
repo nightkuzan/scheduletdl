@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:scheduletdl/menu/menu.dart';
 import 'package:scheduletdl/todolist/addtask.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -61,6 +62,14 @@ class _TodolistState extends State<Todolist> {
             appBar: AppBar(
               title: const Text('Todo List'),
               actions: [
+                // go back to home page
+                IconButton(
+                  onPressed: () {
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) => const Menu()));
+                  },
+                  icon: const Icon(Icons.home),
+                ),
                 IconButton(
                   onPressed: () {
                     Navigator.pushReplacement(
@@ -82,15 +91,15 @@ class _TodolistState extends State<Todolist> {
                     Card(
                       // add color to card that have red yellow green purple blue
                       color: tasks[index]['taskcolor'] == 'red'
-                          ? Colors.red
+                          ? Colors.red[300]
                           : tasks[index]['taskcolor'] == 'yellow'
-                              ? Colors.yellow
+                              ? Colors.yellow[300]
                               : tasks[index]['taskcolor'] == 'green'
-                                  ? Colors.green
+                                  ? Colors.green[200]
                                   : tasks[index]['taskcolor'] == 'purple'
-                                      ? Colors.purple
+                                      ? Colors.purple[300]
                                       : tasks[index]['taskcolor'] == 'blue'
-                                          ? Colors.blue
+                                          ? Colors.blue[300]
                                           : Colors.white,
 
                       elevation: 5,
@@ -141,18 +150,7 @@ class _TodolistState extends State<Todolist> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) => EditTask(
-                                                  taskname: tasks[index]
-                                                      ['taskname'],
-                                                  taskdescription: tasks[index]
-                                                      ['taskdescription'],
-                                                  taskdate: tasks[index]
-                                                      ['taskdate'],
-                                                  tasktime: tasks[index]
-                                                      ['tasktime'],
-                                                  taskpriority: tasks[index]
-                                                      ['taskpriority'],
-                                                  taskstatus: tasks[index]
-                                                      ['taskstatus'],
+                                                  tasks: tasks,
                                                   index: index,
                                                 )));
                                   },
