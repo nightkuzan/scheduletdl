@@ -272,7 +272,6 @@ class _ScheduleViewState extends State<ScheduleView> {
             );
           }
           if (snapshot.connectionState == ConnectionState.done) {
-
             return MaterialApp(
               scrollBehavior: MyCustomScrollBehavior(),
               home: Scaffold(
