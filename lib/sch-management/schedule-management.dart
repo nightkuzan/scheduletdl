@@ -96,7 +96,7 @@ class _ScheduleManagement extends State<ScheduleManagement> {
               ),
             );
           }
-          if (snapshot.connectionState == ConnectionState.done) {
+          if (snapshot.connectionState == ConnectionState.done && subjectList.isEmpty) {
             return Scaffold(
               appBar: AppBar(
                   leading: IconButton(
