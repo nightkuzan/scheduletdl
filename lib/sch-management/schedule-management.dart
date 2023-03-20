@@ -231,34 +231,6 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                                         builder: (context) => Editschedule(
                                               index: index,
                                               subjectList: subjectList,
-                                              taskname: subjectList[index]
-                                                  ["taskname"],
-                                              taskID: subjectList[index]
-                                                  ["taskID"],
-                                              taskRoom: subjectList[index]
-                                                  ["taskroom"],
-                                              taskTimeStart: subjectList[index]
-                                                  ["tasktimeStart"],
-                                              taskTimeEnd: subjectList[index]
-                                                  ["tasktimeEnd"],
-                                              taskDay: subjectList[index]
-                                                  ["taskDay"],
-                                              taskMid: subjectList[index]
-                                                  ["taskmidterm"],
-                                              taskFinal: subjectList[index]
-                                                  ["taskfinal"],
-                                              taskStartmidterm:
-                                                  subjectList[index]
-                                                      ["taskStartmidterm"],
-                                              taskEndmidterm: subjectList[index]
-                                                  ["taskEndmidterm"],
-                                              taskStartfinal: subjectList[index]
-                                                  ["taskStartfinal"],
-                                              taskEndfinal: subjectList[index]
-                                                  ["taskEndfinal"],
-                                              taskdescription:
-                                                  subjectList[index]
-                                                      ["taskdescription"],
                                             )));
                               },
                               child: Card(
