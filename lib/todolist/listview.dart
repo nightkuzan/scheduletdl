@@ -57,7 +57,7 @@ class _TodolistState extends State<Todolist> {
             ),
           );
         }
-        if (snapshot.connectionState == ConnectionState.done) {
+        if (snapshot.connectionState == ConnectionState.done && tasks.isEmpty) {
           return Scaffold(
             appBar: AppBar(
                 leading: IconButton(
@@ -89,6 +89,57 @@ class _TodolistState extends State<Todolist> {
                     ),
                   ],
                 )),
+            body: const Center(
+              child: Text(
+                "No Task",
+                style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xff6B4EFF)),
+              ),
+            ),
+            floatingActionButton: FloatingActionButton(
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const AddTask()));
+              },
+              backgroundColor: const Color(0xff6B4EFF),
+              child: const Icon(Icons.add),
+            ),
+          );
+        }
+        if (snapshot.connectionState == ConnectionState.done) {
+          return Scaffold(
+            appBar: AppBar(
+              leading: IconButton(
+                onPressed: () {},
+                icon: IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const Menu()));
+                    },
+                    icon: const Icon(Icons.arrow_back_ios_new)),
+                color: Colors.black,
+              ),
+              backgroundColor: Colors.white,
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  Text(
+                    "Todo",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, color: Colors.black),
+                  ),
+                  Text(
+                    "List",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, color: Color(0xff6B4EFF)),
+                  ),
+                ],
+              ),
+            ),
             body: ListView.builder(
               // add top margin
               padding: const EdgeInsets.only(top: 20),
@@ -252,6 +303,14 @@ class _TodolistState extends State<Todolist> {
                   ],
                 );
               },
+            ),
+            floatingActionButton: FloatingActionButton(
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const AddTask()));
+              },
+              backgroundColor: const Color(0xff6B4EFF),
+              child: const Icon(Icons.add),
             ),
           );
         }
