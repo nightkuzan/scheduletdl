@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -20,19 +21,6 @@ class _ScheduleManagement extends State<ScheduleManagement> {
   User? user = FirebaseAuth.instance.currentUser;
   late int index;
   List<bool> _itemNotifications = List.generate(100, (_) => false);
-
-  // List<Color?> colors = [
-  //   const Color(0xffF198AF),
-  //   const Color.fromARGB(255, 255, 198, 201),
-  //   // const Color(0xFFEBB2D6),
-  //   // const Color(0xFF9F81CD),
-  //   // const Color(0xFF766DC1),
-  //   // Colors.green,
-  //   // Colors.orange,
-  //   // const Color.fromARGB(255, 246, 43, 43),
-  //   // const Color.fromARGB(255, 54, 228, 191),
-  //   // const Color.fromARGB(255, 255, 183, 211),
-  // ];
 
   List subjectList = [];
   List uidList = [];
@@ -87,11 +75,15 @@ class _ScheduleManagement extends State<ScheduleManagement> {
   Future<FirebaseApp> firebase = Firebase.initializeApp();
 
   String uidimport = '';
+  String uidUser = '';
 
   @override
   Widget build(BuildContext context) {
-    // int n = subjectList.length;
-    // List<bool> boolList = List.generate(n, (_) => false);
+    for (int i = 0; i < uidList.length; i++){
+      if(uidList[i]['email'] == user!.email){
+        uidUser = uidList[i]['uid'];
+      }
+    }
     return FutureBuilder(
         future: firebase,
         builder: (context, snapshot) {
@@ -151,7 +143,7 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                                       if (check) {
                                         await getdataFromfriend(uidimport);
 
-                                        print(subjectList);
+                                        // print(subjectList);
                                         // remove all schedule
                                         FirebaseFirestore.instance
                                             .collection('users')
@@ -215,7 +207,19 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                 child: Column(
                   children: [
                     const SizedBox(
-                      height: 30,
+                      height: 20,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 25, right: 20),
+                      child: Row(
+                        children: [
+                          Text("uid: $uidUser   ", style: const TextStyle(fontWeight: FontWeight.bold),),
+                          CopyTextButton(textToCopy: uidUser)
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
                     ),
                     ListView.builder(
                         shrinkWrap: true,
@@ -264,8 +268,8 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                               child: Card(
                                 // color: colors[Random().nextInt(colors.length)],
                                 color: index % 2 == 0
-                                    ? const Color(0xffF198AF)
-                                    : const Color.fromARGB(255, 255, 198, 201),
+                                    ? const Color.fromARGB(255, 158, 69, 248)
+                                    : const Color(0xffB770FF),
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: ListTile(
@@ -382,8 +386,8 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                                             },
                                             icon: Icon(
                                               _itemNotifications[index]
-                                                  ? Icons.notifications
-                                                  : Icons.notifications_active,
+                                                  ? Icons.notifications_active
+                                                  : Icons.notifications,
                                             ))
                                       ],
                                     ),
@@ -406,3 +410,26 @@ class _ScheduleManagement extends State<ScheduleManagement> {
         });
   }
 }
+
+class CopyTextButton extends StatelessWidget {
+  final String textToCopy;
+
+  CopyTextButton({required this.textToCopy});
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      onPressed: () {
+        Clipboard.setData(ClipboardData(text: textToCopy));
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Text copied to clipboard')),
+        );
+      },
+      icon: const Icon(Icons.copy),
+    );
+  }
+}
+
+
+
+
