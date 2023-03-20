@@ -162,12 +162,14 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                                           'subjectList': subjectList,
                                         }, SetOptions(merge: true));
                                         // replacement new schedule
-                                        Navigator.pop(context);
-                                        Navigator.pushReplacement(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const ScheduleManagement()));
+                                        // Navigator.pop(context);
+                                        // Navigator.pushReplacement(
+                                        //   context,
+                                        //   MaterialPageRoute(
+                                        //     builder: (context) =>
+                                        //         const ScheduleManagement(),
+                                        //   ),
+                                        // );
                                       }
                                     },
                                     child: const Text('Import'),
