@@ -1,29 +1,88 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
+import 'package:scheduletdl/Management/examDate_mng.dart';
+
+import '../firebase_options.dart';
 
 class EditExamDate extends StatefulWidget {
-  const EditExamDate({super.key});
-  // final String examMidStart;
-  // final String examMidEnd;
-  // final String examFiStart;
-  // final String examFiEnd;
-
-  // final String taskMid;
-  // final String taskFinal;
-  // final String taskTimeEnd;
-  // final String taskDay;
+  dynamic subjectList;
+  int index;
+  EditExamDate({super.key, required this.subjectList, required this.index});
+  // dynamic tasks;
+  // late int index;
 
   @override
   State<EditExamDate> createState() => _EditExamDateState();
 }
 
+List subjectList = [];
+
 class _EditExamDateState extends State<EditExamDate> {
-  final TextEditingController _examMiddate = TextEditingController();
-  final TextEditingController _examFidate = TextEditingController();
-  final TextEditingController _startTimeController = TextEditingController();
-  final TextEditingController _endTimeController = TextEditingController();
+  User? user = FirebaseAuth.instance.currentUser;
+  int index = 0;
+  var formKey = GlobalKey<FormState>();
+  // var taskmidterm = TextEditingController();
+  // var taskfinal = TextEditingController();
+  // var taskStartmidterm = TextEditingController();
+  // var taskEndmidterm = TextEditingController();
+  // var taskStartfinal = TextEditingController();
+  // var taskEndfinal = TextEditingController();
+  var subjectName = TextEditingController();
+  var subjectID = TextEditingController();
+  var room = TextEditingController();
+  var startTimeController = TextEditingController();
+  var endTimeController = TextEditingController();
+  var studyDay = TextEditingController();
+  var startMidTimeController = TextEditingController();
+  var endMidTimeController = TextEditingController();
+  var startFinalTimeController = TextEditingController();
+  var endFinalTimeController = TextEditingController();
+  var examMiddate = TextEditingController();
+  var examFidate = TextEditingController();
+  var subjectDescription = TextEditingController();
+  final Future<FirebaseApp> firebase = Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   @override
+  void initState() {
+    super.initState();
+    index = widget.index;
+    subjectName =
+        TextEditingController(text: widget.subjectList[index]['taskname']);
+    subjectID =
+        TextEditingController(text: widget.subjectList[index]["taskID"]);
+    room = TextEditingController(text: widget.subjectList[index]["taskroom"]);
+    startTimeController =
+        TextEditingController(text: widget.subjectList[index]["tasktimeStart"]);
+    endTimeController =
+        TextEditingController(text: widget.subjectList[index]["tasktimeEnd"]);
+    studyDay =
+        TextEditingController(text: widget.subjectList[index]["taskDay"]);
+    startMidTimeController = TextEditingController(
+        text: widget.subjectList[index]["taskStartmidterm"]);
+    endMidTimeController = TextEditingController(
+        text: widget.subjectList[index]["taskEndmidterm"]);
+    startFinalTimeController = TextEditingController(
+        text: widget.subjectList[index]["taskStartfinal"]);
+    endFinalTimeController =
+        TextEditingController(text: widget.subjectList[index]["taskEndfinal"]);
+    examMiddate =
+        TextEditingController(text: widget.subjectList[index]["taskmidterm"]);
+    examFidate =
+        TextEditingController(text: widget.subjectList[index]["taskfinal"]);
+    subjectDescription = TextEditingController(
+        text: widget.subjectList[index]["taskdescription"]);
+
+    setState(() {
+      subjectList = widget.subjectList;
+    });
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
@@ -56,18 +115,19 @@ class _EditExamDateState extends State<EditExamDate> {
               Padding(
                 padding: const EdgeInsets.only(left: 30, right: 30, top: 30),
                 child: Form(
+                  key: formKey,
                   child: Column(
                     children: [
-                      Text(
+                      const Text(
                         "Edit Examination Date",
                         style: TextStyle(
                             fontSize: 30, fontWeight: FontWeight.bold),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       Row(children: [
-                        Text(
+                        const Text(
                           "Midterm Exam : ",
                           style: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold),
@@ -77,7 +137,7 @@ class _EditExamDateState extends State<EditExamDate> {
                         height: 20,
                       ),
                       TextFormField(
-                        controller: _examMiddate,
+                        controller: examMiddate,
                         decoration: const InputDecoration(
                             icon:
                                 Icon(Icons.calendar_today), //icon of text field
@@ -97,19 +157,22 @@ class _EditExamDateState extends State<EditExamDate> {
                             String formattedDate =
                                 DateFormat('yyyy-MM-dd').format(pickedDate);
                             setState(() {
-                              _examMiddate.text =
+                              examMiddate.text =
                                   formattedDate; //set output date to TextField value.
                             });
                           } else {}
                         },
                       ),
+                      SizedBox(
+                        height: 10,
+                      ),
                       Row(
                         children: [
                           Expanded(
                             child: TextFormField(
-                              controller: _startTimeController,
+                              controller: startMidTimeController,
                               decoration: InputDecoration(
-                                hintText: "เวลา1" == '' ? 'เวลา2' : "เวลา3",
+                                hintText: "เวลา1" == '' ? 'เวลา2' : "เวลาเริ่ม",
                                 suffixIcon: IconButton(
                                   icon: const Icon(Icons.access_time),
                                   onPressed: () async {
@@ -119,10 +182,11 @@ class _EditExamDateState extends State<EditExamDate> {
                                       initialTime: TimeOfDay.now(),
                                     );
                                     if (pickedTime != null) {
-                                      if (_endTimeController.text.isNotEmpty) {
+                                      if (endMidTimeController
+                                          .text.isNotEmpty) {
                                         final endTime = TimeOfDay.fromDateTime(
                                             DateFormat.jm().parse(
-                                                _endTimeController.text));
+                                                endMidTimeController.text));
                                         if (pickedTime.hour > endTime.hour ||
                                             (pickedTime.hour == endTime.hour &&
                                                 pickedTime.minute >
@@ -138,7 +202,7 @@ class _EditExamDateState extends State<EditExamDate> {
                                         }
                                       }
                                       setState(() {
-                                        _startTimeController.text =
+                                        endMidTimeController.text =
                                             pickedTime.format(context);
                                       });
                                     }
@@ -153,9 +217,10 @@ class _EditExamDateState extends State<EditExamDate> {
                           const Text("  -  "),
                           Expanded(
                             child: TextFormField(
-                              controller: _endTimeController,
+                              controller: endMidTimeController,
                               decoration: InputDecoration(
-                                hintText: "เวลา4" == '' ? 'เวลา5' : "เวลา6",
+                                hintText:
+                                    "เวลา4" == '' ? 'เวลา5' : "เวลาสิ้นสุด",
                                 suffixIcon: IconButton(
                                   icon: const Icon(Icons.access_time),
                                   onPressed: () async {
@@ -165,12 +230,11 @@ class _EditExamDateState extends State<EditExamDate> {
                                       initialTime: TimeOfDay.now(),
                                     );
                                     if (pickedTime != null) {
-                                      if (_startTimeController
+                                      if (startMidTimeController
                                           .text.isNotEmpty) {
-                                        final startTime =
-                                            TimeOfDay.fromDateTime(
-                                                DateFormat.jm().parse(
-                                                    _startTimeController.text));
+                                        final startTime = TimeOfDay
+                                            .fromDateTime(DateFormat.jm().parse(
+                                                startMidTimeController.text));
                                         if (pickedTime.hour < startTime.hour ||
                                             (pickedTime.hour ==
                                                     startTime.hour &&
@@ -187,7 +251,7 @@ class _EditExamDateState extends State<EditExamDate> {
                                         }
                                       }
                                       setState(() {
-                                        _endTimeController.text =
+                                        endMidTimeController.text =
                                             pickedTime.format(context);
                                       });
                                     }
@@ -215,7 +279,7 @@ class _EditExamDateState extends State<EditExamDate> {
                         height: 20,
                       ),
                       TextFormField(
-                        controller: _examFidate,
+                        controller: examFidate,
                         decoration: const InputDecoration(
                             icon:
                                 Icon(Icons.calendar_today), //icon of text field
@@ -235,19 +299,22 @@ class _EditExamDateState extends State<EditExamDate> {
                             String formattedDate =
                                 DateFormat('yyyy-MM-dd').format(pickedDate);
                             setState(() {
-                              _examFidate.text =
+                              examFidate.text =
                                   formattedDate; //set output date to TextField value.
                             });
                           } else {}
                         },
                       ),
+                      SizedBox(
+                        height: 10,
+                      ),
                       Row(
                         children: [
                           Expanded(
                             child: TextFormField(
-                              controller: _startTimeController,
+                              controller: startFinalTimeController,
                               decoration: InputDecoration(
-                                hintText: "เวลา1" == '' ? 'เวลา2' : "เวลา3",
+                                hintText: "เวลา1" == '' ? 'เวลา2' : "เวลาเริ่ม",
                                 suffixIcon: IconButton(
                                   icon: const Icon(Icons.access_time),
                                   onPressed: () async {
@@ -257,10 +324,11 @@ class _EditExamDateState extends State<EditExamDate> {
                                       initialTime: TimeOfDay.now(),
                                     );
                                     if (pickedTime != null) {
-                                      if (_endTimeController.text.isNotEmpty) {
+                                      if (endFinalTimeController
+                                          .text.isNotEmpty) {
                                         final endTime = TimeOfDay.fromDateTime(
                                             DateFormat.jm().parse(
-                                                _endTimeController.text));
+                                                endFinalTimeController.text));
                                         if (pickedTime.hour > endTime.hour ||
                                             (pickedTime.hour == endTime.hour &&
                                                 pickedTime.minute >
@@ -276,7 +344,7 @@ class _EditExamDateState extends State<EditExamDate> {
                                         }
                                       }
                                       setState(() {
-                                        _startTimeController.text =
+                                        startFinalTimeController.text =
                                             pickedTime.format(context);
                                       });
                                     }
@@ -291,9 +359,10 @@ class _EditExamDateState extends State<EditExamDate> {
                           const Text("  -  "),
                           Expanded(
                             child: TextFormField(
-                              controller: _endTimeController,
+                              controller: endFinalTimeController,
                               decoration: InputDecoration(
-                                hintText: "เวลา4" == '' ? 'เวลา5' : "เวลา6",
+                                hintText:
+                                    "เวลา4" == '' ? 'เวลา5' : "เวลาสิ้นสุด",
                                 suffixIcon: IconButton(
                                   icon: const Icon(Icons.access_time),
                                   onPressed: () async {
@@ -303,12 +372,11 @@ class _EditExamDateState extends State<EditExamDate> {
                                       initialTime: TimeOfDay.now(),
                                     );
                                     if (pickedTime != null) {
-                                      if (_startTimeController
+                                      if (startFinalTimeController
                                           .text.isNotEmpty) {
-                                        final startTime =
-                                            TimeOfDay.fromDateTime(
-                                                DateFormat.jm().parse(
-                                                    _startTimeController.text));
+                                        final startTime = TimeOfDay
+                                            .fromDateTime(DateFormat.jm().parse(
+                                                startFinalTimeController.text));
                                         if (pickedTime.hour < startTime.hour ||
                                             (pickedTime.hour ==
                                                     startTime.hour &&
@@ -325,7 +393,7 @@ class _EditExamDateState extends State<EditExamDate> {
                                         }
                                       }
                                       setState(() {
-                                        _endTimeController.text =
+                                        endFinalTimeController.text =
                                             pickedTime.format(context);
                                       });
                                     }
@@ -339,6 +407,87 @@ class _EditExamDateState extends State<EditExamDate> {
                           ),
                         ],
                       ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          if (formKey.currentState!.validate()) {
+                            Map<String, dynamic> subjectTask = {
+                              // "taskmidterm": widget.subjectList[index]
+                              //     ["taskmidterm"],
+                              // "taskfinal": widget.subjectList[index]
+                              //     ["taskfinal"],
+                              // "taskStartmidterm": widget.subjectList[index]
+                              //     ["taskStartmidterm"],
+                              // "taskEndmidterm": widget.subjectList[index]
+                              //     ["taskEndmidterm"],
+                              // "taskStartfinal": widget.subjectList[index]
+                              //     ["taskStartfinal"],
+                              // "taskEndfinal": widget.subjectList[index]
+                              //     ["taskEndfinal"],
+                              "taskname": widget.subjectList[index]["taskname"],
+                              "taskID": widget.subjectList[index]["taskID"],
+                              "taskroom": widget.subjectList[index]["taskroom"],
+                              "tasktimeStart": widget.subjectList[index]
+                                  ["tasktimeStart"],
+                              "tasktimeEnd": widget.subjectList[index]
+                                  ["tasktimeEnd"],
+                              "taskDay": widget.subjectList[index]["taskDay"],
+                              "taskmidterm": examMiddate.text,
+                              "taskStartmidterm": startMidTimeController.text,
+                              "taskEndmidterm": endMidTimeController.text,
+                              "taskfinal": examFidate.text,
+                              "taskStartfinal": startFinalTimeController.text,
+                              "taskEndfinal": endFinalTimeController.text,
+                              "taskdescription": widget.subjectList[index]
+                                  ["taskdescription"],
+                            };
+                            subjectList[index] = subjectTask;
+                            FirebaseFirestore.instance
+                                .collection("users")
+                                .doc(FirebaseAuth.instance.currentUser!.uid)
+                                .collection("subjectList")
+                                .doc("subjectTask")
+                                .set(
+                                  {
+                                    "subjectList": subjectList,
+                                  },
+                                  SetOptions(merge: true),
+                                )
+                                .then((value) => Fluttertoast.showToast(
+                                    msg: "Subject Updated Successfully",
+                                    toastLength: Toast.LENGTH_SHORT,
+                                    gravity: ToastGravity.BOTTOM,
+                                    timeInSecForIosWeb: 1,
+                                    backgroundColor: Colors.green,
+                                    textColor: Colors.white,
+                                    fontSize: 16.0))
+                                .catchError((error) => Fluttertoast.showToast(
+                                    msg: "Failed to update subject: $error",
+                                    toastLength: Toast.LENGTH_SHORT,
+                                    gravity: ToastGravity.BOTTOM,
+                                    timeInSecForIosWeb: 1,
+                                    backgroundColor: Colors.red,
+                                    textColor: Colors.white,
+                                    fontSize: 16.0));
+                          }
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const ExamListManagement()),
+                          );
+                        },
+                        child: Text("Submit"),
+                        style: ElevatedButton.styleFrom(
+                            minimumSize: Size(100, 40),
+                            primary: Color(
+                              0xff6B4EFF,
+                            ),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30))),
+                      )
                     ],
                   ),
                 ),
