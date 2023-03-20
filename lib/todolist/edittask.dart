@@ -17,7 +17,6 @@ class EditTask extends StatefulWidget {
 
 List tasks = [];
 
-@immutable
 class _EditTaskState extends State<EditTask> {
   // access String taskname
   var taskname = TextEditingController();
