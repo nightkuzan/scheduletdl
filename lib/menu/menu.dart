@@ -104,7 +104,7 @@ class _MenuState extends State<Menu> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30.0),
                       ),
-                      backgroundColor: const Color(0xff8A2DE8)),
+                      backgroundColor: const Color.fromARGB(255, 158, 69, 248)),
                   onPressed: () {
                     Navigator.push(
                       context,
