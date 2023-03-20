@@ -18,6 +18,8 @@ class ScheduleManagement extends StatefulWidget {
 }
 
 class _ScheduleManagement extends State<ScheduleManagement> {
+  final String notificationStatusYes = "true";
+  final String notificationStatusNo = "false";
   User? user = FirebaseAuth.instance.currentUser;
   late int index;
   List<bool> _itemNotifications = List.generate(100, (_) => false);
@@ -379,6 +381,7 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                                         IconButton(
                                             onPressed: () {
                                               setState(() {
+                                                // print(notificationStatusYes);
                                                 // print(subjectList.indexOf(subjectList[index].boolList[subjectList.indexOf(subjectList[index])]));
                                                 _itemNotifications[index] =
                                                     !_itemNotifications[index];
