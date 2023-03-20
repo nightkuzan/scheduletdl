@@ -6,27 +6,16 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:scheduletdl/todolist/listview.dart';
 
 class EditTask extends StatefulWidget {
-  String taskname;
-  String taskdescription;
-  String taskdate;
-  String tasktime;
-  String taskpriority;
-  String taskstatus;
+  dynamic tasks;
   int index;
 
-  EditTask(
-      {super.key,
-      required this.taskname,
-      required this.taskdescription,
-      required this.taskdate,
-      required this.tasktime,
-      required this.taskpriority,
-      required this.taskstatus,
-      required this.index});
+  EditTask({super.key, required this.tasks, required this.index});
 
   @override
   _EditTaskState createState() => _EditTaskState();
 }
+
+List tasks = [];
 
 @immutable
 class _EditTaskState extends State<EditTask> {
@@ -38,31 +27,27 @@ class _EditTaskState extends State<EditTask> {
   var taskpriority = TextEditingController();
   var taskstatus = TextEditingController();
   var formKey = GlobalKey<FormState>();
+  var  _taskcolor = TextEditingController();
   int index = 0;
 
   @override
   void initState() {
     super.initState();
-    taskname = TextEditingController(text: widget.taskname);
-    taskdescription = TextEditingController(text: widget.taskdescription);
-    taskdate = TextEditingController(text: widget.taskdate);
-    tasktime = TextEditingController(text: widget.tasktime);
-    taskpriority = TextEditingController(text: widget.taskpriority);
-    taskstatus = TextEditingController(text: widget.taskstatus);
     index = widget.index;
 
-    // firebase to get data
-    FirebaseFirestore.instance
-        .collection("users")
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .collection("tasks")
-        .doc("task")
-        .get()
-        .then((value) {
-      setState(() {
-        var x = value.data() as Map<String, dynamic>;
-        print(x['tasks'][index]);
-      });
+    taskname = TextEditingController(text: widget.tasks[index]['taskname']);
+    taskdescription =
+        TextEditingController(text: widget.tasks[index]['taskdescription']);
+    taskdate = TextEditingController(text: widget.tasks[index]['taskdate']);
+    tasktime = TextEditingController(text: widget.tasks[index]['tasktime']);
+    taskpriority =
+        TextEditingController(text: widget.tasks[index]['taskpriority']);
+    taskstatus = TextEditingController(text: widget.tasks[index]['taskstatus']);
+    _taskcolor = TextEditingController(text: widget.tasks[index]['taskcolor']);
+
+    print(index);
+    setState(() {
+      tasks = widget.tasks;
     });
   }
 
@@ -167,7 +152,7 @@ class _EditTaskState extends State<EditTask> {
                     children: [
                       const Text("Task Priority"),
                       DropdownButtonFormField(
-                        value: widget.taskpriority,
+                        value: widget.tasks[index]['taskpriority'].toString(),
                         items: const [
                           DropdownMenuItem(
                             value: "High",
@@ -199,6 +184,125 @@ class _EditTaskState extends State<EditTask> {
                       ),
                     ],
                   ),
+                  Column(
+                    // select color minimal for task
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text("Task Color"),
+                  const SizedBox(height: 10),
+                  Row(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _taskcolor.text = 'red';
+                          });
+                        },
+                        child: Container(
+                          width: 50,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            color: Colors.red[300],
+                            borderRadius: _taskcolor.text == 'red'
+                                ? BorderRadius.circular(10)
+                                : BorderRadius.circular(0),
+                            border: _taskcolor.text == 'red'
+                                ? Border.all(color: Colors.black)
+                                : null,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      GestureDetector(
+                        onTap: () {
+                          // make have selected color
+
+                          setState(() {
+                            _taskcolor.text = 'blue';
+                          });
+                        },
+                        child: Container(
+                          width: 50,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            color: Colors.blue[300],
+                            borderRadius: _taskcolor.text == 'blue'
+                                ? BorderRadius.circular(10)
+                                : BorderRadius.circular(0),
+                            border: _taskcolor.text == 'blue'
+                                ? Border.all(color: Colors.black)
+                                : null,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _taskcolor.text = 'green';
+                          });
+                        },
+                        child: Container(
+                          width: 50,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            color: Colors.green[200],
+                            borderRadius: _taskcolor.text == 'green'
+                                ? BorderRadius.circular(10)
+                                : BorderRadius.circular(0),
+                            border: _taskcolor.text == 'green'
+                                ? Border.all(color: Colors.black)
+                                : null,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _taskcolor.text = 'yellow';
+                          });
+                        },
+                        child: Container(
+                          width: 50,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            color: Colors.yellow[300],
+                            borderRadius: _taskcolor.text == 'yellow'
+                                ? BorderRadius.circular(10)
+                                : BorderRadius.circular(0),
+                            border: _taskcolor.text == 'yellow'
+                                ? Border.all(color: Colors.black)
+                                : null,
+
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _taskcolor.text = 'purple';
+                          });
+                        },
+                        child: Container(
+                          width: 50,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            color: Colors.purple[300],
+                            borderRadius: _taskcolor.text == 'purple'
+                                ? BorderRadius.circular(10)
+                                : BorderRadius.circular(0),
+                            border: _taskcolor.text == 'purple'
+                                ? Border.all(color: Colors.black)
+                                : null,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+                  ),
                 ],
               ),
             ),
@@ -210,19 +314,21 @@ class _EditTaskState extends State<EditTask> {
                     "taskdate": taskdate.text,
                     "tasktime": tasktime.text,
                     "taskpriority": taskpriority.text,
-                    "taskstatus": widget.taskstatus,
+                    "taskstatus": widget.tasks[index]['taskstatus'],
                     "taskdescription": taskdescription.text,
+                    "taskcolor": _taskcolor.text,
                   };
+                  tasks[index] = task;
                   FirebaseFirestore.instance
                       .collection("users")
                       .doc(FirebaseAuth.instance.currentUser!.uid)
                       .collection("tasks")
                       .doc("task")
-                      .update(
+                      .set(
                         {
-                          "tasks": FieldValue.arrayUnion([widget.index]),
+                          "tasks": tasks,
                         },
-                        // SetOptions(merge: true),
+                        SetOptions(merge: true),
                       )
                       .then((value) => Fluttertoast.showToast(
                           msg: "Task Updated Successfully",
