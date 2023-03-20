@@ -151,35 +151,6 @@ class _SignInState extends State<SignIn> {
                                 const SizedBox(
                                   height: 20,
                                 ),
-                                ElevatedButton(
-                                    onPressed: () {
-                                      // go to page menu
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => const Menu()),
-                                      );
-                                    },
-                                    child: const Text(
-                                        "Go to Menu page for testing")),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                ElevatedButton(
-                                    onPressed: () {
-                                      // go to page menu
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const EditExamDate()),
-                                      );
-                                    },
-                                    child: const Text(
-                                        "Go to Menu page for Testing Exam")),
-                                const SizedBox(
-                                  height: 20,
-                                ),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [

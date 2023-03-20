@@ -31,6 +31,7 @@ class _AddTaskState extends State<AddTask> {
   final TextEditingController _taskpriority = TextEditingController();
   final TextEditingController _taskstatus = TextEditingController();
   final TextEditingController _taskdescription = TextEditingController();
+  final TextEditingController _taskcolor = TextEditingController();
 
   final DateTime _selectedDate = DateTime.now();
 
@@ -224,6 +225,125 @@ class _AddTaskState extends State<AddTask> {
               const SizedBox(
                 height: 20,
               ),
+              Column(
+                // select color minimal for task
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text("Task Color"),
+                  const SizedBox(height: 10),
+                  Row(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _taskcolor.text = 'red';
+                          });
+                        },
+                        child: Container(
+                          width: 50,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            color: Colors.red,
+                            borderRadius: _taskcolor.text == 'red'
+                                ? BorderRadius.circular(10)
+                                : BorderRadius.circular(0),
+                            border: _taskcolor.text == 'red'
+                                ? Border.all(color: Colors.black)
+                                : null,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      GestureDetector(
+                        onTap: () {
+                          // make have selected color
+
+                          setState(() {
+                            _taskcolor.text = 'blue';
+                          });
+                        },
+                        child: Container(
+                          width: 50,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            color: Colors.blue,
+                            borderRadius: _taskcolor.text == 'blue'
+                                ? BorderRadius.circular(10)
+                                : BorderRadius.circular(0),
+                            border: _taskcolor.text == 'blue'
+                                ? Border.all(color: Colors.black)
+                                : null,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _taskcolor.text = 'green';
+                          });
+                        },
+                        child: Container(
+                          width: 50,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            color: Colors.green,
+                            borderRadius: _taskcolor.text == 'green'
+                                ? BorderRadius.circular(10)
+                                : BorderRadius.circular(0),
+                            border: _taskcolor.text == 'green'
+                                ? Border.all(color: Colors.black)
+                                : null,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _taskcolor.text = 'yellow';
+                          });
+                        },
+                        child: Container(
+                          width: 50,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            color: Colors.yellow,
+                            borderRadius: _taskcolor.text == 'yellow'
+                                ? BorderRadius.circular(10)
+                                : BorderRadius.circular(0),
+                            border: _taskcolor.text == 'yellow'
+                                ? Border.all(color: Colors.black)
+                                : null,
+
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _taskcolor.text = 'purple';
+                          });
+                        },
+                        child: Container(
+                          width: 50,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            color: Colors.purple,
+                            borderRadius: _taskcolor.text == 'purple'
+                                ? BorderRadius.circular(10)
+                                : BorderRadius.circular(0),
+                            border: _taskcolor.text == 'purple'
+                                ? Border.all(color: Colors.black)
+                                : null,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
               ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
@@ -234,6 +354,7 @@ class _AddTaskState extends State<AddTask> {
                       'taskpriority': _taskpriority.text,
                       'taskstatus': _taskstatus.text,
                       'taskdescription': _taskdescription.text,
+                      'taskcolor': _taskcolor.text,
                     };
                     FirebaseFirestore.instance
                         .collection('users')
