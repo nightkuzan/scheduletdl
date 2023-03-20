@@ -19,9 +19,8 @@ class ScheduleManagement extends StatefulWidget {
 class _ScheduleManagement extends State<ScheduleManagement> {
   User? user = FirebaseAuth.instance.currentUser;
   late int index;
-  List<bool> _itemNotifications = List.generate(
-      100, (_) => false);
-  
+  List<bool> _itemNotifications = List.generate(100, (_) => false);
+
   // List<Color?> colors = [
   //   const Color(0xffF198AF),
   //   const Color.fromARGB(255, 255, 198, 201),
@@ -62,7 +61,7 @@ class _ScheduleManagement extends State<ScheduleManagement> {
   }
 
   Future<FirebaseApp> firebase = Firebase.initializeApp();
-  
+
   @override
   Widget build(BuildContext context) {
     // int n = subjectList.length;
@@ -281,14 +280,19 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                                         ),
                                         IconButton(
                                             onPressed: () {
-                                              setState(() {
-                                                // print(subjectList.indexOf(subjectList[index].boolList[subjectList.indexOf(subjectList[index])]));
-                                                _itemNotifications[index] = !_itemNotifications[index];
-                                              });
+                                              
+                                                setState(() {
+                                                  // print(subjectList.indexOf(subjectList[index].boolList[subjectList.indexOf(subjectList[index])]));
+                                                  _itemNotifications[index] =
+                                                      !_itemNotifications[
+                                                          index];
+                                                });
+                                              
                                             },
-                                            icon: Icon(_itemNotifications[index]?
-                                              Icons.notifications
-                                              : Icons.notifications_active,
+                                            icon: Icon(
+                                              _itemNotifications[index]
+                                                  ? Icons.notifications_active
+                                                  : Icons.notifications,
                                             ))
                                       ],
                                     ),
