@@ -102,7 +102,7 @@ class _MenuScheduleState extends State<MenuSchedule> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const ExamList_Management()),
+                        builder: (context) => const ExamListManagement()),
                   );
                 },
                 child: const Text('Examination Date',

@@ -90,7 +90,7 @@ class _SignInState extends State<SignIn> {
                                       profile.email = email!;
                                     },
                                     decoration: const InputDecoration(
-                                        hintText: "example@mail.com"),
+                                        hintText: "example@gmail.com"),
                                     validator: MultiValidator([
                                       RequiredValidator(
                                           errorText: "Please fill your email"),

@@ -1,38 +1,53 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:scheduletdl/Management/edit_exam.dart';
 
-class ExamList_Management extends StatefulWidget {
-  const ExamList_Management({super.key});
+class ExamListManagement extends StatefulWidget {
+  const ExamListManagement({super.key});
 
   @override
-  State<ExamList_Management> createState() => _ExamList_ManagementState();
+  State<ExamListManagement> createState() => _ExamListManagementState();
 }
 
-class _ExamList_ManagementState extends State<ExamList_Management> {
-  
-  
-  List<dynamic> tasks = [
-    {
-      "taskname": "Math",
-      "taskdescription": "Do math homework",
-      "taskdate": "2021-10-10",
-      "tasktime": "10:00",
-      "taskpriority": "High",
-      "taskstatus": "Incomplete"
-    },
-    {
-      "taskname": "English",
-      "taskdescription": "Do english homework",
-      "taskdate": "2021-10-10",
-      "tasktime": "10:00",
-      "taskpriority": "High",
-      "taskstatus": "Incomplete"
-    }
-  ];
+class _ExamListManagementState extends State<ExamListManagement> {
+  User? user = FirebaseAuth.instance.currentUser;
+  List subjectList = [];
+  List uidList = [];
+
+  getdata() async {
+    // Initialize Firebase
+    await Firebase.initializeApp();
+
+    final CollectionReference taskschManagement = FirebaseFirestore.instance
+        .collection('users')
+        .doc(user!.uid)
+        .collection('subjectList');
+
+    final snapshot = await taskschManagement.get();
+
+    setState(() {
+      subjectList = snapshot.docs.map((e) => e.data()).toList();
+      // print(subjectList);
+      subjectList = subjectList[0]['subjectList'];
+      // print(subjectList);
+    });
+    print(subjectList);
+  }
+
+  Future<FirebaseApp> firebase = Firebase.initializeApp();
 
   get index => null;
 
   @override
+  void initState() {
+    super.initState();
+    getdata();
+    print(subjectList);
+    print(user!.uid);
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -73,7 +88,7 @@ class _ExamList_ManagementState extends State<ExamList_Management> {
           ),
           ListView.builder(
             shrinkWrap: true,
-            itemCount: tasks.length,
+            itemCount: subjectList.length,
             itemBuilder: (context, index) {
               return Card(
                 child: ListTile(
@@ -84,14 +99,25 @@ class _ExamList_ManagementState extends State<ExamList_Management> {
                   //         builder: (context) => const EditExamDate()),
                   //   );
                   // },
-                  title: Text(tasks[index]["taskname"]),
-                  subtitle: Text(tasks[index]["taskdescription"]),
+                  title: Text(
+                    subjectList[index]["taskname"],
+                  ),
+                  subtitle: Wrap(children: [
+                    Text("Midterm : ${subjectList[index]["taskmidterm"]}"),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Text("Final : ${subjectList[index]["taskfinal"]}")
+                  ]),
                   trailing: IconButton(
                       onPressed: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const EditExamDate()),
+                              builder: (context) => EditExamDate(
+                                    subjectList: subjectList,
+                                    index: index,
+                                  )),
                         );
                       },
                       icon: Icon(Icons.edit)),
