@@ -35,6 +35,7 @@ class _ScheduleManagement extends State<ScheduleManagement> {
   // ];
 
   List subjectList = [];
+  List uidList = [];
 
   getdata() async {
     // Initialize Firebase
@@ -47,11 +48,34 @@ class _ScheduleManagement extends State<ScheduleManagement> {
         .collection('subjectList');
 
     final snapshot = await taskschManagement.get();
+
+    final CollectionReference userstdl =
+        FirebaseFirestore.instance.collection('users');
+    final snapshot1 = await userstdl.get();
+
+    setState(() {
+      subjectList = snapshot.docs.map((e) => e.data()).toList();
+      subjectList = subjectList[0]['subjectList'];
+      uidList = snapshot1.docs.map((e) => e.data()).toList();
+    });
+  }
+
+  getdataFromfriend(frienduid) async {
+    // Initialize Firebase
+
+    // await Firebase.initializeApp();
+
+    final CollectionReference taskschManagement = FirebaseFirestore.instance
+        .collection('users')
+        .doc(frienduid)
+        .collection('subjectList');
+
+    final snapshot = await taskschManagement.get();
+
     setState(() {
       subjectList = snapshot.docs.map((e) => e.data()).toList();
       subjectList = subjectList[0]['subjectList'];
     });
-    // print(subjectList);
   }
 
   @override
@@ -61,6 +85,8 @@ class _ScheduleManagement extends State<ScheduleManagement> {
   }
 
   Future<FirebaseApp> firebase = Firebase.initializeApp();
+
+  String uidimport = '';
 
   @override
   Widget build(BuildContext context) {
@@ -87,6 +113,74 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                     color: Colors.black,
                   ),
                   actions: [
+                    // import button
+                    IconButton(
+                      onPressed: () {
+                        //  show dialog for input uid of friend
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: const Text('Import Schedule'),
+                                content: TextField(
+                                  decoration: const InputDecoration(
+                                    hintText: 'Enter UID',
+                                  ),
+                                  onChanged: (value) {
+                                    uidimport = value;
+                                  },
+                                ),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text('Cancel'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () async {
+                                      // check uid is exist
+                                      bool check = false;
+                                      for (int i = 0; i < uidList.length; i++) {
+                                        if (uidList[i]['uid'] == uidimport) {
+                                          check = true;
+                                          break;
+                                        }
+                                      }
+
+                                      if (check) {
+                                        await getdataFromfriend(uidimport);
+
+                                        print(subjectList);
+                                        // remove all schedule
+                                        FirebaseFirestore.instance
+                                            .collection('users')
+                                            .doc(user!.uid)
+                                            .collection('subjectList')
+                                            .doc('subjectList')
+                                            .set({
+                                          'subjectList': subjectList,
+                                        }, SetOptions(merge: true));
+                                        // replacement new schedule
+                                        Navigator.pop(context);
+                                        Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const ScheduleManagement()));
+                                      }
+                                    },
+                                    child: const Text('Import'),
+                                  ),
+                                ],
+                              );
+                            });
+                      },
+                      icon: const Icon(
+                        Icons.import_export,
+                        color: Colors.black,
+                      ),
+                    ),
                     IconButton(
                       onPressed: () {
                         Navigator.push(
@@ -280,19 +374,16 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                                         ),
                                         IconButton(
                                             onPressed: () {
-                                              
-                                                setState(() {
-                                                  // print(subjectList.indexOf(subjectList[index].boolList[subjectList.indexOf(subjectList[index])]));
-                                                  _itemNotifications[index] =
-                                                      !_itemNotifications[
-                                                          index];
-                                                });
-                                              
+                                              setState(() {
+                                                // print(subjectList.indexOf(subjectList[index].boolList[subjectList.indexOf(subjectList[index])]));
+                                                _itemNotifications[index] =
+                                                    !_itemNotifications[index];
+                                              });
                                             },
                                             icon: Icon(
                                               _itemNotifications[index]
-                                                  ? Icons.notifications_active
-                                                  : Icons.notifications,
+                                                  ? Icons.notifications
+                                                  : Icons.notifications_active,
                                             ))
                                       ],
                                     ),

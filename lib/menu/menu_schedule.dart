@@ -112,27 +112,27 @@ class _MenuScheduleState extends State<MenuSchedule> {
             const SizedBox(
               height: 20,
             ),
-            Center(
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    minimumSize: const Size.fromHeight(60),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.0),
-                    ),
-                    backgroundColor: const Color(0xff7B7B1B)),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const ExamList_Management()),
-                  );
-                },
-                child: const Text(
-                  'Import From Friend',
-                  style: TextStyle(fontSize: 24),
-                ),
-              ),
-            ),
+            // Center(
+            //   child: ElevatedButton(
+            //     style: ElevatedButton.styleFrom(
+            //         minimumSize: const Size.fromHeight(60),
+            //         shape: RoundedRectangleBorder(
+            //           borderRadius: BorderRadius.circular(30.0),
+            //         ),
+            //         backgroundColor: const Color(0xff7B7B1B)),
+            //     onPressed: () {
+            //       Navigator.push(
+            //         context,
+            //         MaterialPageRoute(
+            //             builder: (context) => const ExamList_Management()),
+            //       );
+            //     },
+            //     child: const Text(
+            //       'Import From Friend',
+            //       style: TextStyle(fontSize: 24),
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),

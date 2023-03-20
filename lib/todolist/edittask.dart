@@ -220,7 +220,7 @@ class _EditTaskState extends State<EditTask> {
                       .doc("task")
                       .update(
                         {
-                          "tasks": FieldValue.arrayRemove([widget.taskname]),
+                          "tasks": FieldValue.arrayUnion([widget.index]),
                         },
                         // SetOptions(merge: true),
                       )
