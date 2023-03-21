@@ -18,7 +18,6 @@ class ScheduleManagement extends StatefulWidget {
 class _ScheduleManagement extends State<ScheduleManagement> {
   User? user = FirebaseAuth.instance.currentUser;
   late int index;
-  List<bool> _itemNotifications = List.generate(100, (_) => false);
 
 
   List subjectList = [];
@@ -435,6 +434,7 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                                       children: [
                                         IconButton(
                                           icon: const Icon(Icons.delete),
+                                          color: Colors.black,
                                           onPressed: () {
                                             // alert for confirmation
                                             AlertDialog alert = AlertDialog(
@@ -495,18 +495,6 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                                             // show toast message for notification of deletion
                                           },
                                         ),
-                                        IconButton(
-                                            onPressed: () {
-                                              setState(() {
-                                                _itemNotifications[index] =
-                                                    !_itemNotifications[index];
-                                              });
-                                            },
-                                            icon: Icon(
-                                              _itemNotifications[index]
-                                                  ? Icons.notifications
-                                                  : Icons.notifications_active,
-                                            ))
                                       ],
                                     ),
                                   ),
