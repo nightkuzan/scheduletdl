@@ -202,7 +202,7 @@ class _EditExamDateState extends State<EditExamDate> {
                                         }
                                       }
                                       setState(() {
-                                        endMidTimeController.text =
+                                        startMidTimeController.text =
                                             pickedTime.format(context);
                                       });
                                     }
