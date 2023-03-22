@@ -5,8 +5,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:time_planner/time_planner.dart';
 import 'package:intl/intl.dart';
+
+import '../theme/theme_management.dart';
 
 class ScheduleView extends StatefulWidget {
   const ScheduleView({Key? key, required this.title}) : super(key: key);
@@ -78,12 +81,9 @@ class _ScheduleViewState extends State<ScheduleView> {
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.landscapeRight,
     ]);
-
   }
 
   Future<FirebaseApp> firebase = Firebase.initializeApp();
-
-
 
   void _addObject(BuildContext context) {
     List<Color?> colors = [
@@ -263,145 +263,154 @@ class _ScheduleViewState extends State<ScheduleView> {
               ),
             );
           }
-          if (snapshot.connectionState == ConnectionState.done && subjectList.isEmpty){
-            return MaterialApp(
-              scrollBehavior: MyCustomScrollBehavior(),
-              home: Scaffold(
-                appBar: AppBar(
-                    leading: IconButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      icon: const Icon(Icons.arrow_back_ios_new),
-                      color: Colors.black,
-                    ),
-                    backgroundColor: Colors.white,
-                    title: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: const [
-                        Text(
-                          "my",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, color: Colors.black),
-                        ),
-                        Text(
-                          "Schedule",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xff6B4EFF)),
-                        ),
-                      ],
-                    )),
-                body: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Center(
-                    child: TimePlanner(
-                      startHour: 6,
-                      endHour: 18,
-                      style: TimePlannerStyle(
-                        // cellHeight: 60,
-                        cellWidth: 190,
-                        showScrollBar: true,
+          if (snapshot.connectionState == ConnectionState.done &&
+              subjectList.isEmpty) {
+            return Consumer<ThemeService>(builder: (_, themeService, __) {
+              return MaterialApp(
+                theme: ThemeData(primarySwatch: themeService.color),
+                scrollBehavior: MyCustomScrollBehavior(),
+                home: Scaffold(
+                  backgroundColor: themeService.subColor,
+                  appBar: AppBar(
+                      leading: IconButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        icon: const Icon(Icons.arrow_back_ios_new),
+                        color: Colors.black,
                       ),
-                      headers: const [
-                        TimePlannerTitle(
-                          title: "Monday",
+                      backgroundColor: Colors.white,
+                      title: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: const [
+                          Text(
+                            "my",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            "Schedule",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xff6B4EFF)),
+                          ),
+                        ],
+                      )),
+                  body: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Center(
+                      child: TimePlanner(
+                        startHour: 6,
+                        endHour: 18,
+                        style: TimePlannerStyle(
+                          // cellHeight: 60,
+                          cellWidth: 190,
+                          showScrollBar: true,
                         ),
-                        TimePlannerTitle(
-                          title: "Tuesday",
-                        ),
-                        TimePlannerTitle(
-                          title: "Wednesday",
-                        ),
-                        TimePlannerTitle(
-                          title: "Thursday",
-                        ),
-                        TimePlannerTitle(
-                          title: "Friday",
-                        ),
-                        TimePlannerTitle(
-                          title: "Saturday",
-                        ),
-                        TimePlannerTitle(
-                          title: "Sunday",
-                        ),
-                      ],
-                      tasks: tasks,
+                        headers: const [
+                          TimePlannerTitle(
+                            title: "Monday",
+                          ),
+                          TimePlannerTitle(
+                            title: "Tuesday",
+                          ),
+                          TimePlannerTitle(
+                            title: "Wednesday",
+                          ),
+                          TimePlannerTitle(
+                            title: "Thursday",
+                          ),
+                          TimePlannerTitle(
+                            title: "Friday",
+                          ),
+                          TimePlannerTitle(
+                            title: "Saturday",
+                          ),
+                          TimePlannerTitle(
+                            title: "Sunday",
+                          ),
+                        ],
+                        tasks: tasks,
+                      ),
                     ),
-                  ),               
-                ),              
-              ),
-            );
+                  ),
+                ),
+              );
+            });
           }
           if (snapshot.connectionState == ConnectionState.done) {
-            return MaterialApp(
-              scrollBehavior: MyCustomScrollBehavior(),
-              home: Scaffold(
-                appBar: AppBar(
-                    leading: IconButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      icon: const Icon(Icons.arrow_back_ios_new),
-                      color: Colors.black,
-                    ),
-                    backgroundColor: Colors.white,
-                    title: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: const [
-                        Text(
-                          "my",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, color: Colors.black),
-                        ),
-                        Text(
-                          "Schedule",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xff6B4EFF)),
-                        ),
-                      ],
-                    )),
-                body: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Center(
-                    child: TimePlanner(
-                      startHour: 6,
-                      endHour: 18,
-                      style: TimePlannerStyle(
-                        // cellHeight: 60,
-                        cellWidth: 190,
-                        showScrollBar: true,
+            return Consumer<ThemeService>(builder: (_, themeService, __) {
+              return MaterialApp(
+                theme: ThemeData(primarySwatch: themeService.color),
+                scrollBehavior: MyCustomScrollBehavior(),
+                home: Scaffold(
+                  backgroundColor: themeService.subColor,
+                  appBar: AppBar(
+                      leading: IconButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        icon: const Icon(Icons.arrow_back_ios_new),
+                        color: Colors.black,
                       ),
-                      headers: const [
-                        TimePlannerTitle(
-                          title: "Monday",
+                      // backgroundColor: Colors.white,
+                      title: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: const [
+                          Text(
+                            "my",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            "Schedule",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xff6B4EFF)),
+                          ),
+                        ],
+                      )),
+                  body: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Center(
+                      child: TimePlanner(
+                        startHour: 6,
+                        endHour: 18,
+                        style: TimePlannerStyle(
+                          // cellHeight: 60,
+                          cellWidth: 190,
+                          showScrollBar: true,
                         ),
-                        TimePlannerTitle(
-                          title: "Tuesday",
-                        ),
-                        TimePlannerTitle(
-                          title: "Wednesday",
-                        ),
-                        TimePlannerTitle(
-                          title: "Thursday",
-                        ),
-                        TimePlannerTitle(
-                          title: "Friday",
-                        ),
-                        TimePlannerTitle(
-                          title: "Saturday",
-                        ),
-                        TimePlannerTitle(
-                          title: "Sunday",
-                        ),
-                      ],
-                      tasks: tasks,
+                        headers: const [
+                          TimePlannerTitle(
+                            title: "Monday",
+                          ),
+                          TimePlannerTitle(
+                            title: "Tuesday",
+                          ),
+                          TimePlannerTitle(
+                            title: "Wednesday",
+                          ),
+                          TimePlannerTitle(
+                            title: "Thursday",
+                          ),
+                          TimePlannerTitle(
+                            title: "Friday",
+                          ),
+                          TimePlannerTitle(
+                            title: "Saturday",
+                          ),
+                          TimePlannerTitle(
+                            title: "Sunday",
+                          ),
+                        ],
+                        tasks: tasks,
+                      ),
                     ),
-                  ),               
-                ),              
-              ),
-            );
+                  ),
+                ),
+              );
+            });
           }
           return const Scaffold(
             body: Center(
