@@ -400,8 +400,8 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                                 },
                                 child: Card(
                                   color: index % 2 == 0
-                                      ? const Color.fromARGB(255, 158, 69, 248)
-                                      : const Color(0xffB770FF),
+                                      ? const Color(0xff313866)
+                                      : const Color(0xff50409a),
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: ListTile(

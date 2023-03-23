@@ -97,7 +97,7 @@ class _MenuScheduleState extends State<MenuSchedule> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30.0),
                       ),
-                      backgroundColor: const Color.fromARGB(255, 158, 69, 248)),
+                      backgroundColor: const Color(0xff313866)),
                   onPressed: () {
                     Navigator.push(
                       context,
@@ -108,7 +108,7 @@ class _MenuScheduleState extends State<MenuSchedule> {
                     );
                   },
                   child: const Text('Schedule View',
-                      style: TextStyle(fontSize: 24)),
+                      style: TextStyle(fontSize: 24, color: Colors.white)),
                 ),
               ),
               const SizedBox(
@@ -121,7 +121,7 @@ class _MenuScheduleState extends State<MenuSchedule> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30.0),
                       ),
-                      backgroundColor: const Color(0xffB770FF)),
+                      backgroundColor: const Color(0xff50409a)),
                   onPressed: () {
                     Navigator.push(
                       context,
@@ -130,7 +130,7 @@ class _MenuScheduleState extends State<MenuSchedule> {
                     );
                   },
                   child: const Text('Schedule Management',
-                      style: TextStyle(fontSize: 24)),
+                      style: TextStyle(fontSize: 24, color: Colors.white)),
                 ),
               ),
               const SizedBox(
@@ -143,7 +143,7 @@ class _MenuScheduleState extends State<MenuSchedule> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30.0),
                       ),
-                      backgroundColor: const Color.fromARGB(255, 158, 69, 248)),
+                      backgroundColor: const Color(0xff313866)),
                   onPressed: () {
                     Navigator.push(
                       context,
@@ -152,7 +152,7 @@ class _MenuScheduleState extends State<MenuSchedule> {
                     );
                   },
                   child: const Text('Examination Date',
-                      style: TextStyle(fontSize: 24)),
+                      style: TextStyle(fontSize: 24, color: Colors.white)),
                 ),
               ),
               const SizedBox(
@@ -165,7 +165,7 @@ class _MenuScheduleState extends State<MenuSchedule> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30.0),
                       ),
-                      backgroundColor: const Color(0xffB770FF)),
+                      backgroundColor: const Color(0xff50409a)),
                   onPressed: () {
                     //  show dialog for input uid of friend
                     showDialog(
@@ -247,7 +247,7 @@ class _MenuScheduleState extends State<MenuSchedule> {
                   },
                   child: const Text(
                     'Import From Friend',
-                    style: TextStyle(fontSize: 24),
+                    style: TextStyle(fontSize: 24, color: Colors.white),
                   ),
                 ),
               ),
