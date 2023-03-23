@@ -59,7 +59,8 @@ class _MenuState extends State<Menu> {
                   Text(
                     "my",
                     style: TextStyle(
-                        fontWeight: FontWeight.bold,),
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   Text(
                     "Schedule",

@@ -81,8 +81,7 @@ class _TodolistState extends State<Todolist> {
                     children: const [
                       Text(
                         "Todo",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold),
+                        style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                       Text(
                         "List",
@@ -121,6 +120,8 @@ class _TodolistState extends State<Todolist> {
                   onPressed: () {},
                   icon: IconButton(
                       onPressed: () {
+                        Navigator.pop(context);
+                        Navigator.pop(context);
                         Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -135,8 +136,7 @@ class _TodolistState extends State<Todolist> {
                   children: const [
                     Text(
                       "Todo",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold),
+                      style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     Text(
                       "List",
