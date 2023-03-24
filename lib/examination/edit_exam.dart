@@ -5,7 +5,8 @@
 // -----------------------------------------------------------------------------
 //
 // This file contains the widget functions that have textformfield
-// about the date of both midterm and final exam
+// about the date of both midterm and final exam and time in both of midterm.
+// And it has elevated button to push the new data to firebase. 
 // -----------------------------------------------------------------------------
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -19,6 +20,14 @@ import 'package:scheduletdl/examination/examdate_manage.dart';
 import '../firebase_options.dart';
 import '../theme/theme_management.dart';
 
+
+// -----------------------------------------------------------------------------
+// EditExamDate
+// -----------------------------------------------------------------------------
+// The EditExamDate class is create textformfield widget. It contains the code
+// textformfield to fill date-time. 
+// It also have elevatedbutton to push date and time to firebase.
+//------------------------------------------------------------------------------
 class EditExamDate extends StatefulWidget {
   dynamic subjectList;
   int index;
@@ -27,13 +36,20 @@ class EditExamDate extends StatefulWidget {
   @override
   State<EditExamDate> createState() => _EditExamDateState();
 }
-
-List subjectList = [];
+  /// Create subject list
+  List subjectList = [];
 
 class _EditExamDateState extends State<EditExamDate> {
+  
+  ///  initialized with the current user instance obtained from 
+  /// the FirebaseAuth object using the "currentUser" property.
   User? user = FirebaseAuth.instance.currentUser;
   int index = 0;
+
+  /// Crete form
   var formKey = GlobalKey<FormState>();
+
+  /// initialize variable
   var subjectName = TextEditingController();
   var subjectID = TextEditingController();
   var room = TextEditingController();
@@ -47,6 +63,8 @@ class _EditExamDateState extends State<EditExamDate> {
   var examMiddate = TextEditingController();
   var examFidate = TextEditingController();
   var subjectDescription = TextEditingController();
+
+  /// firebase initialize
   final Future<FirebaseApp> firebase = Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -55,6 +73,8 @@ class _EditExamDateState extends State<EditExamDate> {
   void initState() {
     super.initState();
     index = widget.index;
+
+    /// variable that collect data from TextFormField
     subjectName =
         TextEditingController(text: widget.subjectList[index]['taskname']);
     subjectID =
@@ -81,6 +101,7 @@ class _EditExamDateState extends State<EditExamDate> {
     subjectDescription = TextEditingController(
         text: widget.subjectList[index]["taskdescription"]);
 
+    ///set state
     setState(() {
       subjectList = widget.subjectList;
     });
@@ -88,9 +109,14 @@ class _EditExamDateState extends State<EditExamDate> {
 
   @override
   Widget build(BuildContext context) {
+    /// theme service
     return Consumer<ThemeService>(builder: (_, themeService, __) {
+
+      /// Build app 
       return Scaffold(
           backgroundColor: themeService.subColor,
+
+          ///appBar "mySchedule"
           appBar: AppBar(
               leading: IconButton(
                 onPressed: () {
@@ -113,12 +139,16 @@ class _EditExamDateState extends State<EditExamDate> {
                   ),
                 ],
               )),
+          
+          ///Body that have TextFormField and ElevatedButton
           body: SingleChildScrollView(
             child: Column(
               children: [
                 Padding(
                   padding: const EdgeInsets.only(left: 30, right: 30, top: 30),
                   child: Form(
+
+                    /// set value key
                     key: formKey,
                     child: Column(
                       children: [
@@ -422,6 +452,8 @@ class _EditExamDateState extends State<EditExamDate> {
                         ),
                         ElevatedButton(
                           onPressed: () {
+
+                            ///push new data to firebase
                             if (formKey.currentState!.validate()) {
                               Map<String, dynamic> subjectTask = {
                                 "taskname": widget.subjectList[index]
@@ -444,6 +476,8 @@ class _EditExamDateState extends State<EditExamDate> {
                                     ["taskdescription"],
                               };
                               subjectList[index] = subjectTask;
+
+                              /// push new data to firebase 
                               FirebaseFirestore.instance
                                   .collection("users")
                                   .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -455,6 +489,8 @@ class _EditExamDateState extends State<EditExamDate> {
                                     },
                                     SetOptions(merge: true),
                                   )
+
+                                  /// Show toast update
                                   .then((value) => Fluttertoast.showToast(
                                       msg: "Subject Updated Successfully",
                                       toastLength: Toast.LENGTH_SHORT,
@@ -463,6 +499,8 @@ class _EditExamDateState extends State<EditExamDate> {
                                       backgroundColor: Colors.green,
                                       textColor: Colors.white,
                                       fontSize: 16.0))
+
+                                  /// Show error toast 
                                   .catchError((error) => Fluttertoast.showToast(
                                       msg: "Failed to update subject: $error",
                                       toastLength: Toast.LENGTH_SHORT,
@@ -472,6 +510,8 @@ class _EditExamDateState extends State<EditExamDate> {
                                       textColor: Colors.white,
                                       fontSize: 16.0));
                             }
+
+                            /// Navigator to exam date management page 
                             Navigator.push(
                               context,
                               MaterialPageRoute(

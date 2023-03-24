@@ -1,12 +1,26 @@
+// -----------------------------------------------------------------------------
+// Tuksaporn Tubkerd (Feature must have : Exam date management)
+// -----------------------------------------------------------------------------
+// examdate_management.dart
+// -----------------------------------------------------------------------------
+//
+// This file contains the widget functions that have listview builder to
+// show about exam information
+// -----------------------------------------------------------------------------
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:scheduletdl/examination/edit_exam.dart';
-
 import '../theme/theme_management.dart';
 
+// -----------------------------------------------------------------------------
+// EditExamDate
+// ------EditExamdate class is create listview widget. In listview there are listtile 
+// that have title, subtitle, and trailing that is a icon button.
+//------------------------------------------------------------------------------
 class ExamListManagement extends StatefulWidget {
   const ExamListManagement({super.key});
 
@@ -15,10 +29,16 @@ class ExamListManagement extends StatefulWidget {
 }
 
 class _ExamListManagementState extends State<ExamListManagement> {
+
+  ///  initialized with the current user instance obtained from 
+  /// the FirebaseAuth object using the "currentUser" property.
   User? user = FirebaseAuth.instance.currentUser;
   List subjectList = [];
   List uidList = [];
 
+  // getdata()
+  // Fetch data from firebase and store it in list 
+  // subjectList to display in widget.
   getdata() async {
     await Firebase.initializeApp();
 
@@ -50,6 +70,8 @@ class _ExamListManagementState extends State<ExamListManagement> {
     return Consumer<ThemeService>(builder: (_, themeService, __) {
       return Scaffold(
         backgroundColor: themeService.subColor,
+
+        /// appBar "mySchedule"
         appBar: AppBar(
             leading: IconButton(
               onPressed: () {
@@ -72,6 +94,8 @@ class _ExamListManagementState extends State<ExamListManagement> {
                 ),
               ],
             )),
+
+        /// Body is SingleChildScroll view
         body: SingleChildScrollView(
           child: Column(
             children: [
@@ -85,6 +109,8 @@ class _ExamListManagementState extends State<ExamListManagement> {
               const SizedBox(
                 height: 15,
               ),
+
+              /// Listview that show the subject and exam date
               ListView.builder(
                 shrinkWrap: true,
                 itemCount: subjectList.length,
