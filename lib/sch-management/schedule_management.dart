@@ -4,7 +4,7 @@
 // schedule_management.dart
 // -----------------------------------------------------------------------------
 //
-// This file contains functions for fetching data from firebase getdata(), 
+// This file have ScheduleManagement class and contains functions for fetching data from firebase getdata(),
 // fetching friend's task table from getdataFromfriend(frienduid) and initState()
 // This function is called the first time when the widget is created to be displayed on the screen.
 // This page shows the schedule or class schedule that we have saved and 

@@ -4,7 +4,7 @@
 // add_schedule.dart
 // -----------------------------------------------------------------------------
 //
-// This file serves to add data to be saved to firebase to show the data
+// This file have AddSchedule class and serves to add data to be saved to firebase to show the data
 // to another page. with data saved in firebase according to that user
 // initState() function initializes the widget before the widget is rendered 
 // and renders the UI on screen. via widget
