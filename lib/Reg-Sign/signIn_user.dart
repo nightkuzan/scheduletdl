@@ -24,7 +24,6 @@ import '../firebase_options.dart';
 import '../theme/theme_management.dart';
 import 'register_user.dart';
 
-
 // -----------------------------------------------------------------------------
 // SignIn
 // -----------------------------------------------------------------------------
@@ -271,10 +270,9 @@ class _SignInState extends State<SignIn> {
                                     /// Check validate and save
                                     if (formKey.currentState!.validate()) {
                                       formKey.currentState?.save();
-
                                       try {
 
-                                        /// USe firebaseAuth to check e-mail and password
+                                        /// Use firebaseAuth to check e-mail and password
                                         await FirebaseAuth.instance
                                             .signInWithEmailAndPassword(
                                                 email: profile.email,
@@ -311,6 +309,8 @@ class _SignInState extends State<SignIn> {
             );
           });
         } else {
+
+          /// Indicating that the app is loading or performing a task.
           return const Scaffold(
             body: Center(
               child: CircularProgressIndicator(),
