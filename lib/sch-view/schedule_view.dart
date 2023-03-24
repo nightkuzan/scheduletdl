@@ -140,6 +140,7 @@ class _ScheduleViewState extends State<ScheduleView> {
       String timeStartString = plan["tasktimeStart"];
       String timeEndString = plan["tasktimeEnd"];
 
+      // format time in string to time
       DateTime timeStart = DateFormat.jm().parse(timeStartString);
       if (timeStart.hour == 12 &&
           (timeStart.timeZoneName == "AM" || timeStart.timeZoneName == "PM")) {
@@ -152,6 +153,7 @@ class _ScheduleViewState extends State<ScheduleView> {
       }
       String minutesStart = formattedTimeStart.substring(3);
 
+      // format time in string to time
       DateTime timeEnd = DateFormat.jm().parse(timeEndString);
       if (timeEnd.hour == 12 &&
           (timeEnd.timeZoneName == "AM" || timeEnd.timeZoneName == "PM")) {
@@ -173,7 +175,9 @@ class _ScheduleViewState extends State<ScheduleView> {
           (endHour * 60 + endMinutes) - (startHour * 60 + startMinutes);
       durations.add(durationMinutes);
     }
+    // loop for timeplanner
     for (int i = 0; i < subjectList.length; i++) {
+      // condition to add in timeplanner
       if (subjectList[i]["taskDay"] == 'Mon' ||
           subjectList[i]["taskDay"] == 'Tue' ||
           subjectList[i]["taskDay"] == 'Wed' ||
@@ -232,6 +236,7 @@ class _ScheduleViewState extends State<ScheduleView> {
             );
           });
         }
+        // condition to add in timeplanner if MTh or TuF
       } else if (subjectList[i]["taskDay"] == 'MTh' ||
           subjectList[i]["taskDay"] == 'TuF') {
         if (subjectList[i]["taskDay"] == 'MTh' ||
@@ -303,10 +308,13 @@ class _ScheduleViewState extends State<ScheduleView> {
               ),
             );
           }
+          // when tasks is empty
           if (snapshot.connectionState == ConnectionState.done &&
               subjectList.isEmpty) {
+                // use consumer to change theme to current theme
             return Consumer<ThemeService>(builder: (_, themeService, __) {
               return MaterialApp(
+                // change app bar theme to current theme
                 theme: ThemeData(primarySwatch: themeService.color),
                 scrollBehavior: MyCustomScrollBehavior(),
                 home: Scaffold(
@@ -377,8 +385,10 @@ class _ScheduleViewState extends State<ScheduleView> {
             });
           }
           if (snapshot.connectionState == ConnectionState.done) {
+            // use consumer to change theme to current theme
             return Consumer<ThemeService>(builder: (_, themeService, __) {
               return MaterialApp(
+                // change app bar theme to current theme
                 theme: ThemeData(primarySwatch: themeService.color),
                 scrollBehavior: MyCustomScrollBehavior(),
                 home: Scaffold(

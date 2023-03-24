@@ -106,8 +106,10 @@ class _Editschedule extends State<Editschedule> {
 
   @override
   Widget build(BuildContext context) {
+    // use consumer to change theme to the current theme
     return Consumer<ThemeService>(builder: (_, themeService, __) {
       return Scaffold(
+        // change app bar theme to the current theme
         backgroundColor: themeService.subColor,
         appBar: AppBar(
             leading: IconButton(
