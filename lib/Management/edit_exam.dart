@@ -14,8 +14,6 @@ class EditExamDate extends StatefulWidget {
   dynamic subjectList;
   int index;
   EditExamDate({super.key, required this.subjectList, required this.index});
-  // dynamic tasks;
-  // late int index;
 
   @override
   State<EditExamDate> createState() => _EditExamDateState();
@@ -27,12 +25,7 @@ class _EditExamDateState extends State<EditExamDate> {
   User? user = FirebaseAuth.instance.currentUser;
   int index = 0;
   var formKey = GlobalKey<FormState>();
-  // var taskmidterm = TextEditingController();
-  // var taskfinal = TextEditingController();
-  // var taskStartmidterm = TextEditingController();
-  // var taskEndmidterm = TextEditingController();
-  // var taskStartfinal = TextEditingController();
-  // var taskEndfinal = TextEditingController();
+
   var subjectName = TextEditingController();
   var subjectID = TextEditingController();
   var room = TextEditingController();
@@ -85,6 +78,7 @@ class _EditExamDateState extends State<EditExamDate> {
     });
   }
 
+  @override
   Widget build(BuildContext context) {
     return Consumer<ThemeService>(builder: (_, themeService, __) {
       return Scaffold(
@@ -97,14 +91,12 @@ class _EditExamDateState extends State<EditExamDate> {
                 icon: const Icon(Icons.arrow_back_ios_new),
                 color: Colors.black,
               ),
-              // backgroundColor: Colors.white,
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: const [
                   Text(
                     "my",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold),
+                    style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                   Text(
                     "Schedule",
@@ -130,31 +122,29 @@ class _EditExamDateState extends State<EditExamDate> {
                         const SizedBox(
                           height: 20,
                         ),
-                        Row(children: [
-                          const Text(
+                        Row(children: const [
+                          Text(
                             "Midterm Exam : ",
                             style: TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.bold),
                           )
                         ]),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         TextFormField(
                           controller: examMiddate,
                           decoration: const InputDecoration(
                               icon: Icon(
-                                  Icons.calendar_today), //icon of text field
-                              labelText: "Enter Date" //label text of field
+                                  Icons.calendar_today), 
+                              labelText: "Enter Date" 
                               ),
                           readOnly: true,
-                          //set it true, so that user will not able to edit text
                           onTap: () async {
                             DateTime? pickedDate = await showDatePicker(
                                 context: context,
                                 initialDate: DateTime.now(),
                                 firstDate: DateTime.now(),
-                                //DateTime.now() - not to allow to choose before today.
                                 lastDate: DateTime(2100));
 
                             if (pickedDate != null) {
@@ -162,12 +152,12 @@ class _EditExamDateState extends State<EditExamDate> {
                                   DateFormat('yyyy-MM-dd').format(pickedDate);
                               setState(() {
                                 examMiddate.text =
-                                    formattedDate; //set output date to TextField value.
+                                    formattedDate; 
                               });
                             } else {}
                           },
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Row(
@@ -199,7 +189,6 @@ class _EditExamDateState extends State<EditExamDate> {
                                                       endTime.hour &&
                                                   pickedTime.minute >
                                                       endTime.minute)) {
-                                            // Show error message or do something else to indicate invalid selection
                                             ScaffoldMessenger.of(context)
                                                 .showSnackBar(const SnackBar(
                                               content: Text(
@@ -251,7 +240,6 @@ class _EditExamDateState extends State<EditExamDate> {
                                                       startTime.hour &&
                                                   pickedTime.minute <
                                                       startTime.minute)) {
-                                            // Show error message or do something else to indicate invalid selection
                                             ScaffoldMessenger.of(context)
                                                 .showSnackBar(const SnackBar(
                                               content: Text(
@@ -276,34 +264,32 @@ class _EditExamDateState extends State<EditExamDate> {
                             ),
                           ],
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
-                        Row(children: [
+                        Row(children: const [
                           Text(
                             "Final Exam : ",
                             style: TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.bold),
                           )
                         ]),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         TextFormField(
                           controller: examFidate,
                           decoration: const InputDecoration(
                               icon: Icon(
-                                  Icons.calendar_today), //icon of text field
-                              labelText: "Enter Date" //label text of field
+                                  Icons.calendar_today), 
+                              labelText: "Enter Date" 
                               ),
                           readOnly: true,
-                          //set it true, so that user will not able to edit text
                           onTap: () async {
                             DateTime? pickedDate = await showDatePicker(
                                 context: context,
                                 initialDate: DateTime.now(),
                                 firstDate: DateTime.now(),
-                                //DateTime.now() - not to allow to choose before today.
                                 lastDate: DateTime(2100));
 
                             if (pickedDate != null) {
@@ -311,12 +297,12 @@ class _EditExamDateState extends State<EditExamDate> {
                                   DateFormat('yyyy-MM-dd').format(pickedDate);
                               setState(() {
                                 examFidate.text =
-                                    formattedDate; //set output date to TextField value.
+                                    formattedDate; 
                               });
                             } else {}
                           },
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Row(
@@ -348,7 +334,6 @@ class _EditExamDateState extends State<EditExamDate> {
                                                       endTime.hour &&
                                                   pickedTime.minute >
                                                       endTime.minute)) {
-                                            // Show error message or do something else to indicate invalid selection
                                             ScaffoldMessenger.of(context)
                                                 .showSnackBar(const SnackBar(
                                               content: Text(
@@ -400,7 +385,6 @@ class _EditExamDateState extends State<EditExamDate> {
                                                       startTime.hour &&
                                                   pickedTime.minute <
                                                       startTime.minute)) {
-                                            // Show error message or do something else to indicate invalid selection
                                             ScaffoldMessenger.of(context)
                                                 .showSnackBar(const SnackBar(
                                               content: Text(
@@ -425,25 +409,13 @@ class _EditExamDateState extends State<EditExamDate> {
                             ),
                           ],
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         ElevatedButton(
                           onPressed: () {
                             if (formKey.currentState!.validate()) {
                               Map<String, dynamic> subjectTask = {
-                                // "taskmidterm": widget.subjectList[index]
-                                //     ["taskmidterm"],
-                                // "taskfinal": widget.subjectList[index]
-                                //     ["taskfinal"],
-                                // "taskStartmidterm": widget.subjectList[index]
-                                //     ["taskStartmidterm"],
-                                // "taskEndmidterm": widget.subjectList[index]
-                                //     ["taskEndmidterm"],
-                                // "taskStartfinal": widget.subjectList[index]
-                                //     ["taskStartfinal"],
-                                // "taskEndfinal": widget.subjectList[index]
-                                //     ["taskEndfinal"],
                                 "taskname": widget.subjectList[index]
                                     ["taskname"],
                                 "taskID": widget.subjectList[index]["taskID"],
@@ -499,14 +471,14 @@ class _EditExamDateState extends State<EditExamDate> {
                                       const ExamListManagement()),
                             );
                           },
-                          child: Text("Submit"),
                           style: ElevatedButton.styleFrom(
-                              minimumSize: Size(100, 40),
-                              primary: Color(
+                              minimumSize: const Size(100, 40),
+                              backgroundColor:const  Color(
                                 0xff6B4EFF,
                               ),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(30))),
+                          child: const Text("Submit"),
                         )
                       ],
                     ),

@@ -47,15 +47,10 @@ class _RegisterState extends State<Register> {
                     leading: IconButton(
                       onPressed: () {
                         Navigator.pop(context);
-                        // Navigator.pushReplacement(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //         builder: (context) => const SignIn()));
                       },
                       icon: const Icon(Icons.arrow_back_ios_new),
                       color: Colors.black,
                     ),
-                    // backgroundColor: Colors.white,
                     title: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: const [

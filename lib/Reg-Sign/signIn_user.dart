@@ -29,7 +29,6 @@ class _SignInState extends State<SignIn> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    Size size = MediaQuery.of(context).size;
     return FutureBuilder(
       future: firebase,
       builder: (context, snapshot) {
@@ -45,26 +44,24 @@ class _SignInState extends State<SignIn> {
         }
         if (snapshot.connectionState == ConnectionState.done) {
           return Consumer<ThemeService>(builder: (_, themeService, __) {
-              return Scaffold(
-                backgroundColor: themeService.subColor,
-                appBar: AppBar(
+            return Scaffold(
+              backgroundColor: themeService.subColor,
+              appBar: AppBar(
                   title: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Text(
-                        "my",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, color: Colors.black),
-                      ),
-                      Text(
-                        "Schedule",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xff6B4EFF)),
-                      ),
-                    ],
-                  )),
-             
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  Text(
+                    "my",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, color: Colors.black),
+                  ),
+                  Text(
+                    "Schedule",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, color: Color(0xff6B4EFF)),
+                  ),
+                ],
+              )),
               body: SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -122,7 +119,8 @@ class _SignInState extends State<SignIn> {
                                   color: Colors.white,
                                   boxShadow: const [
                                     BoxShadow(
-                                        color: Color.fromRGBO(196, 135, 198, .3),
+                                        color:
+                                            Color.fromRGBO(196, 135, 198, .3),
                                         blurRadius: 20,
                                         offset: Offset(0, 10))
                                   ]),
@@ -130,13 +128,10 @@ class _SignInState extends State<SignIn> {
                                 children: [
                                   Container(
                                     padding: const EdgeInsets.all(10),
-                                    decoration: const BoxDecoration(
-                                        // border: Border(
-                                        //     bottom:
-                                        //         BorderSide(color: Colors.grey))
-                                        ),
+                                    decoration: const BoxDecoration(),
                                     child: TextFormField(
-                                        keyboardType: TextInputType.emailAddress,
+                                        keyboardType:
+                                            TextInputType.emailAddress,
                                         onSaved: (String? email) {
                                           profile.email = email!;
                                         },
@@ -166,9 +161,6 @@ class _SignInState extends State<SignIn> {
                                 ],
                               ),
                             ),
-                            // SizedBox(
-                            //   height: 5,
-                            // ),
                             Row(
                               children: [
                                 const Text("Haven't account?"),
@@ -198,11 +190,12 @@ class _SignInState extends State<SignIn> {
                                           borderRadius:
                                               BorderRadius.circular(50)),
                                       minimumSize: const Size(200, 50),
-                                      primary: Color.fromRGBO(49, 39, 79, 1)),
+                                      backgroundColor:
+                                          const Color.fromRGBO(49, 39, 79, 1)),
                                   onPressed: () async {
                                     if (formKey.currentState!.validate()) {
                                       formKey.currentState?.save();
-          
+
                                       try {
                                         await FirebaseAuth.instance
                                             .signInWithEmailAndPassword(
@@ -236,7 +229,7 @@ class _SignInState extends State<SignIn> {
                 ),
               ),
             );
-        });
+          });
         } else {
           return const Scaffold(
             body: Center(
@@ -247,11 +240,4 @@ class _SignInState extends State<SignIn> {
       },
     );
   }
-
-  //   return const Scaffold(
-  //     body: Center(
-  //       child: CircularProgressIndicator(),
-  //     ),
-  //   );
-  // });
 }

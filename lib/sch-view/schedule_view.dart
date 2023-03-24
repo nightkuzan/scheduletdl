@@ -20,7 +20,6 @@ class ScheduleView extends StatefulWidget {
 }
 
 class MyCustomScrollBehavior extends MaterialScrollBehavior {
-  // Override behavior methods and getters like dragDevices
   @override
   Set<PointerDeviceKind> get dragDevices => {
         PointerDeviceKind.touch,
@@ -34,7 +33,6 @@ class _ScheduleViewState extends State<ScheduleView> {
   List<dynamic> subjectList = [];
 
   getdata() async {
-    // Initialize Firebase
 
     await Firebase.initializeApp();
 
@@ -149,12 +147,12 @@ class _ScheduleViewState extends State<ScheduleView> {
               TimePlannerTask(
                 color: colors[Random().nextInt(colors.length)],
                 dateTime: TimePlannerDateTime(
-                    day: dayIndex, //วันไหน subjectList[i]["listday"]
-                    hour: startStudyHrs[i]!, //เริ่มกี่โมง
-                    minutes: startMins[i]!), //นาทีที่
+                    day: dayIndex, 
+                    hour: startStudyHrs[i]!,
+                    minutes: startMins[i]!), 
                 minutesDuration:
-                    durations[i]!, //นาทีแต่ละวิชา subjectList[i]["studyTime"]
-                daysDuration: 1, //วันที่เรียน  subjectList[i]["dayTime"]
+                    durations[i]!, 
+                daysDuration: 1, 
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -203,12 +201,12 @@ class _ScheduleViewState extends State<ScheduleView> {
                 TimePlannerTask(
                   color: colors[Random().nextInt(colors.length)],
                   dateTime: TimePlannerDateTime(
-                      day: twinDayValues[j], //วันไหน subjectList[i]["listday"]
-                      hour: startStudyHrs[i]!, //เริ่มกี่โมง
-                      minutes: startMins[i]!), //นาทีที่
+                      day: twinDayValues[j], 
+                      hour: startStudyHrs[i]!,
+                      minutes: startMins[i]!), 
                   minutesDuration:
-                      durations[i]!, //นาทีแต่ละวิชา subjectList[i]["studyTime"]
-                  daysDuration: 1, //วันที่เรียน  subjectList[i]["dayTime"]
+                      durations[i]!, 
+                  daysDuration: 1,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -302,7 +300,6 @@ class _ScheduleViewState extends State<ScheduleView> {
                         startHour: 6,
                         endHour: 18,
                         style: TimePlannerStyle(
-                          // cellHeight: 60,
                           cellWidth: 190,
                           showScrollBar: true,
                         ),
@@ -352,7 +349,6 @@ class _ScheduleViewState extends State<ScheduleView> {
                         icon: const Icon(Icons.arrow_back_ios_new),
                         color: Colors.black,
                       ),
-                      // backgroundColor: Colors.white,
                       title: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: const [
@@ -377,7 +373,6 @@ class _ScheduleViewState extends State<ScheduleView> {
                         startHour: 6,
                         endHour: 18,
                         style: TimePlannerStyle(
-                          // cellHeight: 60,
                           cellWidth: 190,
                           showScrollBar: true,
                         ),

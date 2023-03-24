@@ -92,7 +92,6 @@ class _Editschedule extends State<Editschedule> {
                   icon: const Icon(Icons.arrow_back_ios_new)),
               color: Colors.black,
             ),
-            // backgroundColor: Colors.white,
             title: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: const [
@@ -204,7 +203,6 @@ class _Editschedule extends State<Editschedule> {
                                             (pickedTime.hour == endTime.hour &&
                                                 pickedTime.minute >
                                                     endTime.minute)) {
-                                          // Show error message or do something else to indicate invalid selection
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(const SnackBar(
                                             content: Text(
@@ -251,7 +249,6 @@ class _Editschedule extends State<Editschedule> {
                                                     startTime.hour &&
                                                 pickedTime.minute <
                                                     startTime.minute)) {
-                                          // Show error message or do something else to indicate invalid selection
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(const SnackBar(
                                             content: Text(
@@ -401,8 +398,6 @@ class _Editschedule extends State<Editschedule> {
                                   "taskdescription": subjectDescription.text,
                                 };
                                 subjectList[index] = subjectTask;
-                                // print(subjectTask);
-                                // print(subjectList);
                                 FirebaseFirestore.instance
                                     .collection("users")
                                     .doc(FirebaseAuth.instance.currentUser!.uid)

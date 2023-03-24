@@ -25,8 +25,6 @@ class _ScheduleManagement extends State<ScheduleManagement> {
   List uidList = [];
 
   getdata() async {
-    // Initialize Firebase
-
     await Firebase.initializeApp();
 
     final CollectionReference taskschManagement = FirebaseFirestore.instance
@@ -48,8 +46,6 @@ class _ScheduleManagement extends State<ScheduleManagement> {
   }
 
   getdataFromfriend(frienduid) async {
-    // Initialize Firebase
-
     final CollectionReference taskschManagement = FirebaseFirestore.instance
         .collection('users')
         .doc(frienduid)
@@ -99,10 +95,8 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                         color: Colors.black,
                       ),
                       actions: [
-                        // import button
                         IconButton(
                           onPressed: () {
-                            //  show dialog for input uid of friend
                             showDialog(
                                 context: context,
                                 builder: (context) {
@@ -125,7 +119,6 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                                       ),
                                       TextButton(
                                         onPressed: () async {
-                                          // check uid is exist
                                           bool check = false;
                                           for (int i = 0;
                                               i < uidList.length;
@@ -140,7 +133,6 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                                           if (check) {
                                             await getdataFromfriend(uidimport);
 
-                                            // remove all schedule
                                             FirebaseFirestore.instance
                                                 .collection('users')
                                                 .doc(user!.uid)
@@ -175,7 +167,6 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                                                         textColor: Colors.white,
                                                         fontSize: 16.0));
 
-                                            // replacement new schedule
                                             Navigator.pop(context);
                                             Navigator.pushReplacement(
                                                 context,
@@ -208,15 +199,14 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                           ),
                         ),
                       ],
-                      // backgroundColor: Colors.white,
                       title: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: const [
                           Text(
                             "Schedule",
                             style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                ),
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                           Text(
                             "Management",
@@ -250,10 +240,8 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                       color: Colors.black,
                     ),
                     actions: [
-                      // import button
                       IconButton(
                         onPressed: () {
-                          //  show dialog for input uid of friend
                           showDialog(
                               context: context,
                               builder: (context) {
@@ -276,7 +264,6 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                                     ),
                                     TextButton(
                                       onPressed: () async {
-                                        // check uid is exist
                                         bool check = false;
                                         for (int i = 0;
                                             i < uidList.length;
@@ -289,8 +276,6 @@ class _ScheduleManagement extends State<ScheduleManagement> {
 
                                         if (check) {
                                           await getdataFromfriend(uidimport);
-
-                                          // remove all schedule
                                           FirebaseFirestore.instance
                                               .collection('users')
                                               .doc(user!.uid)
@@ -299,7 +284,6 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                                               .set({
                                                 'subjectList': subjectList,
                                               }, SetOptions(merge: true))
-                                              // flutter toast
                                               .then((value) =>
                                                   Fluttertoast.showToast(
                                                       msg: "Import Success",
@@ -358,14 +342,14 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                         ),
                       ),
                     ],
-                    // backgroundColor: Colors.white,
                     title: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: const [
                         Text(
                           "Schedule",
                           style: TextStyle(
-                              fontWeight: FontWeight.bold,),
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                         Text(
                           "Management",
@@ -511,7 +495,6 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                                                   return alert;
                                                 },
                                               );
-                                              // show toast message for notification of deletion
                                             },
                                           ),
                                         ],

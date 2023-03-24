@@ -130,7 +130,6 @@ class _TodolistState extends State<Todolist> {
                       icon: const Icon(Icons.arrow_back_ios_new)),
                   color: Colors.black,
                 ),
-                // backgroundColor: Colors.white,
                 title: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: const [
@@ -148,14 +147,12 @@ class _TodolistState extends State<Todolist> {
                 ),
               ),
               body: ListView.builder(
-                // add top margin
                 padding: const EdgeInsets.only(top: 20),
                 itemCount: tasks.length,
                 itemBuilder: (context, index) {
                   return Column(
                     children: [
                       Card(
-                        // add color to card that have red yellow green purple blue
                         color: tasks[index]['taskcolor'] == 'red'
                             ? Colors.red[300]
                             : tasks[index]['taskcolor'] == 'yellow'
@@ -226,7 +223,6 @@ class _TodolistState extends State<Todolist> {
                                   IconButton(
                                     icon: const Icon(Icons.delete),
                                     onPressed: () {
-                                      // alert for confirmation
                                       AlertDialog alert = AlertDialog(
                                         title: const Text('Delete Task'),
                                         content: const Text(
@@ -273,7 +269,6 @@ class _TodolistState extends State<Todolist> {
                                           return alert;
                                         },
                                       );
-                                      // show toast message for notification of deletion
                                     },
                                     iconSize: 30,
                                     color: Colors.red,
@@ -285,7 +280,6 @@ class _TodolistState extends State<Todolist> {
                                   tasks[index]["taskstatus"] == "Incomplete"
                                       ? Icons.check_box_outline_blank
                                       : Icons.check_box,
-                                  // add style to the icon
                                 ),
                                 color:
                                     tasks[index]["taskstatus"] == "Incomplete"

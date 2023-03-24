@@ -64,8 +64,7 @@ class _MenuScheduleState extends State<MenuSchedule> {
               Row(mainAxisAlignment: MainAxisAlignment.center, children: const [
             Text(
               "my",
-              style:
-                  TextStyle(fontWeight: FontWeight.bold),
+              style: TextStyle(fontWeight: FontWeight.bold),
             ),
             Text(
               "Schedule",
@@ -80,7 +79,6 @@ class _MenuScheduleState extends State<MenuSchedule> {
             icon: const Icon(Icons.arrow_back_ios_new),
             color: Colors.black,
           ),
-          // backgroundColor: Colors.white,
         ),
         body: Padding(
           padding: const EdgeInsets.only(left: 20, right: 20),
@@ -167,7 +165,6 @@ class _MenuScheduleState extends State<MenuSchedule> {
                       ),
                       backgroundColor: const Color(0xff50409a)),
                   onPressed: () {
-                    //  show dialog for input uid of friend
                     showDialog(
                       context: context,
                       builder: (context) {
@@ -190,7 +187,6 @@ class _MenuScheduleState extends State<MenuSchedule> {
                             ),
                             TextButton(
                               onPressed: () async {
-                                // check uid is exist
                                 bool check = false;
                                 for (int i = 0; i < uidList.length; i++) {
                                   if (uidList[i]['uid'] == uidimport) {
@@ -198,12 +194,8 @@ class _MenuScheduleState extends State<MenuSchedule> {
                                     break;
                                   }
                                 }
-
                                 if (check) {
                                   await getdataFromfriend(uidimport);
-
-                                  // print(subjectList);
-                                  // remove all schedule
                                   FirebaseFirestore.instance
                                       .collection('users')
                                       .doc(user!.uid)
@@ -212,7 +204,6 @@ class _MenuScheduleState extends State<MenuSchedule> {
                                       .set({
                                         'subjectList': subjectList,
                                       }, SetOptions(merge: true))
-                                      // flutter toast
                                       .then((value) => Fluttertoast.showToast(
                                           msg: 'Import Success',
                                           toastLength: Toast.LENGTH_SHORT,

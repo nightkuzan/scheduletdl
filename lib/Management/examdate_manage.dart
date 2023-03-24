@@ -20,7 +20,6 @@ class _ExamListManagementState extends State<ExamListManagement> {
   List uidList = [];
 
   getdata() async {
-    // Initialize Firebase
     await Firebase.initializeApp();
 
     final CollectionReference taskschManagement = FirebaseFirestore.instance
@@ -44,10 +43,9 @@ class _ExamListManagementState extends State<ExamListManagement> {
   void initState() {
     super.initState();
     getdata();
-    print(subjectList);
-    print(user!.uid);
   }
 
+  @override
   Widget build(BuildContext context) {
     return Consumer<ThemeService>(builder: (_, themeService, __) {
       return Scaffold(
@@ -65,8 +63,7 @@ class _ExamListManagementState extends State<ExamListManagement> {
               children: const [
                 Text(
                   "my",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold),
+                  style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 Text(
                   "Schedule",
@@ -93,19 +90,12 @@ class _ExamListManagementState extends State<ExamListManagement> {
               itemBuilder: (context, index) {
                 return Card(
                   child: ListTile(
-                    // onTap: () {
-                    //   Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //         builder: (context) => const EditExamDate()),
-                    //   );
-                    // },
                     title: Text(
                       subjectList[index]["taskname"],
                     ),
                     subtitle: Wrap(children: [
                       Text("Midterm : ${subjectList[index]["taskmidterm"]}"),
-                      SizedBox(
+                      const SizedBox(
                         width: 10,
                       ),
                       Text("Final : ${subjectList[index]["taskfinal"]}")
@@ -121,23 +111,7 @@ class _ExamListManagementState extends State<ExamListManagement> {
                                     )),
                           );
                         },
-                        icon: Icon(Icons.edit)),
-                    // trailing: Wrap(
-                    //   children: [
-                    //     IconButton(
-                    //       icon: Icon(Icons.edit),
-                    //       onPressed: () {},
-                    //     ),
-                    //     IconButton(
-                    //       icon: Icon(Icons.delete),
-                    //       onPressed: () {
-                    //         setState(() {
-                    //           tasks.removeAt(index);
-                    //         });
-                    //       },
-                    //     ),
-                    //   ],
-                    // ),
+                        icon: const Icon(Icons.edit)),
                   ),
                 );
               },

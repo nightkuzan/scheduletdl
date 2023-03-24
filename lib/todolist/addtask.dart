@@ -18,7 +18,6 @@ class AddTask extends StatefulWidget {
 class _AddTaskState extends State<AddTask> {
   User? user = FirebaseAuth.instance.currentUser;
 
-  // fromkey
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   final TextEditingController _taskname = TextEditingController();
@@ -80,11 +79,10 @@ class _AddTaskState extends State<AddTask> {
                         controller: _taskdate,
                         decoration: const InputDecoration(
                             icon:
-                                Icon(Icons.calendar_today), //icon of text field
-                            labelText: "Enter Date" //label text of field
+                                Icon(Icons.calendar_today), 
+                            labelText: "Enter Date" 
                             ),
                         readOnly: true,
-                        //set it true, so that user will not able to edit text
                         onTap: () async {
                           DateTime? pickedDate = await showDatePicker(
                               context: context,
@@ -97,7 +95,7 @@ class _AddTaskState extends State<AddTask> {
                                 DateFormat('yyyy-MM-dd').format(pickedDate);
                             setState(() {
                               _taskdate.text =
-                                  formattedDate; //set output date to TextField value.
+                                  formattedDate;
                             });
                           } else {}
                         },
@@ -225,7 +223,6 @@ class _AddTaskState extends State<AddTask> {
                   height: 20,
                 ),
                 Column(
-                  // select color minimal for task
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text("Task Color"),
@@ -255,8 +252,6 @@ class _AddTaskState extends State<AddTask> {
                         const SizedBox(width: 10),
                         GestureDetector(
                           onTap: () {
-                            // make have selected color
-
                             setState(() {
                               _taskcolor.text = 'blue';
                             });
@@ -365,7 +360,6 @@ class _AddTaskState extends State<AddTask> {
                         },
                         SetOptions(merge: true),
                       );
-                      // pop and return to previous page and refresh
                       Navigator.pop(context);
                       Navigator.pushReplacement(
                           context,

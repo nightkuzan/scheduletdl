@@ -21,7 +21,6 @@ class EditTask extends StatefulWidget {
 List tasks = [];
 
 class _EditTaskState extends State<EditTask> {
-  // access String taskname
   var taskname = TextEditingController();
   var taskdescription = TextEditingController();
   var taskdate = TextEditingController();
@@ -96,17 +95,15 @@ class _EditTaskState extends State<EditTask> {
                     TextFormField(
                       controller: taskdate,
                       decoration: const InputDecoration(
-                          icon: Icon(Icons.calendar_today), //icon of text field
-                          labelText: "Enter Date" //label text of field
+                          icon: Icon(Icons.calendar_today), 
+                          labelText: "Enter Date" 
                           ),
                       readOnly: true,
-                      //set it true, so that user will not able to edit text
                       onTap: () async {
                         DateTime? pickedDate = await showDatePicker(
                             context: context,
                             initialDate: DateTime.now(),
                             firstDate: DateTime.now(),
-                            //DateTime.now() - not to allow to choose before today.
                             lastDate: DateTime(2100));
 
                         if (pickedDate != null) {
@@ -114,7 +111,7 @@ class _EditTaskState extends State<EditTask> {
                               DateFormat('yyyy-MM-dd').format(pickedDate);
                           setState(() {
                             taskdate.text =
-                                formattedDate; //set output date to TextField value.
+                                formattedDate; 
                           });
                         } else {}
                       },
@@ -126,7 +123,7 @@ class _EditTaskState extends State<EditTask> {
                         const SizedBox(height: 10),
                         TextFormField(
                           controller:
-                              tasktime, //set it true, so that user will not able to edit text
+                              tasktime, 
                           readOnly: true,
                           decoration: InputDecoration(
                             hintText: "Enter Time",
@@ -189,7 +186,6 @@ class _EditTaskState extends State<EditTask> {
                       ],
                     ),
                     Column(
-                      // select color minimal for task
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text("Task Color"),
@@ -219,8 +215,6 @@ class _EditTaskState extends State<EditTask> {
                             const SizedBox(width: 10),
                             GestureDetector(
                               onTap: () {
-                                // make have selected color
-
                                 setState(() {
                                   _taskcolor.text = 'blue';
                                 });

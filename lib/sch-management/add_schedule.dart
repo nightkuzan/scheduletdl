@@ -65,8 +65,7 @@ class _AddSchedule extends State<AddSchedule> {
               children: const [
                 Text(
                   "my",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold),
+                  style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 Text(
                   "Schedule",
@@ -171,7 +170,6 @@ class _AddSchedule extends State<AddSchedule> {
                                             (pickedTime.hour == endTime.hour &&
                                                 pickedTime.minute >
                                                     endTime.minute)) {
-                                          // Show error message or do something else to indicate invalid selection
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(const SnackBar(
                                             content: Text(
@@ -219,7 +217,6 @@ class _AddSchedule extends State<AddSchedule> {
                                                     startTime.hour &&
                                                 pickedTime.minute <
                                                     startTime.minute)) {
-                                          // Show error message or do something else to indicate invalid selection
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(const SnackBar(
                                             content: Text(
@@ -376,7 +373,6 @@ class _AddSchedule extends State<AddSchedule> {
                                                     endtimeMid.hour &&
                                                 pickedTime.minute >
                                                     endtimeMid.minute)) {
-                                          // Show error message or do something else to indicate invalid selection
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(const SnackBar(
                                             content: Text(
@@ -424,7 +420,6 @@ class _AddSchedule extends State<AddSchedule> {
                                                     startMidTime.hour &&
                                                 pickedTime.minute <
                                                     startMidTime.minute)) {
-                                          // Show error message or do something else to indicate invalid selection
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(const SnackBar(
                                             content: Text(
@@ -451,11 +446,11 @@ class _AddSchedule extends State<AddSchedule> {
                             controller: _examFidate,
                             decoration: const InputDecoration(
                               suffixIcon: Icon(
-                                  Icons.calendar_today), //icon of text field
+                                  Icons.calendar_today),
                               labelText: "Final date",
                               border: OutlineInputBorder(
                                   borderSide:
-                                      BorderSide()), //label text of field
+                                      BorderSide()), 
                             ),
                             readOnly: true,
                             onTap: () async {
@@ -463,7 +458,6 @@ class _AddSchedule extends State<AddSchedule> {
                                   context: context,
                                   initialDate: DateTime.now(),
                                   firstDate: DateTime.now(),
-                                  //DateTime.now() - not to allow to choose before today.
                                   lastDate: DateTime(2100));
 
                               if (pickedDate != null) {
@@ -471,7 +465,7 @@ class _AddSchedule extends State<AddSchedule> {
                                     DateFormat('yyyy-MM-dd').format(pickedDate);
                                 setState(() {
                                   _examFidate.text =
-                                      formattedDate; //set output date to TextField value.
+                                      formattedDate; 
                                 });
                               } else {}
                             },
@@ -510,7 +504,6 @@ class _AddSchedule extends State<AddSchedule> {
                                                     endtimeFinal.hour &&
                                                 pickedTime.minute >
                                                     endtimeFinal.minute)) {
-                                          // Show error message or do something else to indicate invalid selection
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(const SnackBar(
                                             content: Text(
@@ -560,7 +553,6 @@ class _AddSchedule extends State<AddSchedule> {
                                                     startFinalTime.hour &&
                                                 pickedTime.minute <
                                                     startFinalTime.minute)) {
-                                          // Show error message or do something else to indicate invalid selection
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(const SnackBar(
                                             content: Text(
@@ -640,7 +632,6 @@ class _AddSchedule extends State<AddSchedule> {
                                   },
                                   SetOptions(merge: true),
                                 );
-                                // pop and return to previous page and refresh
                                 Navigator.pop(context);
                                 Navigator.pushReplacement(
                                     context,
