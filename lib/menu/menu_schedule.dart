@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
 // menu_schedule.dart
-// Aekkarit Surit 630510607
+// Aekkarit Surit 630510607 (Feature Should have: Import Schedule) )
 //-----------------------------------------------------------------------------
 // This file contains the function for import schedule from other user
 //-----------------------------------------------------------------------------
@@ -57,7 +57,11 @@ class _MenuScheduleState extends State<MenuSchedule> {
     });
   }
 
-  /// Get Schedule from other user
+  /// getdataFromfriend(frienduid)
+  //
+  // fetch data from firebase and store it in list subjectList to be displayed
+  // in widget by fetching by frienduid parameter to retrieve the
+  // information of that user.
   getdataFromfriend(frienduid) async {
     /// get data from firebase
     final CollectionReference taskschManagement = FirebaseFirestore.instance
@@ -75,6 +79,15 @@ class _MenuScheduleState extends State<MenuSchedule> {
     });
   }
 
+  // initState()
+  //
+  // The code provided is a Flutter function called initState(), which is
+  // called the first time the widget is rendered on the screen. The widget
+  // will be displayed on the screen. The intdata() function is called to
+  // retrieve required data from other data sources such as databases and
+  // prepare them to be passed to the corresponding widget. Calling
+  // super.initState() invokes the widget's initState() function. The current
+  // widget parent to initialize the widget to be ready for use.
   @override
   void initState() {
     super.initState();
