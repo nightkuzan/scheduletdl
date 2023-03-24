@@ -98,7 +98,7 @@ class _MenuState extends State<Menu> {
                           borderRadius: BorderRadius.circular(30.0),
                         ),
                         backgroundColor:
-                            const Color.fromARGB(255, 158, 69, 248)),
+                            const Color(0xff313866)),
                     onPressed: () {
                       Navigator.push(
                         context,
@@ -106,7 +106,7 @@ class _MenuState extends State<Menu> {
                             builder: (context) => const MenuSchedule()),
                       );
                     },
-                    child: const Text('School', style: TextStyle(fontSize: 24)),
+                    child: const Text('School', style: TextStyle(fontSize: 24, color: Colors.white)),
                   ),
                   const SizedBox(
                     height: 20,
@@ -117,7 +117,7 @@ class _MenuState extends State<Menu> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30.0),
                         ),
-                        backgroundColor: const Color(0xffB770FF)),
+                        backgroundColor: const Color(0xff50409a)),
                     onPressed: () {
                       Navigator.push(
                         context,
@@ -126,7 +126,7 @@ class _MenuState extends State<Menu> {
                       );
                     },
                     child:
-                        const Text('Todo List', style: TextStyle(fontSize: 24)),
+                        const Text('Todo List', style: TextStyle(fontSize: 24, color: Colors.white)),
                   ),
                   const SizedBox(
                     height: 20,
@@ -148,7 +148,7 @@ class _MenuState extends State<Menu> {
                       );
                     },
                     child:
-                        const Text('Log Out', style: TextStyle(fontSize: 24)),
+                        const Text('Log Out', style: TextStyle(fontSize: 24, color: Colors.white)),
                   ),
                 ],
               ),
