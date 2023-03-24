@@ -1,5 +1,7 @@
 // -----------------------------------------------------------------------------
 // Tulakorn Sawangmuang 630510582 (Feature should have: Dark Theme)
+// ***Change from Notification because Problem caused by invalid notifications and cannot be fixed, 
+// so change should have to change the theme of the application instead.
 // -----------------------------------------------------------------------------
 // theme_management.dart
 // -----------------------------------------------------------------------------
