@@ -1,3 +1,13 @@
+// -----------------------------------------------------------------------------
+// Tuksaporn Tubkerd (Feature should have : Sig in-Register)
+// -----------------------------------------------------------------------------
+// registe_user.dart
+// -----------------------------------------------------------------------------
+// 
+// This file contains the widget functions that have textformfield
+// widget to fill firstname, lastname, email and password for register.
+// And data that we get will be put in firebase.
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -7,8 +17,15 @@ import 'package:provider/provider.dart';
 import 'package:scheduletdl/Reg-Sign/signin_user.dart';
 import 'package:scheduletdl/Reg-Sign/profile.dart';
 import 'package:scheduletdl/firebase_options.dart';
-
 import '../theme/theme_management.dart';
+
+// -----------------------------------------------------------------------------
+// Register
+// -----------------------------------------------------------------------------
+// The Register class is class 
+// 
+//  
+// 
 
 class Register extends StatefulWidget {
   const Register({super.key});

@@ -1,3 +1,16 @@
+// -----------------------------------------------------------------------------
+// Tuksaporn Tubkerd (Feature should have : Sig in-Register)
+// -----------------------------------------------------------------------------
+// signIn_user.dart
+// -----------------------------------------------------------------------------
+// 
+// This file contains the widget functions that check e-mail and password
+// when you fill email&password in textformfield and it's will  check
+// that are match with data in firebase or not. If it's correct it will 
+// navigate to menu page in progarm and if it's not it will have toast
+// alert to fill the textformfield again. And navigate when user doesn't
+// have an account
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -6,10 +19,18 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:provider/provider.dart';
 import 'package:scheduletdl/Reg-Sign/profile.dart';
 import 'package:scheduletdl/menu/menu.dart';
-
 import '../firebase_options.dart';
 import '../theme/theme_management.dart';
 import 'register_user.dart';
+
+
+// -----------------------------------------------------------------------------
+// SignIn
+// -----------------------------------------------------------------------------
+// The SignIn class 
+// 
+//  
+// 
 
 class SignIn extends StatefulWidget {
   const SignIn({super.key});
