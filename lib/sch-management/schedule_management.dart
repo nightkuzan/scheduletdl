@@ -1,5 +1,6 @@
 // -----------------------------------------------------------------------------
 // Tulakorn Sawangmuang 630510582 (Feature Must have: Schedule Management)
+// Aekkarit Surit 630510607 (Feature Should have: Import Schedule) )
 // -----------------------------------------------------------------------------
 // schedule_management.dart
 // -----------------------------------------------------------------------------
@@ -7,8 +8,8 @@
 // This file have ScheduleManagement class and contains functions for fetching data from firebase getdata(),
 // fetching friend's task table from getdataFromfriend(frienduid) and initState()
 // This function is called the first time when the widget is created to be displayed on the screen.
-// This page shows the schedule or class schedule that we have saved and 
-// can also press the button to add tasks or import tasks into or can edit 
+// This page shows the schedule or class schedule that we have saved and
+// can also press the button to add tasks or import tasks into or can edit
 // the saved data by clicking on the schedule or schedule. learn that you want to fix.
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -25,8 +26,8 @@ import 'add_schedule.dart';
 // ScheduleManagement
 // -----------------------------------------------------------------------------
 //
-// The ScheduleManagement class have function getdata() and 
-// getdataFromfriend(frienduid), initState() to fetch data from firebase and initialize the  
+// The ScheduleManagement class have function getdata() and
+// getdataFromfriend(frienduid), initState() to fetch data from firebase and initialize the
 // widget before the widget is rendered and render the UI on the screen through the widget.
 
 class ScheduleManagement extends StatefulWidget {
@@ -45,7 +46,7 @@ class _ScheduleManagement extends State<ScheduleManagement> {
 
   // getdata()
   //
-  // Fetch data from firebase and store it in list 
+  // Fetch data from firebase and store it in list
   // subjectList to display in widget.
   getdata() async {
     await Firebase.initializeApp();
@@ -70,8 +71,8 @@ class _ScheduleManagement extends State<ScheduleManagement> {
 
   // getdataFromfriend(frienduid)
   //
-  // fetch data from firebase and store it in list subjectList to be displayed 
-  // in widget by fetching by frienduid parameter to retrieve the 
+  // fetch data from firebase and store it in list subjectList to be displayed
+  // in widget by fetching by frienduid parameter to retrieve the
   // information of that user.
   getdataFromfriend(frienduid) async {
     final CollectionReference taskschManagement = FirebaseFirestore.instance
@@ -89,13 +90,13 @@ class _ScheduleManagement extends State<ScheduleManagement> {
 
   // initState()
   //
-  // The code provided is a Flutter function called initState(), which is 
-  // called the first time the widget is rendered on the screen. The widget 
+  // The code provided is a Flutter function called initState(), which is
+  // called the first time the widget is rendered on the screen. The widget
   // will be displayed on the screen. The getdata() function is called to
-  // retrieve required data from other data sources such as databases and 
-  // prepare them to be passed to the corresponding widget. Calling 
-  // super.initState() invokes the widget's initState() function. The current 
-  // widget parent to initialize the widget to be ready for use. 
+  // retrieve required data from other data sources such as databases and
+  // prepare them to be passed to the corresponding widget. Calling
+  // super.initState() invokes the widget's initState() function. The current
+  // widget parent to initialize the widget to be ready for use.
   @override
   void initState() {
     super.initState();
@@ -118,10 +119,13 @@ class _ScheduleManagement extends State<ScheduleManagement> {
               ),
             );
           }
+          // if don't have tasks
           if (snapshot.connectionState == ConnectionState.done &&
               subjectList.isEmpty) {
+            // Use Consumer to get the current theme
             return Consumer<ThemeService>(builder: (_, themeService, __) {
               return Scaffold(
+                  // set backgeound color to current theme
                   backgroundColor: themeService.subColor,
                   appBar: AppBar(
                       leading: IconButton(
@@ -132,8 +136,10 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                         color: Colors.black,
                       ),
                       actions: [
+                        /// add button
                         IconButton(
                           onPressed: () {
+                            /// show dialog to import schedule
                             showDialog(
                                 context: context,
                                 builder: (context) {
@@ -143,33 +149,40 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                                       decoration: const InputDecoration(
                                         hintText: 'Enter UID',
                                       ),
+
+                                      /// get uid from textfield
                                       onChanged: (value) {
+                                        /// set uid to uidimport
                                         uidimport = value;
                                       },
                                     ),
                                     actions: [
                                       TextButton(
                                         onPressed: () {
+                                          /// close dialog when click cancel
                                           Navigator.pop(context);
                                         },
                                         child: const Text('Cancel'),
                                       ),
                                       TextButton(
                                         onPressed: () async {
+                                          /// Check uid from firebase
                                           bool check = false;
                                           for (int i = 0;
                                               i < uidList.length;
                                               i++) {
                                             if (uidList[i]['uid'] ==
                                                 uidimport) {
+                                              /// if uid is correct set check to true
                                               check = true;
                                               break;
                                             }
                                           }
-
                                           if (check) {
+                                            /// if uid is correct call getdataFromfriend(uidimport)
                                             await getdataFromfriend(uidimport);
 
+                                            /// set Schedule that import to firebase
                                             FirebaseFirestore.instance
                                                 .collection('users')
                                                 .doc(user!.uid)
@@ -178,7 +191,8 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                                                 .set({
                                                   'subjectList': subjectList,
                                                 }, SetOptions(merge: true))
-                                                // flutter toast
+
+                                                /// show toast when import success
                                                 .then((value) =>
                                                     Fluttertoast.showToast(
                                                         msg: "Import Success",
@@ -191,6 +205,8 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                                                             Colors.green,
                                                         textColor: Colors.white,
                                                         fontSize: 16.0))
+
+                                                /// show toast when import fail
                                                 .catchError((error) =>
                                                     Fluttertoast.showToast(
                                                         msg: "Import Fail",
@@ -204,6 +220,7 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                                                         textColor: Colors.white,
                                                         fontSize: 16.0));
 
+                                            /// Go to ScheduleManagement page
                                             Navigator.pop(context);
                                             Navigator.pushReplacement(
                                                 context,
@@ -223,6 +240,7 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                             color: Colors.black,
                           ),
                         ),
+                        // click to go to addschedule page
                         IconButton(
                           onPressed: () {
                             Navigator.push(
@@ -279,6 +297,7 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                     actions: [
                       IconButton(
                         onPressed: () {
+                          /// show dialog to import schedule
                           showDialog(
                               context: context,
                               builder: (context) {
@@ -288,31 +307,40 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                                     decoration: const InputDecoration(
                                       hintText: 'Enter UID',
                                     ),
+
+                                    /// get uid from textfield
                                     onChanged: (value) {
+                                      /// set uid to uidimport
                                       uidimport = value;
                                     },
                                   ),
                                   actions: [
                                     TextButton(
                                       onPressed: () {
+                                        /// close dialog when click cancel
                                         Navigator.pop(context);
                                       },
                                       child: const Text('Cancel'),
                                     ),
                                     TextButton(
                                       onPressed: () async {
+                                        /// Check uid from firebase
                                         bool check = false;
                                         for (int i = 0;
                                             i < uidList.length;
                                             i++) {
                                           if (uidList[i]['uid'] == uidimport) {
+                                            /// if uid is correct set check to true
                                             check = true;
                                             break;
                                           }
                                         }
 
                                         if (check) {
+                                          /// if uid is correct call getdataFromfriend(uidimport)
                                           await getdataFromfriend(uidimport);
+
+                                          /// set Schedule that import to firebase
                                           FirebaseFirestore.instance
                                               .collection('users')
                                               .doc(user!.uid)
@@ -321,6 +349,8 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                                               .set({
                                                 'subjectList': subjectList,
                                               }, SetOptions(merge: true))
+
+                                              /// show toast when import success
                                               .then((value) =>
                                                   Fluttertoast.showToast(
                                                       msg: "Import Success",
@@ -333,6 +363,8 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                                                           Colors.green,
                                                       textColor: Colors.white,
                                                       fontSize: 16.0))
+
+                                              /// show toast when import fail
                                               .catchError((error) =>
                                                   Fluttertoast.showToast(
                                                       msg: "Import Fail",
@@ -346,7 +378,7 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                                                       textColor: Colors.white,
                                                       fontSize: 16.0));
 
-                                          // replacement new schedule
+                                          /// Go to ScheduleManagement page
                                           Navigator.pop(context);
                                           Navigator.pushReplacement(
                                               context,
@@ -366,6 +398,7 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                           color: Colors.black,
                         ),
                       ),
+                      // click to go to addschedule page
                       IconButton(
                         onPressed: () {
                           Navigator.push(
@@ -410,6 +443,7 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                               padding:
                                   const EdgeInsets.only(left: 20, right: 20),
                               child: InkWell(
+                                // click to go to Editchedule page
                                 onTap: () {
                                   Navigator.push(
                                       context,

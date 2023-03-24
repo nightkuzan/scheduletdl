@@ -1,3 +1,10 @@
+//-----------------------------------------------------------------------------
+// menu_schedule.dart
+// Aekkarit Surit 630510607 (Feature Should have: Import Schedule) )
+//-----------------------------------------------------------------------------
+// This file contains the function for import schedule from other user
+//-----------------------------------------------------------------------------
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../examination/examdate_manage.dart';
@@ -10,6 +17,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../theme/theme_management.dart';
 
+// ----------------------------------------------------------------------------
+// menu_schedule class
+// ----------------------------------------------------------------------------
+// This class is the menu for schedule. It will show the button for schedule
+// ----------------------------------------------------------------------------
 class MenuSchedule extends StatefulWidget {
   const MenuSchedule({super.key});
 
@@ -18,23 +30,40 @@ class MenuSchedule extends StatefulWidget {
 }
 
 class _MenuScheduleState extends State<MenuSchedule> {
+  /// Get current user from firebase auth
   User? user = FirebaseAuth.instance.currentUser;
+
+  /// initialize subjectList for set data from firebase
   List subjectList = [];
+
+  /// initialize uidList for set data from firebase
   List uidList = [];
+
+  /// initialize uidimport for get data from textfield
   String uidimport = '';
 
+  /// Get all uid from firebase
   initdata() async {
+    /// initialize firebase
     await Firebase.initializeApp();
+
+    /// get data from firebase
     final CollectionReference userstdl =
         FirebaseFirestore.instance.collection('users');
-
     final snapshot1 = await userstdl.get();
     setState(() {
+      /// set data from firebase to uidList
       uidList = snapshot1.docs.map((e) => e.data()).toList();
     });
   }
 
+  /// getdataFromfriend(frienduid)
+  //
+  // fetch data from firebase and store it in list subjectList to be displayed
+  // in widget by fetching by frienduid parameter to retrieve the
+  // information of that user.
   getdataFromfriend(frienduid) async {
+    /// get data from firebase
     final CollectionReference taskschManagement = FirebaseFirestore.instance
         .collection('users')
         .doc(frienduid)
@@ -42,12 +71,23 @@ class _MenuScheduleState extends State<MenuSchedule> {
 
     final snapshot = await taskschManagement.get();
 
+    /// set data from firebase to subjectList
     setState(() {
       subjectList = snapshot.docs.map((e) => e.data()).toList();
+
       subjectList = subjectList[0]['subjectList'];
     });
   }
 
+  // initState()
+  //
+  // The code provided is a Flutter function called initState(), which is
+  // called the first time the widget is rendered on the screen. The widget
+  // will be displayed on the screen. The intdata() function is called to
+  // retrieve required data from other data sources such as databases and
+  // prepare them to be passed to the corresponding widget. Calling
+  // super.initState() invokes the widget's initState() function. The current
+  // widget parent to initialize the widget to be ready for use.
   @override
   void initState() {
     super.initState();
@@ -56,6 +96,7 @@ class _MenuScheduleState extends State<MenuSchedule> {
 
   @override
   Widget build(BuildContext context) {
+    /// Get theme service
     return Consumer<ThemeService>(builder: (_, themeService, __) {
       return Scaffold(
         backgroundColor: themeService.subColor,
@@ -74,6 +115,7 @@ class _MenuScheduleState extends State<MenuSchedule> {
           ]),
           leading: IconButton(
             onPressed: () {
+              /// Go back to previous page
               Navigator.pop(context);
             },
             icon: const Icon(Icons.arrow_back_ios_new),
@@ -157,6 +199,7 @@ class _MenuScheduleState extends State<MenuSchedule> {
                 height: 20,
               ),
               Center(
+                /// Import schedule from other user Button
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                       minimumSize: const Size.fromHeight(60),
@@ -165,6 +208,7 @@ class _MenuScheduleState extends State<MenuSchedule> {
                       ),
                       backgroundColor: const Color(0xff50409a)),
                   onPressed: () {
+                    /// Show dialog for import schedule
                     showDialog(
                       context: context,
                       builder: (context) {
@@ -174,28 +218,39 @@ class _MenuScheduleState extends State<MenuSchedule> {
                             decoration: const InputDecoration(
                               hintText: 'Enter UID',
                             ),
+
+                            /// Get uid from textfield
                             onChanged: (value) {
+                              /// set uidimport to value
                               uidimport = value;
                             },
                           ),
                           actions: [
                             TextButton(
                               onPressed: () {
+                                /// Go back to previous page when click cancel
                                 Navigator.pop(context);
                               },
                               child: const Text('Cancel'),
                             ),
                             TextButton(
                               onPressed: () async {
+                                /// Check uid from firebase
                                 bool check = false;
                                 for (int i = 0; i < uidList.length; i++) {
                                   if (uidList[i]['uid'] == uidimport) {
+                                    /// set check to true if uid is correct
                                     check = true;
                                     break;
                                   }
                                 }
+
+                                /// if uid is correct
                                 if (check) {
+                                  /// get Schedule from other user
                                   await getdataFromfriend(uidimport);
+
+                                  /// set Schedule to firebase
                                   FirebaseFirestore.instance
                                       .collection('users')
                                       .doc(user!.uid)
@@ -204,6 +259,8 @@ class _MenuScheduleState extends State<MenuSchedule> {
                                       .set({
                                         'subjectList': subjectList,
                                       }, SetOptions(merge: true))
+
+                                      /// Show toast when import success
                                       .then((value) => Fluttertoast.showToast(
                                           msg: 'Import Success',
                                           toastLength: Toast.LENGTH_SHORT,
@@ -212,6 +269,8 @@ class _MenuScheduleState extends State<MenuSchedule> {
                                           backgroundColor: Colors.green,
                                           textColor: Colors.white,
                                           fontSize: 16.0))
+
+                                      /// Show toast when import fail
                                       .catchError((error) =>
                                           Fluttertoast.showToast(
                                               msg: 'Import Fail',
@@ -221,6 +280,7 @@ class _MenuScheduleState extends State<MenuSchedule> {
                                               backgroundColor: Colors.red,
                                               textColor: Colors.white,
                                               fontSize: 16.0));
+                                  // Go back to previous page
                                   Navigator.pop(context);
                                   Navigator.pushReplacement(
                                       context,

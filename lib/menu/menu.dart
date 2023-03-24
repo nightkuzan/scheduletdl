@@ -69,6 +69,17 @@ class _MenuState extends State<Menu> {
                   ),
                 ]),
             actions: [
+              // -----------------------------------------------------------------------------
+              // Tulakorn Sawangmuang 630510582 (Feature should have: Dark Theme)
+              // -----------------------------------------------------------------------------
+              //
+              // These lines of code create a button in the app bar with an icon of a moon or sun (depending on the current theme), 
+              // and when clicked, it toggles the app's theme between light and dark modes.The IconButton widget creates an icon button 
+              // with an onPressed callback function that is called when the button is pressed. When the button is pressed, the setColor() 
+              // and setSubColor() methods of the themeService object are called, which update the theme's primary color and accent color, 
+              // respectively. The setState() method is also called, which tells the framework that the widget's state has changed, 
+              // and triggers a rebuild of the widget tree. This ensures that the updated theme is immediately applied to 
+              //all widgets in the app. and the theme will change all pages.
               IconButton(
                   onPressed: () {
                     setState(() {
