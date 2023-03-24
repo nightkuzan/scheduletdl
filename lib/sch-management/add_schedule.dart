@@ -1,3 +1,12 @@
+// -----------------------------------------------------------------------------
+// add_schedule.dart
+// -----------------------------------------------------------------------------
+//
+// This file serves to add data to be saved to firebase to show the data
+// to another page. with data saved in firebase according to that user
+// initState() function initializes the widget before the widget is rendered 
+// and renders the UI on screen. via widget
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -5,9 +14,15 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:scheduletdl/sch-management/schedule_management.dart';
-
 import '../theme/theme_management.dart';
 
+// -----------------------------------------------------------------------------
+// AddSchedule
+// -----------------------------------------------------------------------------
+//
+// The AddSchedule class has an initState() script called to
+// initialize the widget before it has to render its source and render the   
+// UI through the widget.
 class AddSchedule extends StatefulWidget {
   const AddSchedule({
     super.key,
@@ -38,6 +53,13 @@ class _AddSchedule extends State<AddSchedule> {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  // initState()
+  //
+  // initState(). This function is called when the widget is first created to 
+  // initialize its state. In this case, the function sets the value of a text 
+  // controller called _studyDay to "Mon". The super.initState() line calls 
+  // the same function in the parent class to initialize any necessary state 
+  // before executing the code in this function.
   @override
   void initState() {
     super.initState();

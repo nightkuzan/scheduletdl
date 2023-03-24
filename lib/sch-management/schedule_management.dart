@@ -1,14 +1,31 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+// -----------------------------------------------------------------------------
+// schedule_management.dart
+// -----------------------------------------------------------------------------
+//
+// This file contains functions for fetching data from firebase getdata(), 
+// fetching friend's task table from getdataFromfriend(frienduid) and initState()
+// This function is called the first time when the widget is created to be displayed on the screen.
+// This page shows the schedule or class schedule that we have saved and 
+// can also press the button to add tasks or import tasks into or can edit 
+// the saved data by clicking on the schedule or schedule. learn that you want to fix.
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:scheduletdl/sch-management/edit_schedule.dart';
-
 import '../theme/theme_management.dart';
 import 'add_schedule.dart';
+
+// -----------------------------------------------------------------------------
+// ScheduleManagement
+// -----------------------------------------------------------------------------
+//
+// The ScheduleManagement class have function getdata() and 
+// getdataFromfriend(frienduid), initState() to fetch data from firebase and initialize the  
+// widget before the widget is rendered and render the UI on the screen through the widget.
 
 class ScheduleManagement extends StatefulWidget {
   const ScheduleManagement({super.key});
@@ -24,6 +41,10 @@ class _ScheduleManagement extends State<ScheduleManagement> {
   List subjectList = [];
   List uidList = [];
 
+  // getdata()
+  //
+  // Fetch data from firebase and store it in list 
+  // subjectList to display in widget.
   getdata() async {
     await Firebase.initializeApp();
 
@@ -45,6 +66,11 @@ class _ScheduleManagement extends State<ScheduleManagement> {
     });
   }
 
+  // getdataFromfriend(frienduid)
+  //
+  // fetch data from firebase and store it in list subjectList to be displayed 
+  // in widget by fetching by frienduid parameter to retrieve the 
+  // information of that user.
   getdataFromfriend(frienduid) async {
     final CollectionReference taskschManagement = FirebaseFirestore.instance
         .collection('users')
@@ -59,6 +85,15 @@ class _ScheduleManagement extends State<ScheduleManagement> {
     });
   }
 
+  // initState()
+  //
+  // The code provided is a Flutter function called initState(), which is 
+  // called the first time the widget is rendered on the screen. The widget 
+  // will be displayed on the screen. The getdata() function is called to
+  // retrieve required data from other data sources such as databases and 
+  // prepare them to be passed to the corresponding widget. Calling 
+  // super.initState() invokes the widget's initState() function. The current 
+  // widget parent to initialize the widget to be ready for use. 
   @override
   void initState() {
     super.initState();
