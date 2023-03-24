@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:scheduletdl/Management/edit_exam.dart';
+import 'package:scheduletdl/examination/edit_exam.dart';
 
 import '../theme/theme_management.dart';
 
@@ -72,51 +72,53 @@ class _ExamListManagementState extends State<ExamListManagement> {
                 ),
               ],
             )),
-        body: Column(
-          children: [
-            const SizedBox(
-              height: 20,
-            ),
-            const Text(
-              "Examination Day",
-              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            ListView.builder(
-              shrinkWrap: true,
-              itemCount: subjectList.length,
-              itemBuilder: (context, index) {
-                return Card(
-                  child: ListTile(
-                    title: Text(
-                      subjectList[index]["taskname"],
-                    ),
-                    subtitle: Wrap(children: [
-                      Text("Midterm : ${subjectList[index]["taskmidterm"]}"),
-                      const SizedBox(
-                        width: 10,
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 20,
+              ),
+              const Text(
+                "Examination Day",
+                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              ListView.builder(
+                shrinkWrap: true,
+                itemCount: subjectList.length,
+                itemBuilder: (context, index) {
+                  return Card(
+                    child: ListTile(
+                      title: Text(
+                        subjectList[index]["taskname"],
                       ),
-                      Text("Final : ${subjectList[index]["taskfinal"]}")
-                    ]),
-                    trailing: IconButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => EditExamDate(
-                                      subjectList: subjectList,
-                                      index: index,
-                                    )),
-                          );
-                        },
-                        icon: const Icon(Icons.edit)),
-                  ),
-                );
-              },
-            )
-          ],
+                      subtitle: Wrap(children: [
+                        Text("Midterm : ${subjectList[index]["taskmidterm"]}"),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Text("Final : ${subjectList[index]["taskfinal"]}")
+                      ]),
+                      trailing: IconButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => EditExamDate(
+                                        subjectList: subjectList,
+                                        index: index,
+                                      )),
+                            );
+                          },
+                          icon: const Icon(Icons.edit)),
+                    ),
+                  );
+                },
+              )
+            ],
+          ),
         ),
       );
     });

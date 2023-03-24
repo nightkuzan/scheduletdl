@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:scheduletdl/Management/examdate_manage.dart';
+import 'package:scheduletdl/examination/examdate_manage.dart';
 
 import '../firebase_options.dart';
 import '../theme/theme_management.dart';
