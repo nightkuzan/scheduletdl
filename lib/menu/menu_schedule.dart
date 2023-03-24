@@ -117,9 +117,13 @@ class _MenuScheduleState extends State<MenuSchedule> {
           leading: IconButton(
             onPressed: () {
               /// Go back to previous page
+              Navigator.pop(context);
+              Navigator.pop(context);
+
               Navigator.push(context, MaterialPageRoute(builder: (context) {
                 return const Menu();
               }));
+
             },
             icon: const Icon(Icons.arrow_back_ios_new),
             color: Colors.black,
