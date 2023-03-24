@@ -118,10 +118,13 @@ class _ScheduleManagement extends State<ScheduleManagement> {
               ),
             );
           }
+          // if don't have tasks
           if (snapshot.connectionState == ConnectionState.done &&
               subjectList.isEmpty) {
+            // Use Consumer to get the current theme
             return Consumer<ThemeService>(builder: (_, themeService, __) {
               return Scaffold(
+                // set backgeound color to current theme
                   backgroundColor: themeService.subColor,
                   appBar: AppBar(
                       leading: IconButton(
@@ -223,6 +226,7 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                             color: Colors.black,
                           ),
                         ),
+                        // click to go to addschedule page
                         IconButton(
                           onPressed: () {
                             Navigator.push(
@@ -366,6 +370,7 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                           color: Colors.black,
                         ),
                       ),
+                      // click to go to addschedule page
                       IconButton(
                         onPressed: () {
                           Navigator.push(
@@ -410,6 +415,7 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                               padding:
                                   const EdgeInsets.only(left: 20, right: 20),
                               child: InkWell(
+                                // click to go to Editchedule page
                                 onTap: () {
                                   Navigator.push(
                                       context,

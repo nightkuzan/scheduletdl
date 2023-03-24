@@ -44,6 +44,7 @@ class ThemeService extends ChangeNotifier {
   // notifyListeners() to tell the Flutter framework that the value has changed.
   void setColor() {
     color = changeColorCode(primarytheme[0]);
+    //reverse the primarytheme list
     primarytheme = primarytheme.reversed.toList();
     notifyListeners();
   }
@@ -56,6 +57,7 @@ class ThemeService extends ChangeNotifier {
   // notifyListeners() to tell the Flutter framework that the value has changed.
   void setSubColor() {
     subColor = changeSubColorCode(secondtheme[0]);
+    //reverse the secondtheme list
     secondtheme = secondtheme.reversed.toList();
     notifyListeners();
   }
