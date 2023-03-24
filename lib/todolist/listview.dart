@@ -1,3 +1,11 @@
+// ---------------------------------------------------------------------------
+// listview.dart
+// Aekkarit Surit 630510607
+// ---------------------------------------------------------------------------
+// This file contains the code for the ListView widget.
+// getdata() function is used to get data from firebase.
+//----------------------------------------------------------------------------
+
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -10,6 +18,14 @@ import 'package:scheduletdl/todolist/edittask.dart';
 
 import '../theme/theme_management.dart';
 
+//---------------------------------------------------------------------------
+// Todolist class
+//---------------------------------------------------------------------------
+// This class is used to create the Todolist widget. It contains the code
+// for the ListView widget.
+// It also contains the code for the floating action button.
+// The floating action button is used to add a new task.
+//---------------------------------------------------------------------------
 class Todolist extends StatefulWidget {
   const Todolist({super.key});
 
@@ -18,21 +34,25 @@ class Todolist extends StatefulWidget {
 }
 
 class _TodolistState extends State<Todolist> {
+  /// Get current user from firebase auth instance
   User? user = FirebaseAuth.instance.currentUser;
+
+  /// Create a list to store tasks
   List tasks = [];
 
+  /// Get data from firebase
   getdata() async {
-    // Initialize Firebase
-
+    /// Initialize firebase
     await Firebase.initializeApp();
 
+    /// Get data from firebase
     final CollectionReference taskstdl = FirebaseFirestore.instance
         .collection('users')
         .doc(user!.uid)
         .collection('tasks');
-
     final snapshot = await taskstdl.get();
     setState(() {
+      /// Store data in list
       tasks = snapshot.docs.map((e) => e.data()).toList();
       tasks = tasks[0]['tasks'];
     });
@@ -48,9 +68,13 @@ class _TodolistState extends State<Todolist> {
 
   @override
   Widget build(BuildContext context) {
+    /// FutureBuilder is used to initialize firebase before using it in the app
     return FutureBuilder(
       future: firebase,
+
+      /// Build the app once firebase is initialized
       builder: (context, snapshot) {
+        /// If there is an error, show error message
         if (snapshot.hasError) {
           return const Scaffold(
             body: Center(
@@ -58,8 +82,12 @@ class _TodolistState extends State<Todolist> {
             ),
           );
         }
+
+        /// If firebase is initialized and there is no task, show no task message
         if (snapshot.connectionState == ConnectionState.done && tasks.isEmpty) {
+          /// Use Consumer to get the current theme
           return Consumer<ThemeService>(builder: (_, themeService, __) {
+            /// Return the app
             return Scaffold(
               backgroundColor: themeService.subColor,
               appBar: AppBar(
@@ -67,6 +95,7 @@ class _TodolistState extends State<Todolist> {
                     onPressed: () {},
                     icon: IconButton(
                         onPressed: () {
+                          /// Navigate to Menu widget
                           Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -75,7 +104,6 @@ class _TodolistState extends State<Todolist> {
                         icon: const Icon(Icons.arrow_back_ios_new)),
                     color: Colors.black,
                   ),
-                  // backgroundColor: Colors.white,
                   title: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: const [
@@ -102,6 +130,7 @@ class _TodolistState extends State<Todolist> {
               ),
               floatingActionButton: FloatingActionButton(
                 onPressed: () {
+                  /// Navigate to AddTask widget
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => const AddTask()));
                 },
@@ -111,8 +140,12 @@ class _TodolistState extends State<Todolist> {
             );
           });
         }
+
+        /// If firebase is initialized and there is task, show the task
         if (snapshot.connectionState == ConnectionState.done) {
+          /// Use Consumer to get the current theme
           return Consumer<ThemeService>(builder: (_, themeService, __) {
+            /// Return the app
             return Scaffold(
               backgroundColor: themeService.subColor,
               appBar: AppBar(
@@ -120,6 +153,7 @@ class _TodolistState extends State<Todolist> {
                   onPressed: () {},
                   icon: IconButton(
                       onPressed: () {
+                        /// Navigate to Menu widget
                         Navigator.pop(context);
                         Navigator.pop(context);
                         Navigator.push(
@@ -146,13 +180,17 @@ class _TodolistState extends State<Todolist> {
                   ],
                 ),
               ),
+
+              /// Show the task in a ListView widget
               body: ListView.builder(
                 padding: const EdgeInsets.only(top: 20),
                 itemCount: tasks.length,
                 itemBuilder: (context, index) {
+                  /// Return a Card widget for each task
                   return Column(
                     children: [
                       Card(
+                        /// Use the task color to set the card color
                         color: tasks[index]['taskcolor'] == 'red'
                             ? Colors.red[300]
                             : tasks[index]['taskcolor'] == 'yellow'
@@ -165,11 +203,15 @@ class _TodolistState extends State<Todolist> {
                                             ? Colors.blue[300]
                                             : Colors.white,
 
+                        /// Set the elevation of the card
                         elevation: 5,
                         child: Column(
                           children: [
                             ListTile(
+                              /// Show the task name
                               title: Text(tasks[index]['taskname']),
+
+                              /// Show the task description, date, time and priority
                               subtitle: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -203,12 +245,15 @@ class _TodolistState extends State<Todolist> {
                                   ),
                                 ],
                               ),
+
+                              /// Show the edit and delete button
                               trailing: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   IconButton(
                                     icon: const Icon(Icons.edit),
                                     onPressed: () {
+                                      /// Navigate to EditTask widget
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
@@ -223,6 +268,7 @@ class _TodolistState extends State<Todolist> {
                                   IconButton(
                                     icon: const Icon(Icons.delete),
                                     onPressed: () {
+                                      /// Show a dialog to confirm the deletion
                                       AlertDialog alert = AlertDialog(
                                         title: const Text('Delete Task'),
                                         content: const Text(
@@ -230,12 +276,14 @@ class _TodolistState extends State<Todolist> {
                                         actions: [
                                           TextButton(
                                             onPressed: () {
+                                              /// Close the dialog
                                               Navigator.pop(context);
                                             },
                                             child: const Text('Cancel'),
                                           ),
                                           TextButton(
                                             onPressed: () {
+                                              /// Delete the task from the database
                                               setState(() {
                                                 tasks.removeAt(index);
                                                 FirebaseFirestore.instance
@@ -247,7 +295,11 @@ class _TodolistState extends State<Todolist> {
                                                   'tasks': tasks
                                                 }, SetOptions(merge: true));
                                               });
+
+                                              /// Close the dialog
                                               Navigator.pop(context);
+
+                                              /// Show a toast to confirm the deletion
                                               Fluttertoast.showToast(
                                                   msg: 'Task Deleted',
                                                   toastLength:
@@ -263,6 +315,7 @@ class _TodolistState extends State<Todolist> {
                                         ],
                                       );
 
+                                      /// Show the dialog
                                       showDialog(
                                         context: context,
                                         builder: (BuildContext context) {
@@ -275,8 +328,11 @@ class _TodolistState extends State<Todolist> {
                                   ),
                                 ],
                               ),
+
+                              /// Show the checkbox
                               leading: IconButton(
                                 icon: Icon(
+                                  /// If the task is incomplete, show the unchecked checkbox
                                   tasks[index]["taskstatus"] == "Incomplete"
                                       ? Icons.check_box_outline_blank
                                       : Icons.check_box,
@@ -287,6 +343,7 @@ class _TodolistState extends State<Todolist> {
                                         : Colors.green,
                                 iconSize: 30,
                                 onPressed: () {
+                                  /// Update the task status
                                   setState(() {
                                     if (tasks[index]["taskstatus"] ==
                                         "Incomplete") {
@@ -310,6 +367,7 @@ class _TodolistState extends State<Todolist> {
               ),
               floatingActionButton: FloatingActionButton(
                 onPressed: () {
+                  /// Navigate to AddTask widget
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => const AddTask()));
                 },
@@ -319,6 +377,7 @@ class _TodolistState extends State<Todolist> {
             );
           });
         }
+        // circular progress indicator to show loading
         return const Scaffold(
           body: Center(
             child: CircularProgressIndicator(),
