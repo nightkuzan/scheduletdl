@@ -1,3 +1,15 @@
+// -----------------------------------------------------------------------------
+// Tulakorn Sawangmuang 630510582 (Feature Must have: Schedule Management)
+// -----------------------------------------------------------------------------
+// schedule_view.dart
+// -----------------------------------------------------------------------------
+//
+// This file contains the ScheduleView and MyCustomScrollBehavior classes.
+// There are functions to fetch data from firebase getdata() and 
+// initState() to prepare the data to be displayed or used in the widget, 
+// and _addObject(BuildContext context) to display the data in the time 
+// planner and dispose() to set the screen horizontally and display the data in the widget.
+
 import 'dart:math';
 import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -11,6 +23,15 @@ import 'package:intl/intl.dart';
 
 import '../theme/theme_management.dart';
 
+// -----------------------------------------------------------------------------
+// ScheduleView
+// -----------------------------------------------------------------------------
+//
+// The class defines several instance variables, including a User object obtained from Firebase Authentication, 
+// a list of TimePlannerTask objects, and several lists of dynamic objects that will be used to extract information 
+// from a subjectList collection in the Firebase Firestore database. have function getdata() to fetch data from the Firestore, 
+// initState() sets the preferred device orientations, _addObject() to add task in timePlanner,
+// dispose() to change screen to horizontally in this class and display screen in widget.
 class ScheduleView extends StatefulWidget {
   const ScheduleView({Key? key, required this.title}) : super(key: key);
   final String title;
@@ -19,6 +40,11 @@ class ScheduleView extends StatefulWidget {
   State<ScheduleView> createState() => _ScheduleViewState();
 }
 
+// -----------------------------------------------------------------------------
+// MyCustomScrollBehavior
+// -----------------------------------------------------------------------------
+//
+// The CustomScrollBehavior class Acts to scroll the screen if we use it through the browser
 class MyCustomScrollBehavior extends MaterialScrollBehavior {
   @override
   Set<PointerDeviceKind> get dragDevices => {
@@ -32,6 +58,12 @@ class _ScheduleViewState extends State<ScheduleView> {
   List<TimePlannerTask> tasks = [];
   List<dynamic> subjectList = [];
 
+  // getdata()
+  //
+  // The getdata method initializes Firebase, obtains a reference to a collection of documents within Firestore, 
+  // retrieves a snapshot of the collection, and maps the snapshot to a list of dynamic objects. The method then extracts 
+  // the subjectList field from the first object in the list and calls the _addObject method to populate the tasks list 
+  // with TimePlannerTask objects.
   getdata() async {
 
     await Firebase.initializeApp();
@@ -71,6 +103,10 @@ class _ScheduleViewState extends State<ScheduleView> {
     'TuF': [1, 4],
   };
 
+  // initState()
+  //
+  // The initState method initializes the app's state, sets the preferred device orientations, 
+  //and calls the getdata method to populate the state with data from Firebase Firestore.
   @override
   void initState() {
     super.initState();
@@ -83,6 +119,12 @@ class _ScheduleViewState extends State<ScheduleView> {
 
   Future<FirebaseApp> firebase = Firebase.initializeApp();
 
+  // _addObject(BuildContext context)
+  //
+  // The _addObject method initializes a list of Color objects, then iterates through the subjectList list 
+  // to extract start and end times, calculate duration, and add the appropriate TimePlannerTask object to the tasks list. 
+  // The TimePlannerTask object contains information about the timing, duration, 
+  // and content of each task to be displayed in the ScheduleView.
   void _addObject(BuildContext context) {
     List<Color?> colors = [
       Colors.purple,
@@ -415,6 +457,9 @@ class _ScheduleViewState extends State<ScheduleView> {
         });
   }
 
+  // dispose()
+  //
+  // This function dispose() to set the screen horizontally
   @override
   void dispose() {
     SystemChrome.setPreferredOrientations([

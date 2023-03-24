@@ -4,7 +4,7 @@
 // edit_schedule.dart
 // -----------------------------------------------------------------------------
 //
-// This file edits data saved in firebase to display data to another page.
+// This file have Editschedule class and edits data saved in firebase to display data to another page.
 // fetches data from firebase to show the old data before editing and 
 // has an initState() function initializes the widget before the widget is 
 // rendered and renders the UI on screen. via widget.
