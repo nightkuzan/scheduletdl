@@ -70,8 +70,10 @@ class _AddSchedule extends State<AddSchedule> {
 
   @override
   Widget build(BuildContext context) {
+    // Use Consumer to get the current theme
     return Consumer<ThemeService>(builder: (_, themeService, __) {
       return Scaffold(
+        // set backgeound color to current theme
         backgroundColor: themeService.subColor,
         appBar: AppBar(
             leading: IconButton(
@@ -122,6 +124,7 @@ class _AddSchedule extends State<AddSchedule> {
                               border:
                                   OutlineInputBorder(borderSide: BorderSide()),
                             ),
+                            // validator not empty
                             validator: (String? value) {
                               if (value == null || value.isEmpty) {
                                 return 'Please enter some text';
@@ -139,6 +142,7 @@ class _AddSchedule extends State<AddSchedule> {
                               border:
                                   OutlineInputBorder(borderSide: BorderSide()),
                             ),
+                            // validator not empty
                             validator: (String? value) {
                               if (value == null || value.isEmpty) {
                                 return 'Please enter some text';
@@ -156,6 +160,7 @@ class _AddSchedule extends State<AddSchedule> {
                               border:
                                   OutlineInputBorder(borderSide: BorderSide()),
                             ),
+                            // validator not empty
                             validator: (String? value) {
                               if (value == null || value.isEmpty) {
                                 return 'Please enter some text';
@@ -185,6 +190,7 @@ class _AddSchedule extends State<AddSchedule> {
                                       context: context,
                                       initialTime: TimeOfDay.now(),
                                     );
+                                    // validator time inputed
                                     if (pickedTime != null) {
                                       if (_endTimeController.text.isNotEmpty) {
                                         final endTime = TimeOfDay.fromDateTime(
@@ -229,6 +235,7 @@ class _AddSchedule extends State<AddSchedule> {
                                       context: context,
                                       initialTime: TimeOfDay.now(),
                                     );
+                                    // validator time inputed
                                     if (pickedTime != null) {
                                       if (_startTimeController
                                           .text.isNotEmpty) {
@@ -354,7 +361,7 @@ class _AddSchedule extends State<AddSchedule> {
                                   initialDate: DateTime.now(),
                                   firstDate: DateTime.now(),
                                   lastDate: DateTime(2100));
-
+                              // validator date inputed
                               if (pickedDate != null) {
                                 String formattedDate =
                                     DateFormat('yyyy-MM-dd').format(pickedDate);
@@ -386,6 +393,7 @@ class _AddSchedule extends State<AddSchedule> {
                                       context: context,
                                       initialTime: TimeOfDay.now(),
                                     );
+                                    // validator time inputed
                                     if (pickedTime != null) {
                                       if (_endMidTimeController
                                           .text.isNotEmpty) {
@@ -432,6 +440,7 @@ class _AddSchedule extends State<AddSchedule> {
                                       context: context,
                                       initialTime: TimeOfDay.now(),
                                     );
+                                    // validator time inputed
                                     if (pickedTime != null) {
                                       if (_startMidTimeController
                                           .text.isNotEmpty) {
@@ -483,7 +492,7 @@ class _AddSchedule extends State<AddSchedule> {
                                   initialDate: DateTime.now(),
                                   firstDate: DateTime.now(),
                                   lastDate: DateTime(2100));
-
+                              // validator date inputed
                               if (pickedDate != null) {
                                 String formattedDate =
                                     DateFormat('yyyy-MM-dd').format(pickedDate);
@@ -516,6 +525,7 @@ class _AddSchedule extends State<AddSchedule> {
                                       context: context,
                                       initialTime: TimeOfDay.now(),
                                     );
+                                    // validator time inputed
                                     if (pickedTime != null) {
                                       if (_endFinalTimeController
                                           .text.isNotEmpty) {
@@ -563,6 +573,7 @@ class _AddSchedule extends State<AddSchedule> {
                                       context: context,
                                       initialTime: TimeOfDay.now(),
                                     );
+                                    // validator time inputed
                                     if (pickedTime != null) {
                                       if (_startFinalTimeController
                                           .text.isNotEmpty) {
@@ -606,6 +617,7 @@ class _AddSchedule extends State<AddSchedule> {
                               border:
                                   OutlineInputBorder(borderSide: BorderSide()),
                             ),
+                            // validator input
                             validator: (String? value) {
                               if (value == null || value.isEmpty) {
                                 return 'Please enter some text';
@@ -625,6 +637,7 @@ class _AddSchedule extends State<AddSchedule> {
                         Padding(
                           padding: const EdgeInsets.only(bottom: 20),
                           child: ElevatedButton(
+                            // click to save data to firestore
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
                                 Map<String, dynamic> subjectTask = {
