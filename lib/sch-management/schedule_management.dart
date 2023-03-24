@@ -18,6 +18,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
+import 'package:scheduletdl/menu/menu_schedule.dart';
 import 'package:scheduletdl/sch-management/edit_schedule.dart';
 import '../theme/theme_management.dart';
 import 'add_schedule.dart';
@@ -130,7 +131,11 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                   appBar: AppBar(
                       leading: IconButton(
                         onPressed: () {
-                          Navigator.pop(context);
+                          Navigator.push(context, MaterialPageRoute(
+                            builder: (context) {
+                              return const MenuSchedule();
+                            },
+                          ));
                         },
                         icon: const Icon(Icons.arrow_back_ios_new),
                         color: Colors.black,
@@ -221,12 +226,12 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                                                         fontSize: 16.0));
 
                                             /// Go to ScheduleManagement page
-                                            Navigator.pop(context);
-                                            Navigator.pushReplacement(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        const ScheduleManagement()));
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const ScheduleManagement()),
+                                            );
                                           }
                                         },
                                         child: const Text('Import'),
@@ -289,7 +294,11 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                 appBar: AppBar(
                     leading: IconButton(
                       onPressed: () {
-                        Navigator.pop(context);
+                        Navigator.push(context, MaterialPageRoute(
+                          builder: (context) {
+                            return const MenuSchedule();
+                          },
+                        ));
                       },
                       icon: const Icon(Icons.arrow_back_ios_new),
                       color: Colors.black,
