@@ -1,6 +1,7 @@
 //-----------------------------------------------------------------------------
 // menu_schedule.dart
-// Aekkarit Surit 630510607 (Feature Should have: Import Schedule) )
+// Aekkarit Surit 630510607 (Feature Should have: Import Schedule)
+//  ** Add feature importFromOtherUser  because feature should have is not enough **
 //-----------------------------------------------------------------------------
 // This file contains the function for import schedule from other user
 //-----------------------------------------------------------------------------
@@ -123,7 +124,6 @@ class _MenuScheduleState extends State<MenuSchedule> {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
                 return const Menu();
               }));
-
             },
             icon: const Icon(Icons.arrow_back_ios_new),
             color: Colors.black,

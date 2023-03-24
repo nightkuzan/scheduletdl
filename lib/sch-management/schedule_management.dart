@@ -1,6 +1,7 @@
 // -----------------------------------------------------------------------------
 // Tulakorn Sawangmuang 630510582 (Feature Must have: Schedule Management)
-// Aekkarit Surit 630510607 (Feature Should have: Import Schedule) )
+// Aekkarit Surit 630510607 (Feature Should have: Import Schedule)
+//  ** Add feature importFromOtherUser  because feature should have is not enough **
 // -----------------------------------------------------------------------------
 // schedule_management.dart
 // -----------------------------------------------------------------------------
