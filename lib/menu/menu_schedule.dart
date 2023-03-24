@@ -7,6 +7,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:scheduletdl/menu/menu.dart';
 import '../examination/examdate_manage.dart';
 import '../sch-management/schedule_management.dart';
 import '../sch-view/schedule_view.dart';
@@ -116,7 +117,9 @@ class _MenuScheduleState extends State<MenuSchedule> {
           leading: IconButton(
             onPressed: () {
               /// Go back to previous page
-              Navigator.pop(context);
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return const Menu();
+              }));
             },
             icon: const Icon(Icons.arrow_back_ios_new),
             color: Colors.black,
