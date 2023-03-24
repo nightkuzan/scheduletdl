@@ -1,3 +1,14 @@
+// -----------------------------------------------------------------------------
+// Tulakorn Sawangmuang 630510582 (Feature Must have: Schedule Management)
+// -----------------------------------------------------------------------------
+// edit_schedule.dart
+// -----------------------------------------------------------------------------
+//
+// This file edits data saved in firebase to display data to another page.
+// fetches data from firebase to show the old data before editing and 
+// has an initState() function initializes the widget before the widget is 
+// rendered and renders the UI on screen. via widget.
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -5,9 +16,15 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:scheduletdl/sch-management/schedule_management.dart';
-
 import '../theme/theme_management.dart';
 
+// -----------------------------------------------------------------------------
+// Editschedule
+// -----------------------------------------------------------------------------
+//
+// The Editschedule class has an initState() script called to
+// initialize the widget before it has to render its source and render the   
+// UI through the widget.
 class Editschedule extends StatefulWidget {
   Editschedule({
     super.key,
@@ -41,6 +58,16 @@ class _Editschedule extends State<Editschedule> {
   int index = 0;
   var formKey = GlobalKey<FormState>();
 
+  // initState()
+  //
+  // The provided code is a function in Flutter called initState(). This function is called when the 
+  // widget is first created to initialize its state. In this case, the function initializes several text  
+  // controllers with values from a subject list. The first line in the function sets the index value to 
+  // the index of the widget passed through as a parameter.
+  // The next few lines initialize the text controllers with values from the subject list at the given index. 
+  // These values are used to populate text fields when the widget is displayed on screen.
+  // Finally, the function sets the subjectList variable equal to the subject list passed through as 
+  // a parameter using setState(). This allows the widget to update its state and re-render if necessary.
   @override
   void initState() {
     super.initState();
