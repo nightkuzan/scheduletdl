@@ -23,6 +23,7 @@ import 'package:scheduletdl/menu/menu_schedule.dart';
 import 'package:scheduletdl/sch-management/edit_schedule.dart';
 import '../theme/theme_management.dart';
 import 'add_schedule.dart';
+import 'package:flutter/services.dart';
 
 // -----------------------------------------------------------------------------
 // ScheduleManagement
@@ -45,7 +46,8 @@ class _ScheduleManagement extends State<ScheduleManagement> {
 
   List subjectList = [];
   List uidList = [];
-
+  String uidimport = '';
+  String uidUser = '';
   // getdata()
   //
   // Fetch data from firebase and store it in list
@@ -63,6 +65,14 @@ class _ScheduleManagement extends State<ScheduleManagement> {
     final CollectionReference userstdl =
         FirebaseFirestore.instance.collection('users');
     final snapshot1 = await userstdl.get();
+
+    uidUser = user!.uid;
+    // for (int i = 0; i < uidList.length; i++) {
+    //   print(1);
+    //   if (uidList[i]['email'] == user!.email) {
+    //     uidUser = uidList[i]['uid'];
+    //   }
+    // }
 
     setState(() {
       subjectList = snapshot.docs.map((e) => e.data()).toList();
@@ -106,8 +116,6 @@ class _ScheduleManagement extends State<ScheduleManagement> {
   }
 
   Future<FirebaseApp> firebase = Firebase.initializeApp();
-
-  String uidimport = '';
 
   @override
   Widget build(BuildContext context) {
@@ -277,13 +285,58 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                           ),
                         ],
                       )),
-                  body: const Center(
-                    child: Text(
-                      "No Task",
-                      style: TextStyle(
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xff6B4EFF)),
+                  body: Center(
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 25, right: 20),
+                          child: Row(
+                            children: [
+                              Text(
+                                "uid ${user!.uid}",
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              // Iconbutton copy
+                              IconButton(
+                                onPressed: () {
+                                  Clipboard.setData(
+                                      new ClipboardData(text: uidUser));
+                                  Fluttertoast.showToast(
+                                      msg: "Copy Success",
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.BOTTOM,
+                                      timeInSecForIosWeb: 1,
+                                      backgroundColor: Colors.green,
+                                      textColor: Colors.white,
+                                      fontSize: 16.0);
+                                },
+                                icon: const Icon(Icons.copy),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const Text(
+                          "No Task",
+                          style: TextStyle(
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xff6B4EFF)),
+                        ),
+                        // Padding(
+                        //   padding: const EdgeInsets.only(left: 25, right: 20),
+                        //   child: Row(
+                        //     children: [
+                        //       Text(
+                        //         "uid: $uidUser   ",
+                        //         style: const TextStyle(
+                        //             fontWeight: FontWeight.bold),
+                        //       ),
+                        //       // CopyTextButton(textToCopy: uidUser)
+                        //     ],
+                        //   ),
+                        // ),
+                      ],
                     ),
                   ));
             });
@@ -444,6 +497,34 @@ class _ScheduleManagement extends State<ScheduleManagement> {
                     children: [
                       const SizedBox(
                         height: 30,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 25, right: 20),
+                        child: Row(
+                          children: [
+                            Text(
+                              "uid: $uidUser   ",
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            // Iconbutton copy
+                            IconButton(
+                              onPressed: () {
+                                Clipboard.setData(
+                                    new ClipboardData(text: uidUser));
+                                Fluttertoast.showToast(
+                                    msg: "Copy Success",
+                                    toastLength: Toast.LENGTH_SHORT,
+                                    gravity: ToastGravity.BOTTOM,
+                                    timeInSecForIosWeb: 1,
+                                    backgroundColor: Colors.green,
+                                    textColor: Colors.white,
+                                    fontSize: 16.0);
+                              },
+                              icon: const Icon(Icons.copy),
+                            ),
+                          ],
+                        ),
                       ),
                       ListView.builder(
                           shrinkWrap: true,
